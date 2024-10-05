@@ -53,15 +53,17 @@ function UTonyCalc() {
    
   return (
     <> 
-    <div className="name hid"> 
-      <span className='gb hid'>U</span>Tony Calc 
-      </div>
-            <div className="hme" >  <Link to="/"> Home </Link> </div>
+
+<div>    
+  <Link to="/" className="more"> </Link> <hr />
+</div>
 
     <form>
+
       <label> 
+      <div className="calccont">
         <div className='cont'> 
-          <input type="text" value={inputVal} className='item1' disabled readOnly/>
+             <input type="text" value={inputVal} className='item1' disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button
@@ -81,6 +83,7 @@ function UTonyCalc() {
     {buttons}
   </button>
 ))}        </div>
+</div>
       </label>
     </form>    
     </>

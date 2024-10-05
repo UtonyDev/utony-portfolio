@@ -74,7 +74,7 @@ box-sizing: border-box;
     top: 0;
     width: 100%; 
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
-    z-index: 10 !important;
+    z-index: 10000 !important;
     background-color: var(--topbackclr);
   }
 
@@ -173,10 +173,6 @@ box-sizing: border-box;
    width: 100%;
    height: 100%;
    background-color: var(--topbackclr);
-   position: relative;
-}
-
-.innercon {
    transform: translateY(20vh);
 }
 
@@ -286,11 +282,11 @@ p {
 
 .foot {
    background-color: var(--iconclr);
+   transform: translateY(20vh);
    padding: 50px;
    letter-spacing: 0.125em;
    word-spacing: 0.25em;
    position: relative;
-   bottom: 0;
 }
 
 #leg {
