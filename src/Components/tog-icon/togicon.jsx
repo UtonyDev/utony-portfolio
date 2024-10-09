@@ -5,7 +5,6 @@ function Togicon() {
     const toggleTheme = (ev) => {
         if (ev.target.checked) {
             document.querySelector('body').setAttribute('data-theme', 'dark')
-
         } else {
             document.querySelector('body').setAttribute('data-theme', 'light')
 

@@ -52,16 +52,14 @@ function UTonyCalc() {
 
    
   return (
-    <> 
-
-<div>    
-  <Link to="/" className="more"> </Link> <hr />
-</div>
-
+    <>
+    <div className="calcparent">
+    <Link to="/UHomepage" className='back'>
+    <i class="fa-solid fa-chevron-left fa-fade"></i> Home </Link>
     <form>
-
       <label> 
       <div className="calccont">
+
         <div className='cont'> 
              <input type="text" value={inputVal} className='item1' disabled readOnly/>
 
@@ -85,7 +83,8 @@ function UTonyCalc() {
 ))}        </div>
 </div>
       </label>
-    </form>    
+    </form>
+    </div>    
     </>
   );
 }

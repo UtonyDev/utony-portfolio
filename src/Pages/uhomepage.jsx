@@ -1,7 +1,22 @@
 import React from "react";
+import { useState, useRef, useEffect } from 'react';
+
 
 function UHomePage() {
 
+  const anima = () => {
+    setTimeout( () => {
+        const open = window.document.querySelectorAll(".hid");
+        for (let i = 0; i < open.length; i++) {
+            open[i].classList.replace("hid", "rev");
+        }
+    }, 0o0);
+}
+
+  useEffect(() => {
+    anima();  // Call the anima function when the component mounts
+  }, []);  
+  
 return (
 <div className='maincon'  >
 <div className="innercon">
@@ -14,14 +29,14 @@ return (
     </div>
 
     <div className="cent">
-      <div className="utxt">
-      <div id="txt" className="hid gtxt">
-        <span className="gb txt hid">U</span>Tony
-      </div>
-      <div className="gtxt hid" id="target">Junior   </div>
-      <div className="gtxt hid"> Frontend </div>
-      <div className="gtxt hid">Developer </div>
-    </div>
+        <div className="hid">
+          <span className="gb utxt hid">U</span>
+          <span className="utxt">Tony</span>
+        </div> 
+
+        <div className="gtxt hid" id="target">Junior </div>
+        <div className="gtxt hid"> Frontend </div>
+        <div className="gtxt hid">Developer </div>
     </div>
   </section>
 

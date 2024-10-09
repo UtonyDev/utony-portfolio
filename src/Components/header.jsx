@@ -7,13 +7,12 @@ function Header() {
 
     const showMenu = () => {
         const menu = document.querySelector("#menurev");
-        const bdy = document.querySelector(".maincon");
         const link = document.querySelectorAll(".lnk");
         const morecon = document.querySelectorAll(".morecon");
         const chev = document.querySelectorAll("#chev");
-      
+
         menu.classList.toggle("show");
-        
+
         for (let i = 0; i < link.length; i++) {
           link[i].addEventListener("click", () => {
               for (let j = 0; j < morecon.length; j++){ 
@@ -26,10 +25,10 @@ function Header() {
                       }
                   } else {
                       morecon[j].classList.remove('moreconv');
-                      if (chev[i].getAttribute("class") === "fa-solid fa-chevron-up") {
-                          chev[i].setAttribute("class", "fa-solid fa-chevron-down");
+                      if (chev[j].getAttribute("class") === "fa-solid fa-chevron-up") {
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
                       } else {
-                          chev[i].setAttribute("class", "fa-solid fa-chevron-down");
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
                       }
                   }
               }
@@ -59,15 +58,19 @@ function Header() {
           iconFunct();
         } 
       }
+      const blrBackdrop = () => {
+        const bdy = document.getElementsByClassName(".maincon");
+        bdy.classList.toggle("blr");
+      }
       
-      
-
     return (
         <>
         <div className="headr">
+          
   <span id="nme" className="nmeHid nmePosit">
     <span className="gb hid">U</span>Tony
   </span>
+
   <span id="themeIcon"> <Togicon /> </span>
   <i className="fa-solid fa-bars" onClick={showMenu} id="icn"> </i> 
 </div>
@@ -76,12 +79,12 @@ function Header() {
 
 <div id="menurev" className="drop">
 
-  <Link to="/UHomePage" className="profpic" onClick={resetMenu}>
+  <Link to="/UHomePage" className="profpic" >
     <img src="" alt="Profile Picture" />  {/* Add a valid image source */}
   </Link>
 
   <div className="dropdown">
-    <Link to="/" className="lnk" >
+    <Link className="lnk" >
       <span id="slsh">/</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </Link>
     <div className="morecon">
