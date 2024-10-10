@@ -63,7 +63,7 @@ function Header() {
         const currentScrl = window.scrollY;
         const targetElement = document.getElementById("target");
         const triggPoint = targetElement.offsetTop;
-        const triggPointX = triggPoint * 5;
+        const triggPointX = triggPoint;
         const nmeDesc = document.getElementById("nme");
         if (currentScrl > triggPointX) {
             nmeDesc.classList.replace("nmeHide", "nmeShow");
