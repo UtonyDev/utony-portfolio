@@ -99,7 +99,6 @@ box-sizing: border-box;
    margin-right: auto !important;
 }
 .nmeHide {
-   opacity: 0;  
    transform: translateY(2vh) !important;
    transition: all 1ms;
 }

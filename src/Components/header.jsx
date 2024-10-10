@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Togicon from './tog-icon/togicon';
 
-
 function Header() {
 
     const showMenu = () => {
@@ -58,16 +57,31 @@ function Header() {
           iconFunct();
         } 
       }
+
+    
+    const nmeAnima = () => { window.addEventListener("scroll", () => {
+        const currentScrl = window.scrollY;
+        const targetElement = document.getElementById("target");
+        const triggPoint = targetElement.offsetTop;
+        const triggPointX = triggPoint * 5;
+        const nmeDesc = document.getElementById("nme");
+        if (currentScrl > triggPointX) {
+            nmeDesc.classList.replace("nmeHide", "nmeShow");
+        } else {
+            nmeDesc.classList.replace("nmeShow", "nmeHide");
+        }
+    });}
+    nmeAnima();
       const blrBackdrop = () => {
         const bdy = document.getElementsByClassName(".maincon");
         bdy.classList.toggle("blr");
       }
-      
+
     return (
         <>
         <div className="headr">
           
-  <span id="nme" className="nmeHid nmePosit">
+  <span id="nme" className="nmeHide nmePosit">
     <span className="gb hid">U</span>Tony
   </span>
 
