@@ -1,39 +1,45 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Togicon from './tog-icon/togicon';
 
 function Header() {
 
-    const showMenu = () => {
-        const menu = document.querySelector("#menurev");
-        const link = document.querySelectorAll(".lnk");
-        const morecon = document.querySelectorAll(".morecon");
-        const chev = document.querySelectorAll("#chev");
+  const dropdwn = () => {
+    const link = document.querySelectorAll(".lnk");
+    const morecon = document.querySelectorAll(".morecon");
+    const chev = document.querySelectorAll("#chev");
 
-        menu.classList.toggle("show");
 
-        for (let i = 0; i < link.length; i++) {
-          link[i].addEventListener("click", () => {
-              for (let j = 0; j < morecon.length; j++){ 
-                  if (i === j) {
-                      morecon[j].classList.toggle("moreconv");
-                      if (chev[j].getAttribute("class") === "fa-solid fa-chevron-down") {
-                          chev[j].setAttribute("class", "fa-solid fa-chevron-up");
-                      } else {
-                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
-                      }
+    for (let i = 0; i < link.length; i++) {
+      link[i].addEventListener("click", () => {
+          for (let j = 0; j < morecon.length; j++){ 
+              if (i === j) {
+                  morecon[j].classList.toggle("moreconv");
+                  if (chev[j].getAttribute("class") === "fa-solid fa-chevron-down") {
+                      chev[j].setAttribute("class", "fa-solid fa-chevron-up");
                   } else {
-                      morecon[j].classList.remove('moreconv');
-                      if (chev[j].getAttribute("class") === "fa-solid fa-chevron-up") {
-                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
-                      } else {
-                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
-                      }
+                      chev[j].setAttribute("class", "fa-solid fa-chevron-down");
+                  }
+              } else {
+                  morecon[j].classList.remove('moreconv');
+                  if (chev[j].getAttribute("class") === "fa-solid fa-chevron-up") {
+                      chev[j].setAttribute("class", "fa-solid fa-chevron-down");
+                  } else {
+                      chev[j].setAttribute("class", "fa-solid fa-chevron-down");
                   }
               }
           }
-      );
-      };
+      }
+  );
+  };
+  }
+
+  const showMenu = () => {
+        const menu = document.querySelector("#menurev");
+        menu.classList.toggle("show");
+
+        dropdwn();
         iconFunct();
       }
 
@@ -52,13 +58,21 @@ function Header() {
         const bdy = document.querySelector(".maincon");
       
         if (menu.classList.contains("show")){
-          menu.setAttribute('class', 'drop');
+          menu.setAttribute('class', 'hide');
           bdy.setAttribute('class', 'maincon');
           iconFunct();
         } 
       }
+      const pcMenu = () => {
+        setTimeout( () => {
+          if (window.innerWidth == 1024) {
+            dropdwn();
+            console.log("PC");
+          }
+        }, 0o0);
+    }
+    pcMenu();
 
-    
     const nmeAnima = () => { window.addEventListener("scroll", () => {
         const currentScrl = window.scrollY;
         const targetElement = document.getElementById("target");
@@ -72,13 +86,11 @@ function Header() {
         }
     });}
     nmeAnima();
-      const blrBackdrop = () => {
-        const bdy = document.getElementsByClassName(".maincon");
-        bdy.classList.toggle("blr");
-      }
+
 
     return (
         <>
+      <div className="headcon">
         <div className="headr">
           
   <span id="nme" className="nmeHide nmePosit">
@@ -91,35 +103,34 @@ function Header() {
 
 <div className="scrlStatus">   </div>
 
-<div id="menurev" className="drop">
+<div id="menurev" className="hide">
 
   <Link to="/UHomePage" className="profpic" >
     <img src="" alt="Profile Picture" />  {/* Add a valid image source */}
   </Link>
 
-  <div className="dropdown">
-    <Link className="lnk" >
+  <div className="dropdown" >
+    <a className="lnk" >
       <span id="slsh">/</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
-    </Link>
+    </a>
     <div className="morecon">
-      <Link to="/utonycalc" className="more" onClick={resetMenu}>UTony Calc</Link> <hr />
-      <Link to="/work2" className="more">Work 2</Link> <hr />
+      <Link to="/utonycalc" className="more" onClick={resetMenu}>UTony Calc <hr /></Link> 
+      <Link to="/work2" className="more">Work 2  <hr /></Link>
       {/* ... other links ... */}
     </div>
   </div>
 
   <div className="dropdown">
-    <Link to="/contact" className="lnk">
+    <a className="lnk">
       <span id="slsh">/</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
-    </Link>
+    </a>
     <div className="morecon">
-      <a href="mailto:udoyetony@gmail.com" className="more">
-        <i className="fa-solid fa-envelope"></i> udoyetony@gmail.com <hr />
-      </a>
       <a href="https://twitter.com/" className="more">
         <i className="fa-brands fa-twitter"></i> Twitter <hr />
       </a>
-      {/* ... other links ... */}
+      <a href="udoyetony@gmail.com" className="more">  
+      <i className="fa-solid fa-envelope"></i> GMail  <hr />
+      </a>
     </div>
   </div>
 
@@ -127,6 +138,7 @@ function Header() {
     <span id="slsh">/</span> About
   </Link>
   {/* Remove empty div if not needed */}
+</div>
 </div>
 </>
     );

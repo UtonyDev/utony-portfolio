@@ -35,7 +35,7 @@ return (
         </div> 
 
         <div className="gtxt hid" id="target">Junior </div>
-        <div className="gtxt hid"> Frontend </div>
+        <div className="gtxt hid testh"> Frontend </div>
         <div className="gtxt hid">Developer </div>
     </div>
   </section>
@@ -54,6 +54,7 @@ return (
 
   <section className="sect-3" id="jump"> 
     <div className="cent">
+      
     <div className="projcon" id="txt">
       <p className="con cont-1">
         <img srcSet="" width="100%" height="auto" alt=""/>

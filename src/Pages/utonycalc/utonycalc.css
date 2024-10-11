@@ -129,10 +129,17 @@
     }
   }
 
-  .foot {
-    position: absolute;
-    background-color: PINK;
+  @media screen and (min-width: 1000px) {
+    .calcparent {
+      background-color: var(--topbackclr);
+      padding-top: 15vh !important;
+      padding-bottom: 10vh;
+    }
+  
+    .back {
+      margin-left: 0 !important;
+      color: gainsboro;
+      text-decoration: solid;
+    }
+  
   }
-
-  
-  
