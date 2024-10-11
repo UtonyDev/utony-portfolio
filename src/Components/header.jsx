@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { PureComponent } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Togicon from './tog-icon/togicon';
 
@@ -71,7 +71,10 @@ function Header() {
           }
         }, 0o0);
     }
-    pcMenu();
+
+  useEffect(() => {
+    pcMenu();  // Call the anima function when the component mounts
+  }, []);  
 
     const nmeAnima = () => { window.addEventListener("scroll", () => {
         const currentScrl = window.scrollY;
