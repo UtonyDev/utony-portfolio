@@ -1,9 +1,18 @@
 import React, { PureComponent } from 'react';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Togicon from './tog-icon/togicon';
 
-function Header() {
+function Header({ nameAnimation }) {
+  const [showDropdown1, setShowDropdown1] = useState(false);
+  const [showDropdown2, setShowDropdown2] = useState(false);
+  const pageLocation = useLocation();
+
+  useEffect(() => {
+    nameAnimation(); // Call the anima function when the component mounts
+  }, []);  
+
 
   const dropdwn = () => {
     const link = document.querySelectorAll(".lnk");
@@ -36,12 +45,27 @@ function Header() {
   }
 
   const showMenu = () => {
-        const menu = document.querySelector("#menurev");
-        menu.classList.toggle("show");
+    const menu = document.querySelector("#menu");
+    menu.classList.toggle("show");
 
-        dropdwn();
-        iconFunct();
-      }
+    dropdwn();
+    iconFunct();
+  }
+
+    const handleMouseEnter1 = () => {
+      setShowDropdown1(true);
+    };
+      
+    const handleMouseLeave1 = () => {
+      setShowDropdown1(false);
+    };
+    const handleMouseEnter2 = () => {
+      setShowDropdown2(true);
+    };
+  
+    const handleMouseLeave2 = () => {
+      setShowDropdown2(false);
+    };
 
       const iconFunct = () => {
         const icon = document.getElementById("icn");
@@ -54,7 +78,7 @@ function Header() {
       }
       
       const resetMenu = () => {
-        const menu = document.querySelector("#menurev");
+        const menu = document.querySelector("#menu");
         const bdy = document.querySelector(".maincon");
       
         if (menu.classList.contains("show")){
@@ -63,33 +87,37 @@ function Header() {
           iconFunct();
         } 
       }
-      const pcMenu = () => {
-        setTimeout( () => {
-          if (window.innerWidth == 1024) {
-            dropdwn();
-            console.log("PC");
-          }
-        }, 0o0);
-    }
-
-  useEffect(() => {
-    pcMenu();  // Call the anima function when the component mounts
-  }, []);  
 
     const nmeAnima = () => { window.addEventListener("scroll", () => {
+      if (pageLocation === '/') {
         const currentScrl = window.scrollY;
         const targetElement = document.getElementById("target");
-        const triggPoint = targetElement.offsetTop;
-        const triggPointX = triggPoint;
+        const triggPointX = targetElement.offsetTop;
         const nmeDesc = document.getElementById("nme");
+        
         if (currentScrl > triggPointX) {
             nmeDesc.classList.replace("nmeHide", "nmeShow");
         } else {
             nmeDesc.classList.replace("nmeShow", "nmeHide");
         }
-    });}
-    nmeAnima();
+    } else {
+      const nmeDesc = document.getElementById("nme");
 
+          nmeDesc.classList.replace("nmeHide", "nmeShow");
+          console.log("youre in calc");
+        }
+  }
+);
+} 
+nmeAnima();
+
+const calcLogo = () => {
+  const nmeDesc = document.getElementById("nme");
+
+    nmeDesc.classList.replace("nmeHide", "nmeShow");
+    console.log("youre in calc")
+}
+useEffect(() => {calcLogo();}, []);
 
     return (
         <>
@@ -104,30 +132,28 @@ function Header() {
   <i className="fa-solid fa-bars" onClick={showMenu} id="icn"> </i> 
 </div>
 
-<div className="scrlStatus">   </div>
-
-<div id="menurev" className="hide">
+<div id='menu' className="menurev menupc hide">
 
   <Link to="/UHomePage" className="profpic" >
     <img src="" alt="Profile Picture" />  {/* Add a valid image source */}
   </Link>
 
-  <div className="dropdown" >
+  <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
       <span id="slsh">/</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
-    <div className="morecon">
+    <div className={`morecon ${showDropdown1 ? 'moreconv' : ''}`} >
       <Link to="/utonycalc" className="more" onClick={resetMenu}>UTony Calc <hr /></Link> 
       <Link to="/work2" className="more">Work 2  <hr /></Link>
       {/* ... other links ... */}
     </div>
   </div>
 
-  <div className="dropdown">
-    <a className="lnk">
+  <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
+    <a className="lnk" >
       <span id="slsh">/</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
-    <div className="morecon">
+    <div className={`morecon ${showDropdown2 ? 'moreconv' : ''}`} >
       <a href="https://twitter.com/" className="more">
         <i className="fa-brands fa-twitter"></i> Twitter <hr />
       </a>
@@ -143,6 +169,9 @@ function Header() {
   {/* Remove empty div if not needed */}
 </div>
 </div>
+
+<div className="scrlStatus">   </div>
+
 </>
     );
 }

@@ -72,7 +72,7 @@ box-sizing: border-box;
     display: flex;
     position: fixed;
     justify-content: space-between;
-    top: 0;
+    top: 0 !important;
     width: 100%; 
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
     z-index: 10000 !important;
@@ -108,15 +108,20 @@ box-sizing: border-box;
    transform: translateY(0) !important;
    transition: transform 1s ease-out;
 }
+.nmeFShow {
+   opacity: 1 !important;
+   transform: translateY(0) !important;
+   transition: transform 1s ease-out;
+}
 
 #icn {
    padding: 0.8em;
    color: var(--iconclr);
 }
  /* menu styles */
-#menurev {
+.menurev {
    position: fixed;
-   top: 3em;
+   top: 2.8em;
    height: 100vh;
    width: 93.25%;  
    backdrop-filter: blur(5px); 
@@ -131,7 +136,7 @@ box-sizing: border-box;
 .show {
    right: 0;
 }
-#menurev a {
+.menurev a {
    display: block;
    color: var(--aquamFont);
    text-decoration: none;
@@ -301,7 +306,7 @@ p {
 
 /* for medium mobile devices (Tablets) */
 @media screen and (min-width: 600px) {
-   #menurev {
+   .menurev {
       position: fixed;
       top: 3em;
       width: 95%; 
@@ -312,7 +317,7 @@ p {
       overflow: hidden;
    }
    .hide {
-      height: 0 !important;
+      height: 100px !important;
       transition: height 1s !important;
    }
    .show {
@@ -333,10 +338,10 @@ p {
    .headr {
       box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.1);
    }
-   #menurev {
+   .menupc {
       position: fixed;
-      top: 3em;
-      height: 5vh !important;
+      top: 2.8em !important;
+      height: auto !important;
       width: 100%;
       display: flex;
       justify-content: flex-end;
@@ -353,7 +358,11 @@ p {
    .show {
       right: 0 !important;
    }
-     #icn {
+   .scrlStatus {
+      top: 80px !important;
+   }
+
+      #icn {
    display: var(--hideContent);
    }
    #slsh {
@@ -363,23 +372,24 @@ p {
       display: var(--hideContent) !important;
    }
    .lnk {
-      margin-right: 30px;
+      margin-right: 56px;
    }
    .morecon {
       margin-left: -10px !important; 
-      max-height: 0;
+      height: 0;
       position: absolute;
-      transition: max-height 1s ease;
+      transition: height .5s ease;
       overflow: hidden;
       padding: 0;
       border-radius: 5px;
+      background-color: var(--menuBar);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Light shadow */
    }
    .moreconv { 
-      max-height: 1500px;
+      height: 125px;
       position: absolute;
-      transition: max-height 1s ease;
-      padding: 0;
+      transition: height padding .5s;
+      padding: 10px;
    }
    .more {
       padding: 15px !important;

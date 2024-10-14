@@ -55,7 +55,7 @@ function UTonyCalc() {
     <>
     <div className="calcparent">
     <Link to="/UHomepage" className='back'>
-    <i className="fa-solid fa-chevron-left fa-fade"></i> Home </Link>
+    <i className="fa-solid fa-chevron-left"></i> Home </Link>
     <form>
       <label> 
       <div className="calccont">

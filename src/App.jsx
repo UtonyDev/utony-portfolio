@@ -7,11 +7,22 @@ import Footer from './Components/footer';
 import './App.css';
 
 function App() {
+
+  const nameAnimation = () => {
+    setTimeout( () => {
+        const open = window.document.querySelectorAll(".hid");
+        for (let i = 0; i < open.length; i++) {
+            open[i].classList.replace("hid", "rev");
+        }
+    }, 0o0);
+}
+
+
   return (
     <Router>
-      <Header />
+      <Header nameAnimation={nameAnimation} />
       <Routes>
-        <Route path="*" element={<UHomePage />} />
+        <Route path="*" element={<UHomePage nameAnimation={nameAnimation} />} />
         <Route path="/utonycalc" element={<UTonyCalc />} />
       </Routes>
       <Footer />

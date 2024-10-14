@@ -2,19 +2,10 @@ import React from "react";
 import { useState, useRef, useEffect } from 'react';
 
 
-function UHomePage() {
-
-  const anima = () => {
-    setTimeout( () => {
-        const open = window.document.querySelectorAll(".hid");
-        for (let i = 0; i < open.length; i++) {
-            open[i].classList.replace("hid", "rev");
-        }
-    }, 0o0);
-}
+function UHomePage( { nameAnimation }) {
 
   useEffect(() => {
-    anima();  // Call the anima function when the component mounts
+    nameAnimation(); // Call the anima function when the component mounts
   }, []);  
   
 return (
@@ -34,7 +25,7 @@ return (
           <span className="utxt">Tony</span>
         </div> 
 
-        <div className="gtxt hid" id="target">Junior </div>
+        <div className="gtxt hid" id="target"  >Junior </div>
         <div className="gtxt hid testh"> Frontend </div>
         <div className="gtxt hid">Developer </div>
     </div>
