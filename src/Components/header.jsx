@@ -89,10 +89,11 @@ function Header({ nameAnimation }) {
       }
 
     const nmeAnima = () => { window.addEventListener("scroll", () => {
-      if (pageLocation === '/') {
+      if (pageLocation.pathname === '/') {
         const currentScrl = window.scrollY;
         const targetElement = document.getElementById("target");
-        const triggPointX = targetElement.offsetTop;
+        const triggPoint = targetElement.offsetTop;
+        const triggPointX = triggPoint * 4;
         const nmeDesc = document.getElementById("nme");
         
         if (currentScrl > triggPointX) {
@@ -112,11 +113,12 @@ function Header({ nameAnimation }) {
 nmeAnima();
 
 const calcLogo = () => {
+  if (pageLocation.pathname === '/utonycalc') {
   const nmeDesc = document.getElementById("nme");
 
     nmeDesc.classList.replace("nmeHide", "nmeShow");
     console.log("youre in calc")
-}
+}}
 useEffect(() => {calcLogo();}, []);
 
     return (
