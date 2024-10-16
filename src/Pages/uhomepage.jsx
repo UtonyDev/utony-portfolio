@@ -1,6 +1,11 @@
 import React from "react";
 import { useState, useRef, useEffect } from 'react';
-
+import htmlpic1 from '../assets/htmlpic1.jpg';
+import htmlpic2 from '../assets/htmlpic2.png';
+import csspic1 from '../assets/csspic1.png';
+import csspic2 from '../assets/csspic2.png';
+import jssrcpic2 from '../assets/jssrcpic2.png';
+import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
 
 function UHomePage( { nameAnimation }) {
 
@@ -48,37 +53,37 @@ return (
       
     <div className="projcon" id="txt">
       <p className="con cont-1">
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={htmlpic1} width="100%" height="auto" alt=""/>
      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
      sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>
 
       <p className="con cont-2">
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
      sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>
 
       <p className="con cont-3">
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={csspic1} width="100%" height="auto" alt=""/>
      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
      , pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>
 
       <p className="con cont-4">
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={csspic2} width="100%" height="auto" alt=""/>
      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
      sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>
 
       <p className="con cont-5">
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
         sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>
 
       <p className="con cont-6"> 
-        <img srcSet="" width="100%" height="auto" alt=""/>
+        <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
         sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
       </p>

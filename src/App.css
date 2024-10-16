@@ -119,6 +119,14 @@ box-sizing: border-box;
    color: var(--iconclr);
 }
  /* menu styles */
+ .propic {
+   width: 100px !important; 
+   height: 50px;
+   border-radius: 10%;
+   border: 1px solid var(--iconclr); 
+   object-fit: clip;
+   margin: 5px;
+ }
 .menurev {
    position: fixed;
    top: 2.8em;
