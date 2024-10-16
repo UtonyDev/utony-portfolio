@@ -28,7 +28,8 @@
     padding-left: 10px !important;
     color: gainsboro;
     text-decoration: solid;
-    font-size: 1.2em !important;
+    font-size: .9rem !important;
+    font-weight: 50;
   }
 
     .cont {

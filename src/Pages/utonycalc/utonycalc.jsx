@@ -5,7 +5,6 @@ import './utonycalc.css'
 
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
-  const [result, showResult] = useState("");
   const err = "math error"; 
 
   window.addEventListener("DOMContentLoaded", function() {
@@ -53,7 +52,7 @@ function UTonyCalc() {
    
   return (
     <>
-    <div className="calcparent">
+    <div className="calcparent" id='target'>
     <Link to="/UHomepage" className='back'>
     <i className="fa-solid fa-chevron-left"></i> Home </Link>
     <form>

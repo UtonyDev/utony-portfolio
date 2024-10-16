@@ -1,18 +1,17 @@
-import React, { PureComponent } from 'react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Togicon from './tog-icon/togicon';
 
-function Header({ nameAnimation }) {
+function Header({ nameAnimation, nmeAnima }) {
   const [showDropdown1, setShowDropdown1] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const pageLocation = useLocation();
 
+// Call the anima function when the component mounts
   useEffect(() => {
-    nameAnimation(); // Call the anima function when the component mounts
+    nameAnimation(); 
   }, []);  
-
 
   const dropdwn = () => {
     const link = document.querySelectorAll(".lnk");
@@ -44,29 +43,29 @@ function Header({ nameAnimation }) {
   };
   }
 
+  // Menu function
   const showMenu = () => {
     const menu = document.querySelector("#menu");
     menu.classList.toggle("show");
-
     dropdwn();
     iconFunct();
   }
 
+  // Desktop hover state functions 
     const handleMouseEnter1 = () => {
       setShowDropdown1(true);
-    };
-      
+    }; 
     const handleMouseLeave1 = () => {
-      setShowDropdown1(false);
-    };
+        setShowDropdown1(false);
+      };
     const handleMouseEnter2 = () => {
-      setShowDropdown2(true);
+        setShowDropdown2(true);
     };
   
     const handleMouseLeave2 = () => {
-      setShowDropdown2(false);
+        setShowDropdown2(false);
     };
-
+  
       const iconFunct = () => {
         const icon = document.getElementById("icn");
       
@@ -79,47 +78,25 @@ function Header({ nameAnimation }) {
       
       const resetMenu = () => {
         const menu = document.querySelector("#menu");
-        const bdy = document.querySelector(".maincon");
       
         if (menu.classList.contains("show")){
-          menu.setAttribute('class', 'hide');
-          bdy.setAttribute('class', 'maincon');
+          menu.setAttribute('class', 'menurev hide');
           iconFunct();
         } 
       }
 
-    const nmeAnima = () => { window.addEventListener("scroll", () => {
-      if (pageLocation.pathname === '/') {
-        const currentScrl = window.scrollY;
-        const targetElement = document.getElementById("target");
-        const triggPoint = targetElement.offsetTop;
-        const triggPointX = triggPoint * 4;
-        const nmeDesc = document.getElementById("nme");
-        
-        if (currentScrl > triggPointX) {
-            nmeDesc.classList.replace("nmeHide", "nmeShow");
-        } else {
-            nmeDesc.classList.replace("nmeShow", "nmeHide");
-        }
-    } else {
-      const nmeDesc = document.getElementById("nme");
 
-          nmeDesc.classList.replace("nmeHide", "nmeShow");
-          console.log("youre in calc");
-        }
-  }
-);
-} 
-nmeAnima();
+  const calcLogo = () => {
+    if (pageLocation.pathname === '/utonycalc') {
+    const nmeDesc = document.getElementById("nme");
+      nmeDesc.classList.replace("nmeHide", "nmeShow");
+      console.log("youre in calc")
+  }}
+  useEffect(() => {calcLogo();}, [calcLogo]);
 
-const calcLogo = () => {
-  if (pageLocation.pathname === '/utonycalc') {
-  const nmeDesc = document.getElementById("nme");
-
-    nmeDesc.classList.replace("nmeHide", "nmeShow");
-    console.log("youre in calc")
-}}
-useEffect(() => {calcLogo();}, []);
+  useEffect(() => {
+    nmeAnima();
+  }, [nmeAnima]);
 
     return (
         <>
@@ -137,15 +114,19 @@ useEffect(() => {calcLogo();}, []);
 <div id='menu' className="menurev menupc hide">
 
   <Link to="/UHomePage" className="profpic" >
-    <img src="" alt="Profile Picture" />  {/* Add a valid image source */}
+    <img src="/UTonyLogo.webp" alt="Profile Picture" className="propic" 
+    
+    />  {/* Add a valid image source */}
   </Link>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
       <span id="slsh">/</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
-    <div className={`morecon ${showDropdown1 ? 'moreconv' : ''}`} >
-      <Link to="/utonycalc" className="more" onClick={resetMenu}>UTony Calc <hr /></Link> 
+    <div className={`morecon ${
+      showDropdown1 ? 'moreconv' : ''}`
+      } >
+      <Link to="/utonycalc" className="more"onClick={resetMenu} >UTony Calc <hr /></Link> 
       <Link to="/work2" className="more">Work 2  <hr /></Link>
       {/* ... other links ... */}
     </div>
@@ -155,12 +136,27 @@ useEffect(() => {calcLogo();}, []);
     <a className="lnk" >
       <span id="slsh">/</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
-    <div className={`morecon ${showDropdown2 ? 'moreconv' : ''}`} >
-      <a href="https://twitter.com/" className="more">
-        <i className="fa-brands fa-twitter"></i> Twitter <hr />
+    <div className={`morecon  ${
+      showDropdown2 ? 'moreconv' : ''}`} >
+      <a href="https://linkedin.com/in/tonyudoye" className="more" target="_blank">
+        <i className="fa-brands fa-linkedin"></i> LinkedIn Profile 
+        <hr />
       </a>
-      <a href="udoyetony@gmail.com" className="more">  
-      <i className="fa-solid fa-envelope"></i> GMail  <hr />
+      <a href="https://twitter.com/MinerXtony" className="more" target="_blank">
+        <i className="fa-brands fa-twitter"></i> Twitter 
+        <hr />
+      </a>
+      <a href="https://github.com/UTonyDev" className="more" target="_blank">
+        <i className="fa-brands fa-github"></i> Github 
+        <hr />
+      </a>
+      <a href="tel:+2349036318670" className="more" > 
+        <i className="fa-solid fa-phone"></i> Phone: +234 9036 3186 70
+        <hr />
+      </a>
+      <a href="https://udoyetony@gmail.com" className="more" target="_blank">  
+        <i className="fa-solid fa-envelope"></i> Email  
+        <hr />
       </a>
     </div>
   </div>

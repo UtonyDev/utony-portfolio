@@ -16,13 +16,28 @@ function App() {
         }
     }, 0o0);
 }
-
+const nmeAnima = () => { 
+  window.addEventListener("scroll", () => {
+  const currentScrl = window.scrollY;
+  const targetElement = document.getElementById("target");
+  const triggPoint = targetElement.offsetTop;
+  const triggPointX = triggPoint * 1;
+  const nmeDesc = document.getElementById("nme");
+  
+  if (currentScrl >= triggPointX) {
+      nmeDesc.classList.replace("nmeHide", "nmeShow");
+  } else {
+      nmeDesc.classList.replace("nmeShow", "nmeHide");
+  }
+} 
+  );
+} 
 
   return (
     <Router>
-      <Header nameAnimation={nameAnimation} />
+      <Header nameAnimation={nameAnimation} nmeAnima={nmeAnima} />
       <Routes>
-        <Route path="*" element={<UHomePage nameAnimation={nameAnimation} />} />
+        <Route path="*" element={<UHomePage nameAnimation={nameAnimation} nmeAnima={nmeAnima} />} />
         <Route path="/utonycalc" element={<UTonyCalc />} />
       </Routes>
       <Footer />

@@ -14,7 +14,7 @@ box-sizing: border-box;
 }
 }
 :root {
-   --menuBar: rgba(255, 255, 255, 0.7);
+   --menuBar: rgba(255, 255, 255, 0.9);
    --aquamFont: #7fffd4;
    --grey: rgb(220, 220, 220);
    --iconclr: #535557;
@@ -124,7 +124,7 @@ box-sizing: border-box;
    top: 2.8em;
    height: 100vh;
    width: 93.25%;  
-   backdrop-filter: blur(5px); 
+   backdrop-filter: blur(0); 
    background-color: var(--menuBar);
    transition: right 1s;
    z-index: 1000;
@@ -150,7 +150,7 @@ box-sizing: border-box;
    padding:0;
 }
 .moreconv { 
-   max-height: 1500px;
+   max-height: fit-content !important;
    transition: max-height .5s ease-in;
 }
 .more {
@@ -171,6 +171,11 @@ box-sizing: border-box;
 .morecon a:hover hr {
    color: var(--aquamFont) !important;
 }
+ hr:hover {
+   color: var(--aquamFont) !important; /* Apply hover effect for email links */
+ }
+ 
+ 
     /* end of menu styles */
 
  /* swooping animation */
@@ -308,29 +313,29 @@ p {
 @media screen and (min-width: 600px) {
    .menurev {
       position: fixed;
-      top: 3em;
-      width: 95%; 
+      width: 95%;
       backdrop-filter: blur(5px); 
       background-color: var(--menuBar);
       z-index: 1000;
       padding-inline: 1rem;
-      overflow: hidden;
+      overflow: hidden;    
+      transition: top 1s !important;
    }
    .hide {
-      height: 100px !important;
-      transition: height 1s !important;
+      right: 0 !important;
+      top: -100% !important;
    }
    .show {
-      height: 100% !important;
-      transition: height 1s !important;
+      right: 0 !important;
+      top: 2.8em !important;
    }
+
    .projcon {
       color:var(--iconclr) !important;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr ;
    }
-      
 }
 
 /* For large desktop devices */
@@ -341,8 +346,8 @@ p {
    .menupc {
       position: fixed;
       top: 2.8em !important;
-      height: auto !important;
       width: 100%;
+      height: 2.5em !important;
       display: flex;
       justify-content: flex-end;
       backdrop-filter: blur(0);
@@ -361,7 +366,6 @@ p {
    .scrlStatus {
       top: 80px !important;
    }
-
       #icn {
    display: var(--hideContent);
    }
@@ -376,26 +380,29 @@ p {
    }
    .morecon {
       margin-left: -10px !important; 
-      height: 0;
+      max-height: 0;
       position: absolute;
-      transition: height .5s ease;
-      overflow: hidden;
+      transition:  all .5s ease;
+      overflow: hidden !important;
       padding: 0;
       border-radius: 5px;
       background-color: var(--menuBar);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Light shadow */
    }
    .moreconv { 
-      height: 125px;
+      max-height: 1000px !important;
       position: absolute;
-      transition: height padding .5s;
+      transition: all .5s !important;
       padding: 10px;
    }
    .more {
       padding: 15px !important;
    }
 
-   hr { color: var(--iconclr) !important;}
+   hr { 
+      color: var(--iconclr) !important;
+      display: none;  
+    }
    
    .morecon a:hover hr {
       color: var(--aquamFont) !important;
