@@ -114,7 +114,7 @@ function Header({ nameAnimation, nmeAnima }) {
 <div id='menu' className="menurev menupc hide">
 
   <Link to="/UHomePage" className="profpic" >
-    <img src="/UTonyLogo.webp" alt="Profile Picture" className="propic" 
+    <img src="/UTonyLogo.webp" alt="UTony Dev" className="propic" 
     
     />  {/* Add a valid image source */}
   </Link>
