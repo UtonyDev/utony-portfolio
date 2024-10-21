@@ -83,15 +83,6 @@ function Header({ nameAnimation, nmeAnima }) {
           menu.setAttribute('class', 'menurev hide');
           iconFunct();
         } 
-
-        const chev = document.querySelectorAll("#chev");
-        for (let k = 0; k < chev.length; k++) {
-        if (chev[k].getAttribute("class") === "fa-solid fa-chevron-up") {
-          chev[k].setAttribute("class", "fa-solid fa-chevron-down");
-      } else {
-          chev[k].setAttribute("class", "fa-solid fa-chevron-up");
-      }
-    }
       }
 
 
