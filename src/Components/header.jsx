@@ -82,6 +82,7 @@ function Header({ nameAnimation, nmeAnima }) {
         if (menu.classList.contains("show")){
           menu.setAttribute('class', 'menurev hide');
           iconFunct();
+          dropdwn();
         } 
       }
 
