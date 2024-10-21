@@ -142,7 +142,7 @@ function Header({ nameAnimation, nmeAnima }) {
         <i className="fa-brands fa-linkedin"></i> LinkedIn Profile 
         <hr />
       </a>
-      <a href="https://twitter.com/MinerXtony" className="more" target="_blank">
+      <a href="https://twitter.com/UTonyDev" className="more" target="_blank">
         <i className="fa-brands fa-twitter"></i> Twitter 
         <hr />
       </a>
@@ -154,7 +154,7 @@ function Header({ nameAnimation, nmeAnima }) {
         <i className="fa-solid fa-phone"></i> Phone: +234 9036 3186 70
         <hr />
       </a>
-      <a href="https://udoyetony@gmail.com" className="more" target="_blank">  
+      <a href="https://utonydev@gmail.com" className="more" target="_blank">  
         <i className="fa-solid fa-envelope"></i> Email  
         <hr />
       </a>

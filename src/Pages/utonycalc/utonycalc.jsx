@@ -30,7 +30,8 @@ function UTonyCalc() {
       setInputVal(inputVal.slice(0, -1));
     } else if (val === 'AC') {
       setInputVal('');
-    } else {
+    } 
+      else {
       setInputVal(inputVal + val);
     }
   };
@@ -44,9 +45,9 @@ function UTonyCalc() {
     '4', '5','6', '-',
     '!', 'sqrt', 'xsqrt',
      '7', '8', '9', '*',
-     'e', 'ln', 'log',
+     'e', 'ln', 'log(',
      '.', '0',  '/', '=',
-     'sin', 'cos', 'tan'
+     'sin(', 'cos(', 'tan('
     ];
 
    
