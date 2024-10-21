@@ -113,11 +113,8 @@ function Header({ nameAnimation, nmeAnima }) {
 
 <div id='menu' className="menurev menupc hide">
 
-  <Link to="/UHomePage" className="profpic" >
-    <img src="/utlogopic.jpeg" alt="UTony Dev" className="propic" 
-    
-    />  {/* Add a valid image source */}
-  </Link>
+
+    <img src="/utlogopic.jpeg" alt="UTony Dev" className="propic" />
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >

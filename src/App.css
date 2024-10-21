@@ -119,12 +119,10 @@ box-sizing: border-box;
    color: var(--iconclr);
 }
  /* menu styles */
- .propic {
-   width: 100px ; 
-   height: 100px;
-   border-radius: 10%;
-   border: 1px solid var(--iconclr); 
-   object-fit: clip;
+ img.propic {
+   width: 75px !important; 
+   height: 75px !important;
+   border-radius: 50% !important;
    margin: 5px;
  }
 .menurev {
@@ -295,10 +293,6 @@ p {
  .con:hover {
    transform: scale(1.05);
    transition: transform 0.2s ease;
- }
-
- img {
-   min-height: 25vh;
  }
 
 .foot {
