@@ -22,6 +22,7 @@
   .calccont {
     display: grid;
     place-items: center;
+    position: relative;
   }
 
   .back {
