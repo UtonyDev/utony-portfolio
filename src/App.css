@@ -94,6 +94,7 @@ box-sizing: border-box;
 #nme {
    padding: 0.8em;
    color: var(--aquamFont);
+   z-index: -1;
 }
 .nmePosit {
    margin-right: auto !important;
@@ -124,6 +125,7 @@ box-sizing: border-box;
    height: 75px !important;
    border-radius: 50% !important;
    margin: 5px;
+   z-index: 100 !important;
  }
 .menurev {
    position: fixed;
@@ -320,13 +322,15 @@ p {
 
    .menurev {
       position: fixed;
-      width: 95%;
+      width: 100VW !important;
       backdrop-filter: blur(5px); 
       background-color: var(--menuBar);
       z-index: 1000;
-      padding-inline: 1rem;
       overflow: hidden;    
       transition: top 1s !important;
+   }
+   .menupc {
+      padding: 0 !important;
    }
    .hide {
       right: 0 !important;
@@ -336,7 +340,6 @@ p {
       right: 0 !important;
       top: 2.8em !important;
    }
-
    .projcon {
       color:var(--iconclr) !important;
       display: grid;
