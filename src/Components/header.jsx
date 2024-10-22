@@ -83,6 +83,34 @@ function Header({ nameAnimation, nmeAnima }) {
           menu.setAttribute('class', 'menurev hide');
           iconFunct();
         } 
+        const link = document.querySelectorAll(".lnk");
+        const morecon = document.querySelectorAll(".morecon");
+        const chev = document.querySelectorAll("#chev");
+    
+    
+        for (let i = 0; i < link.length; i++) {
+          link[i].addEventListener("click", () => {
+              for (let j = 0; j < morecon.length; j++){ 
+                  if (i === j) {
+                      morecon[j].classList.toggle("moreconv");
+                      if (chev[j].getAttribute("class") === "fa-solid fa-chevron-up") {
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
+                      } else {
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-up");
+                      }
+                  } else {
+                      morecon[j].classList.remove('moreconv');
+                      if (chev[j].getAttribute("class") === "fa-solid fa-chevron-up") {
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-down");
+                      } else {
+                          chev[j].setAttribute("class", "fa-solid fa-chevron-up");
+                      }
+                  }
+              }
+          }
+      );
+      };
+    
       }
 
 
@@ -90,7 +118,6 @@ function Header({ nameAnimation, nmeAnima }) {
     if (pageLocation.pathname === '/utonycalc') {
     const nmeDesc = document.getElementById("nme");
       nmeDesc.classList.replace("nmeHide", "nmeShow");
-      console.log("youre in calc")
   }}
   useEffect(() => {calcLogo();}, [calcLogo]);
 
@@ -118,7 +145,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
-      <span id="slsh">/</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
+      <span id="slsh">|</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
@@ -131,7 +158,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
     <a className="lnk" >
-      <span id="slsh">/</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
+      <span id="slsh">|</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
       showDropdown2 ? 'moreconv' : ''}`} >
@@ -143,7 +170,7 @@ function Header({ nameAnimation, nmeAnima }) {
         <i className="fa-brands fa-twitter"></i> Twitter 
         <hr />
       </a>
-      <a href="https://github.com/UTonyDev" className="more" target="_blank">
+      <a href="https://github.com/UTonyDev" className="more">
         <i className="fa-brands fa-github"></i> Github 
         <hr />
       </a>
@@ -159,7 +186,7 @@ function Header({ nameAnimation, nmeAnima }) {
   </div>
 
   <Link to="/about" className="lnk">
-    <span id="slsh">/</span> About
+    <span id="slsh">|</span> About
   </Link>
   {/* Remove empty div if not needed */}
 </div>

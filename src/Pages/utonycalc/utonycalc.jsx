@@ -21,8 +21,27 @@ function UTonyCalc() {
     
     if (val === '=') {
       try {
-        const solvedResult = math.evaluate(inputVal);
-        setInputVal(solvedResult);
+        if (inputVal.includes('sin(') 
+          || inputVal.includes('cos(') 
+          || inputVal.includes('tan(')) {
+            console.log("it has a trig ");
+            const updatedInput = inputVal.replace(/sin|cos|tan/g, match => {
+              switch (match) {
+                case 'sin':
+                  return 'Math.sin'; // Replace 'sin' with 'Math.sin'
+                case 'cos':
+                  return 'Math.cos'; // Replace 'cos' with 'Math.cos'
+                case 'tan':
+                  return 'Math.tan'; // Replace 'tan' with 'Math.tan'
+                default:
+                  return match;
+              }
+            });
+            console.log(updatedInput);
+          } else {
+              const solvedResult = math.evaluate(inputVal);
+              setInputVal(solvedResult);
+          }
       } catch {
         setInputVal(err);
       }
