@@ -5,7 +5,8 @@ import './utonycalc.css'
 
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
-  const err = "math error"; 
+  const err = "math error";
+
 
   window.addEventListener("DOMContentLoaded", function() {
     setTimeout( () => {
@@ -24,23 +25,31 @@ function UTonyCalc() {
         if (inputVal.includes('sin(') 
           || inputVal.includes('cos(') 
           || inputVal.includes('tan(')) {
-            console.log("it has a trig ");
-            const updatedInput = inputVal.replace(/sin|cos|tan/g, match => {
-              switch (match) {
-                case 'sin':
-                  return 'Math.sin'; // Replace 'sin' with 'Math.sin'
-                case 'cos':
-                  return 'Math.cos'; // Replace 'cos' with 'Math.cos'
-                case 'tan':
-                  return 'Math.tan'; // Replace 'tan' with 'Math.tan'
-                default:
-                  return match;
+            
+            // Matches and gets digit within a parentheses
+            function getsArgument(expression) {
+              const regex = /\((\d+)\)/; 
+              const match = expression.match(regex);
+
+              if (match) {
+                const degrees = parseFloat(match[match.length - 1]);
+                const radians = degrees * Math.PI / 180;
+                const replacedExpression = expression.replace(regex, `(${radians})`);
+                return replacedExpression;
+              } else {
+                return expression; // No degrees found
               }
-            });
-            console.log(updatedInput);
+            }
+
+const closedInputVal = inputVal + ")";
+           const radExpression = getsArgument(closedInputVal);
+      const solvedResult = math.evaluate(radExpression);
+      const approxResult = solvedResult.toFixed(4);
+      setInputVal(approxResult);
+
           } else {
-              const solvedResult = math.evaluate(inputVal);
-              setInputVal(solvedResult);
+            const solvedResult = math.evaluate(inputVal);
+            setInputVal(solvedResult);
           }
       } catch {
         setInputVal(err);
@@ -49,13 +58,18 @@ function UTonyCalc() {
       setInputVal(inputVal.slice(0, -1));
     } else if (val === 'AC') {
       setInputVal('');
-    } 
-      else {
+    } else {
       setInputVal(inputVal + val);
     }
+    clrField();
   };
-  
 
+  const clrField = () => {
+    if (onButtonClick && inputVal === "math error") {
+      setInputVal('');
+    }
+  }
+  
   const Buttons = [
     'AC', 'C', 
     '(', ')', '1/x',
@@ -75,12 +89,12 @@ function UTonyCalc() {
     <div className="calcparent" id='target'>
     <Link to="/UHomepage" className='back'>
     <i className="fa-solid fa-chevron-left"></i> Home </Link>
-    <form>
+    <form> 
       <label> 
       <div className="calccont">
 
         <div className='cont'> 
-             <input type="text" value={inputVal} className='item1' disabled readOnly/>
+             <input type="text" name='calc' value={inputVal} className='item1' disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button
