@@ -3,25 +3,26 @@
     font-size: large;
     color: rgba(0, 0, 1, 1);
   }
-  
+  [data-theme = 'light'] {
+    --svgBackClr: aliceblue;
+    --topbackclr: #ffffff;
+    --white:  #ffffff;
+    --bxShadowblr: rgba(0, 0, 1, 0);
+ }
+ 
   [data-theme = 'dark'] {
     --svgBackClr: #0a0a0a;
     --topbackclr: #292b2c;
     --white: #292b2c;
     --TxtFontXClr: #C0C0C0;
+    --bxShadowblr: rgba(0, 0, 255, 0);
  }
  
   /* Default Styles for mobile devices */
   @media only screen and (max-width: 768px) {
   .calcparent {
     background-color: var(--topbackclr);
-    padding-top: 10vh;
-    padding-bottom: 10vh;
-  }
-
-  .calccont {
-    display: grid;
-    place-items: center;
+    height: 100vh;
     position: relative;
   }
 
@@ -31,31 +32,48 @@
     text-decoration: solid;
     font-size: .9rem !important;
     font-weight: 50;
+    position: relative;
+    top: 50px;
+    font-size: small !important;
+  }
+
+  [class="fa-solid fa-chevron-left"] {
+    font-size: small !important;
+    line-height: 10px;
   }
 
     .cont {
+      position: relative;
+      top: 51px;  
       display: grid;
+      max-height: 85vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
-      box-shadow: 0px 0px 0px rgba(0, 0, 1, 0);
-      padding: 5px;
-      margin-top: 10px;
-      width: 100%;
-      height: auto;
+      box-shadow: 0px 0px 0px var(--bxShadowblr);
+      padding: 0px;
       overflow: hidden;
       z-index: 10;
       background-color:var(--white);
+    }   
+    input {
+      height: 15vh;
+      width: 99%;
+      margin: 2px;
+      border: solid 0px grey;
+      border-radius: 5px;
     }
-  
-    .butnHid {
-      display: none;
+    button { 
+      background-color: aquamarine;
+      border: none;
+      border-radius: 2px;
+      box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
+      margin: 5px;
     }
-
     .item1 {
       grid-row: span 1;
-      grid-column: span 4 ;
+      grid-column:1 / span 4;
     }
     
     .but1 {
@@ -73,15 +91,12 @@
     .butnHid {
       display: none;
     }
-
     .name {
       color: aquamarine;
     }
-    
     .gb {
       color: #dcdcdc;
     }
-    
     .hid {
       position: relative;
       left: -100%;
@@ -94,28 +109,27 @@
       filter: blur(0);
       transition: left 1s;
     }
-    
-    input {
-      height: fit-content;
-      border: solid 2px grey;
-      border-radius: 5px;
-      padding: 20px;
-      transition: value 1s ease-in-out;
-    }
-    
-    button { 
-      background-color: aquamarine;
-      border: none;
-      border-radius: 2px;
-      box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
-      padding: 15px;
-      margin: 5px;
+        .butnHid {
+      display: none;
     }
   }
 
   /* for meduim devices ( Tablets ) */
 
   @media screen and (min-width: 700px) {
+    .calccont {
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .cont {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
+      box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
+      padding: 1em;
+      width: 90%;    
+    }
+
     .item1 {
       grid-row: span 1;
       grid-column: span 7;
@@ -137,7 +151,7 @@
   @media screen and (min-width: 1000px) {
     .calcparent {
       background-color: var(--topbackclr);
-      padding-top: 15vh !important;
+      padding-top: 15 !important;
       padding-bottom: 10vh;
     }
   

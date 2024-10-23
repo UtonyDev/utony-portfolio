@@ -10,12 +10,11 @@ import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
 function UHomePage( { nameAnimation }) {
 
   useEffect(() => {
-    nameAnimation(); // Call the anima function when the component mounts
+    nameAnimation();
   }, []);  
   
 return (
-<div className='maincon'  >
-<div className="innercon">
+<div className='maincon' >
 
   <section className="sect-1">
     <div className="custom-shape-divider-bottom-1713287430">
@@ -31,7 +30,7 @@ return (
         </div> 
 
         <div className="gtxt hid" id="target"  >Junior </div>
-        <div className="gtxt hid testh"> Frontend </div>
+        <div className="gtxt hid"> Frontend </div>
         <div className="gtxt hid">Developer </div>
     </div>
   </section>
@@ -49,9 +48,8 @@ return (
   </section>
 
   <section className="sect-3" id="jump"> 
-    <div className="cent">
-      
-    <div className="projcon" id="txt">
+    <div className="cent">  
+      <div className="projcon" id="txt">
       <p className="con cont-1">
         <img srcSet={htmlpic1} width="100%" height="auto" alt=""/>
      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
@@ -90,9 +88,8 @@ return (
 
       </div>
     </div>
-     </section>
+  </section>
 
-  </div>
   </div>
 )
   }
