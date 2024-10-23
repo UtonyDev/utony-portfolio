@@ -242,6 +242,7 @@ box-sizing: border-box;
      position: absolute;
      bottom: 0;
      left: 0;
+     width: 100%;
      overflow: hidden;
      line-height: 0;
      z-index: -1;
@@ -317,7 +318,7 @@ p {
 
    .menurev {
       position: fixed;
-      width: 97% !important;
+      width: 100% !important;
       background-color: var(--menuBar);
       z-index: 1000;
       overflow: hidden;    
@@ -350,7 +351,6 @@ p {
    .menupc {
       position: fixed;
       top: 2.8em !important;
-      width: 100%;
       height: 2.5em !important;
       display: flex;
       justify-content: flex-end;
