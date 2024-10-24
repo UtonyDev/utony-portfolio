@@ -10,6 +10,8 @@ box-sizing: border-box;
 :root {
    --svgBackClr: #0a0a0a;
    --topbackclr: #292b2c;
+   background-color: var(--topbackclr) !important;
+
 }
 }
 :root {
@@ -72,7 +74,7 @@ box-sizing: border-box;
     position: fixed;
     justify-content: space-between;
     top: 0 !important;
-    width: 100vw;
+    width: 100%;
     box-shadow: 0px px 0px 0px rgba(0,0,0,0);
     z-index: 10000 !important;
     background-color: var(--topbackclr);
@@ -204,13 +206,13 @@ box-sizing: border-box;
    color:var(--aquamFont);
    background-color: var(--topbackclr) !important;
    transform: translateY(0);
-   width: 100vw;
+   width: 100%;
    position: relative;
    padding-top: 20vh;
 }
 .cent {
    margin-left: 5px;
-   margin-right: 5px;
+   margin-right: 5px ;
 }
 .gtxt {
   color: var(--aquamFont) !important;
@@ -228,6 +230,7 @@ box-sizing: border-box;
  }
  .sect-2 {
    position: relative;
+   width: auto;
    background-color: var(--svgBackClr);
    min-height: 50px;
    padding-top: 4vh;
