@@ -18,7 +18,7 @@ function Togicon() {
         } else {
           document.body.setAttribute('data-theme', prefersDarkMode ? 'dark' : savedTheme);
         }
-      }, []);
+      }, [window.load]);
 
     
     
