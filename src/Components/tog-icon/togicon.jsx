@@ -3,22 +3,28 @@ import './togicon.css'
 
 function Togicon() {
 
-    useEffect(() => {
-        // Check for saved theme in localStorage
+    useEffect(() => {        
         const savedTheme = localStorage.getItem('theme');
-        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const checkbox = document.getElementById('myCheckbox');
 
         if (savedTheme === 'dark') { 
           checkbox.checked = true;
         }
+
+    }, [window.load]);
+
+    useEffect(() => {
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
         // If a manual override exists, use it; otherwise, use system preference
         if (savedTheme) {
           document.body.setAttribute('data-theme', savedTheme);
         } else {
           document.body.setAttribute('data-theme', prefersDarkMode ? 'dark' : savedTheme);
         }
-      }, [window.load]);
+      }, []);
 
     
     
