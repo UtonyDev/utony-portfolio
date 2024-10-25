@@ -145,7 +145,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
-      <span id="slsh">|</span> Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
+       Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
@@ -158,7 +158,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
     <a className="lnk" >
-      <span id="slsh">|</span> Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
+       Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
       showDropdown2 ? 'moreconv' : ''}`} >
@@ -185,8 +185,8 @@ function Header({ nameAnimation, nmeAnima }) {
     </div>
   </div>
 
-  <Link to="/about" className="lnk">
-    <span id="slsh">|</span> About
+  <Link href="jump" className="lnk">
+     About
   </Link>
   {/* Remove empty div if not needed */}
 </div>
