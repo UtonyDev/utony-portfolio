@@ -81,7 +81,7 @@
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
-
+      background-color:#C0C0C0 ;
     }
     .item1 {
       grid-row: span 1;
