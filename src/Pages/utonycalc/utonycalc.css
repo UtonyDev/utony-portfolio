@@ -44,7 +44,7 @@
       position: relative;
       top: 51px;  
       display: grid;
-      max-height: 85vh;
+      max-height: 88vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
@@ -66,14 +66,21 @@
     button { 
       background-color: aquamarine;
       border: none;
-      box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
+      box-shadow: 2.5px 2.5px 2.5px rgba(0, 0, 1, 0.2);
       margin-top: 5%;
-      border-radius: 25%;
-      width: 95%;
-      height: 95%;
+      font-size: 1.5em;
+      color: #0a0a0a;
+    }
+    .butn {
+      border-radius: 40%;
+      width: 92.5%;
+      height: 92.5%;
+
     }
     .butnc {
-      border-radius: 50%;
+      border-radius: 50% !important;
+      width: 95%;
+      height: 95%;
 
     }
     .item1 {
@@ -84,22 +91,18 @@
     .but1 {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
-      border-radius: 50%;
     }
     .but2 {
       grid-row: 2 / 3;
       grid-column: 2 / 3;
-      border-radius: 50%
     }
     .but3 {
       grid-row: 2 / 3;
       grid-column: 3 / 4;
-      border-radius: 50%
     }
     .but4 {
       grid-row: 2 / 3;
       grid-column: 4 / 5;
-      border-radius: 50%
     }
     .butnHid {
       display: none;

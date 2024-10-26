@@ -100,10 +100,10 @@ const closedInputVal = inputVal + ")";
   <button
     key = {buttons}
     className={`
-      ${index === 0 ? 'but1 ' : ''}
-      ${index === 1 ? 'but2' : ''}
-      ${index === 2 ? 'but3' : ''}
-      ${index === 3 ? 'but4' : ''}
+      ${index === 0 ? 'but1 butnc' : ''}
+      ${index === 1 ? 'but2 butnc' : ''}
+      ${index === 2 ? 'but3 butnc' : ''}
+      ${index === 3 ? 'but4 butnc' : ''}
       ${index === 10 || index === 17 
         || index === 24 || index === 31 ? "butnc" : ""}
       ${index === 4 || index === 5 || index === 6
