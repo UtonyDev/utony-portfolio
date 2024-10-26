@@ -71,7 +71,7 @@ const closedInputVal = inputVal + ")";
   }
   
   const Buttons = [
-    'AC', 'C', 
+    'AC', 'C', '%', '⇩',
     '(', ')', '1/x',
     '1', '2', '3', '+',
     '^2', '^3', '^',
@@ -100,14 +100,18 @@ const closedInputVal = inputVal + ")";
   <button
     key = {buttons}
     className={`
-      ${index === 0 ? 'but1 ' : 'butn'}
-      ${index === 1 ? 'but2' : 'butn'}
-      ${index === 2 || index === 3 || index === 4 
-        || index === 9 || index === 10 || index === 11 
-        || index === 16 || index === 17 || index === 18 
-        || index === 23 || index === 24 || index === 25 
-        || index === 30 || index === 31 || index === 32 
-        ? 'butnHid': ''}
+      ${index === 0 ? 'but1 ' : ''}
+      ${index === 1 ? 'but2' : ''}
+      ${index === 2 ? 'but3' : ''}
+      ${index === 3 ? 'but4' : ''}
+      ${index === 10 || index === 17 
+        || index === 24 || index === 31 ? "butnc" : ""}
+      ${index === 4 || index === 5 || index === 6
+        || index === 11 || index === 12 || index === 13 
+        || index === 18 || index === 19 || index === 20
+        || index === 25 || index === 26 || index === 27
+        || index === 32 || index === 33 || index === 34 
+        ? 'butnHid': 'butn'}
     `}
     onClick={(e) => onButtonClick(e, buttons)}
   >
