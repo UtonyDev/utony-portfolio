@@ -64,7 +64,7 @@
       color: rgba(127, 255, 212, 0.8);
     }
     button { 
-      background-color: aquamarine;
+      background-color: rgba(127, 255, 212, 1);
       border: none;
       box-shadow: 2.5px 2.5px 2.5px rgba(0, 0, 1, 0.2);
       margin-top: 5%;
@@ -75,7 +75,7 @@
       border-radius: 40%;
       width: 92.5%;
       height: 92.5%;
-
+      background-color: rgba(127, 255, 212, 0.75);
     }
     .butnc {
       border-radius: 50% !important;
