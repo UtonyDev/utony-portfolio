@@ -107,6 +107,10 @@
     .butnHid {
       display: none;
     }
+    .butnShow {
+      display: block !important;
+      background-color: #C0C0C0;
+    }
     .name {
       color: aquamarine;
     }

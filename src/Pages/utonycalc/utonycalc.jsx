@@ -58,7 +58,18 @@ const closedInputVal = inputVal + ")";
       setInputVal(inputVal.slice(0, -1));
     } else if (val === 'AC') {
       setInputVal('');
-    } else {
+    } else if (val === "↓") {
+      const butn =  document.querySelectorAll("#butns");
+
+      butn.forEach((button) => {
+        if (button.classList.contains('butnHid')) {
+          button.classList.replace("butnHid", "butnShow");
+        } else {
+          button.classList.replace("butnShow", "butnHid");
+        }
+      });
+    }
+    else {
       setInputVal(inputVal + val);
     }
     clrField();
@@ -98,7 +109,8 @@ const closedInputVal = inputVal + ")";
 
           {Buttons.map((buttons, index) => (
   <button
-    key = {buttons}
+    key = {buttons} 
+    id ="butns"
     className={`
       ${index === 0 ? 'but1 butnc' : ''}
       ${index === 1 ? 'but2 butnc' : ''}
