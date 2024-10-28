@@ -46,13 +46,29 @@
       display: grid;
       max-height: 88vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr ;
       border: 1px solid var(-);  
       border-radius: 10px;
       box-shadow: 0px 0px 0px var(--bxShadowblr);
       overflow: hidden;
       z-index: 10;
       background-color:var(--white);
+      transition: all .5s ease;
+    }
+    .fullCont {
+      position: relative;
+      top: 51px;  
+      display: grid;
+      max-height: 88vh;
+      grid-template-columns: 1fr 1fr 1fr 1fr;      
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+      border: 1px solid var(-);  
+      border-radius: 10px;
+      box-shadow: 0px 0px 0px var(--bxShadowblr);
+      overflow: hidden;
+      z-index: 10;
+      background-color:var(--white);
+      transition: all 1s ease;
     }   
     input {
       height: 15vh;
@@ -109,8 +125,63 @@
     }
     .butnShow {
       display: block !important;
-      background-color: #C0C0C0;
+      background-color: var(--topbackclr);
+      color: var(--TxtFontXClr);
+      border-radius: 30%;
+      transition: all .5s ease;
     }
+
+    .itemsF1 {
+      grid-area:  3 / 1/ 4/ 2 ;
+    }.itemsF2 {
+      grid-area: 3 / 2/ 4/ 3 ;
+    }
+    .itemsF3 {
+      grid-area: 3 / 3/ 4/ 4 ;
+    }
+    .itemsF4 {
+      grid-area: 3 /4 / 4/ 5 ;
+    }
+    
+    .itemsF5 {
+      grid-area: 4 / 1/ 5/ 2  ;
+    }
+    .itemsF6 {
+      grid-area: 4 / 2/ 5/ 3 ;
+    }
+    .itemsF7 {
+      grid-area: 4 / 3/ 5/ 4 ;
+    }
+    .itemsF8 {
+      grid-area: 4 / 4/ 5/ 5 ;
+    }
+
+    .itemsF9 {
+      grid-area: 5 /1 / 6/ 2 ;
+    }
+    .itemsF10 {
+      grid-area: 5 /2 / 6/ 3 ;
+    }
+    .itemsF11 {
+      grid-area: 5 /3 / 6/ 4 ;
+    }
+    .itemsF12 {
+      grid-area: 5 /4 / 6/ 5 ;
+    }
+    
+    .itemsF13 {
+      grid-area: 6 /1 / 7/ 2 ;
+    }
+    .itemsF14 {
+      grid-area: 6 /2 / 7/ 3 ;
+    }
+    .itemsF15 {
+      grid-area: 6 /3 / 7/ 4 ;
+    }
+    .itemsF16 {
+      grid-area: 6 /4 / 7/ 5;
+    }
+    
     .name {
       color: aquamarine;
     }

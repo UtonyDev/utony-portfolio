@@ -60,12 +60,15 @@ const closedInputVal = inputVal + ")";
       setInputVal('');
     } else if (val === "↓") {
       const butn =  document.querySelectorAll("#butns");
-
+      const showAllButn = document.querySelector("#calccon")
+      
       butn.forEach((button) => {
         if (button.classList.contains('butnHid')) {
           button.classList.replace("butnHid", "butnShow");
+          showAllButn.classList.replace("cont", "fullCont");
         } else {
           button.classList.replace("butnShow", "butnHid");
+          showAllButn.classList.replace("fullCont", "cont");
         }
       });
     }
@@ -83,15 +86,22 @@ const closedInputVal = inputVal + ")";
   
   const Buttons = [
     'AC', '↓', '%', '÷',
-    '(', ')', '1/x',
+
+    '(', ')', '^', '^2',
+
     '1', '2', '3', '+',
-    '^2', '^3', '^',
+
+    '!', '√', '∛', '10^x',
+
     '4', '5','6', '-',
-    '!', 'sqrt', 'xsqrt',
-     '7', '8', '9', '×',
-     'e', 'ln', 'log(',
-     '.', '0',  'C', '=',
-     'sin(', 'cos(', 'tan('
+
+    'e', 'ln', 'log(', "INV",
+
+    '7', '8', '9', '×',
+
+    '.', '0',  'C', '=',
+    
+    'sin(', 'cos(', 'tan(', 'DEG'
     ];
 
    
@@ -104,7 +114,7 @@ const closedInputVal = inputVal + ")";
       <label> 
       <div className="calccont">
 
-        <div className='cont'> 
+        <div className='cont' id='calccon'> 
              <input type="text" name='calc' value={inputVal} className='item1' disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
@@ -116,14 +126,37 @@ const closedInputVal = inputVal + ")";
       ${index === 1 ? 'but2 butnc' : ''}
       ${index === 2 ? 'but3 butnc' : ''}
       ${index === 3 ? 'but4 butnc' : ''}
-      ${index === 10 || index === 17 
-        || index === 24 || index === 31 ? "butnc" : ""}
-      ${index === 4 || index === 5 || index === 6
-        || index === 11 || index === 12 || index === 13 
-        || index === 18 || index === 19 || index === 20
-        || index === 25 || index === 26 || index === 27
-        || index === 32 || index === 33 || index === 34 
+
+      ${index === 11 || index === 19 
+        || index === 27 || index === 31
+        ? "butnc" : ""}
+
+      ${index === 4 || index === 5 || index === 6 || index === 7 
+        || index === 12 || index === 13 || index === 14 || index === 15
+        || index === 20 || index === 21 || index === 22 || index === 23
+        || index === 32 || index === 33 || index === 34 || index === 35
         ? 'butnHid': 'butn'}
+
+      ${index === 4 ? 'itemsF1': '' }
+      ${index === 5 ? 'itemsF2': '' }
+      ${index === 6 ? 'itemsF3': '' }
+      ${index === 7 ? 'itemsF4': '' }
+
+      ${index === 12 ? 'itemsF5': '' }
+      ${index === 13 ? 'itemsF6': '' }
+      ${index === 14 ? 'itemsF7': '' }
+      ${index === 15 ? 'itemsF8': '' }
+
+      ${index === 20 ? 'itemsF9': '' }
+      ${index === 21 ? 'itemsF10': '' }
+      ${index === 22 ? 'itemsF11': '' }
+      ${index === 23 ? 'itemsF12': '' }
+
+      ${index === 32 ? 'itemsF13': ''}
+      ${index === 33 ? 'itemsF14': ''}
+      ${index === 34 ? 'itemsF15': ''}
+      ${index === 35 ? 'itemsF16': ''}
+
     `}
     onClick={(e) => onButtonClick(e, buttons)}
   >
