@@ -87,7 +87,6 @@ function Header({ nameAnimation, nmeAnima }) {
         const morecon = document.querySelectorAll(".morecon");
         const chev = document.querySelectorAll("#chev");
     
-    
         for (let i = 0; i < link.length; i++) {
           link[i].addEventListener("click", () => {
               for (let j = 0; j < morecon.length; j++){ 
@@ -112,7 +111,6 @@ function Header({ nameAnimation, nmeAnima }) {
       };
     
       }
-
 
   const calcLogo = () => {
     if (pageLocation.pathname === '/utonycalc') {

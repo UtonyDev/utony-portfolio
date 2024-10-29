@@ -130,7 +130,7 @@ const closedInputVal = inputVal + ")";
       ${index === 11 || index === 19 
         || index === 27 || index === 31
         ? "butnc" : ""}
-
+        
       ${index === 4 || index === 5 || index === 6 || index === 7 
         || index === 12 || index === 13 || index === 14 || index === 15
         || index === 20 || index === 21 || index === 22 || index === 23

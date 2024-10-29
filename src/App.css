@@ -26,7 +26,7 @@ body[data-theme = 'light'] {
    --footBackclr: rgba(229, 229, 229, 0.5);
 }
 body[data-theme = 'dark'] {
-   --menuBar: rgba(83, 85, 87, 0.702);
+   --menuBar: #292b2c;
    --svgBackClr: #0a0a0a;
    --topbackclr: #292b2c;
    --white: #292b2c;

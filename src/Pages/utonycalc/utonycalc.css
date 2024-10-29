@@ -8,6 +8,7 @@
     --topbackclr: #ffffff;
     --white:  #ffffff;
     --bxShadowblr: rgba(0, 0, 1, 0);
+    --butnTxtclr: #C0C0C0;
  }
  
   [data-theme = 'dark'] {
@@ -15,6 +16,7 @@
     --topbackclr: #292b2c;
     --white: #292b2c;
     --TxtFontXClr: #C0C0C0;
+    --butnTxtclr: #C0C0C0;
     --bxShadowblr: rgba(0, 0, 255, 0);
  }
  
@@ -122,11 +124,13 @@
     }
     .butnHid {
       display: none;
+      transition: all .5s ease;
     }
     .butnShow {
-      display: block !important;
+      display: block;
+      margin: 5% !important;
       background-color: var(--topbackclr);
-      color: var(--TxtFontXClr);
+      color: var(--butnTxtclr);
       border-radius: 30%;
       transition: all .5s ease;
     }
