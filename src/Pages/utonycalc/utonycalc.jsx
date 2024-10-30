@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { FaChevronDown } from 'react-icons/fa';
 import * as math from 'mathjs'
 import './utonycalc.css'
 
@@ -37,11 +38,11 @@ function UTonyCalc() {
                 const replacedExpression = expression.replace(regex, `(${radians})`);
                 return replacedExpression;
               } else {
-                return expression; // No degrees found
+                return expression;
               }
             }
 
-const closedInputVal = inputVal + ")";
+      const closedInputVal = inputVal + ")";
            const radExpression = getsArgument(closedInputVal);
       const solvedResult = math.evaluate(radExpression);
       const approxResult = solvedResult.toFixed(4);
@@ -54,23 +55,28 @@ const closedInputVal = inputVal + ")";
       } catch {
         setInputVal(err);
       }
-    } else if (val === 'C') {
+    } else if (val === '⇐') {
       setInputVal(inputVal.slice(0, -1));
     } else if (val === 'AC') {
       setInputVal('');
     } else if (val === "↓") {
-      const butn =  document.querySelectorAll("#butns");
-      const showAllButn = document.querySelector("#calccon")
-      
-      butn.forEach((button) => {
-        if (button.classList.contains('butnHid')) {
-          button.classList.replace("butnHid", "butnShow");
-          showAllButn.classList.replace("cont", "fullCont");
-        } else {
-          button.classList.replace("butnShow", "butnHid");
-          showAllButn.classList.replace("fullCont", "cont");
-        }
-      });
+      if (window.innerWidth <= 768) {
+        const butn =  document.querySelectorAll("#butns");
+        const showAllButn = document.querySelector("#calccon")
+        
+        butn.forEach((button) => {
+          if (button.classList.contains('butnHid')) {
+            button.classList.replace("butnHid", "butnShow");
+            showAllButn.classList.replace("cont", "fullCont");
+          } else {
+            button.classList.replace("butnShow", "butnHid");
+            showAllButn.classList.replace("fullCont", "cont");
+          }
+        });
+      } else if (window.innerWidth === 768) {
+        
+      }
+
     }
     else {
       setInputVal(inputVal + val);
@@ -85,7 +91,7 @@ const closedInputVal = inputVal + ")";
   }
   
   const Buttons = [
-    'AC', '↓', '%', '÷',
+    'AC', '', '%', '÷',
 
     '(', ')', '^', '^2',
 
@@ -99,7 +105,7 @@ const closedInputVal = inputVal + ")";
 
     '7', '8', '9', '×',
 
-    '.', '0',  'C', '=',
+    '.', '0',  '⇐', '=',
     
     'sin(', 'cos(', 'tan(', 'DEG'
     ];
@@ -123,14 +129,20 @@ const closedInputVal = inputVal + ")";
     id ="butns"
     className={`
       ${index === 0 ? 'but1 butnc' : ''}
-      ${index === 1 ? 'but2 butnc' : ''}
+      ${index === 1 ? 'but2 butnc showAll' : ''}
       ${index === 2 ? 'but3 butnc' : ''}
       ${index === 3 ? 'but4 butnc' : ''}
+      ${index === 11 ? 'butPlus butnc' : ''}
+      ${index === 19 ? 'butMinus butnc' : ''}
+      ${index === 27 ? 'butTimes butnc' : ''}      
+      ${index === 28 ? 'butPoint butnc' : ''}
+      ${index === 30 ? 'butClear butnc' : ''}
+      ${index === 31 ? 'butEqual butnc' : ''}
 
       ${index === 11 || index === 19 
         || index === 27 || index === 31
         ? "butnc" : ""}
-        
+
       ${index === 4 || index === 5 || index === 6 || index === 7 
         || index === 12 || index === 13 || index === 14 || index === 15
         || index === 20 || index === 21 || index === 22 || index === 23
