@@ -111,9 +111,22 @@
       grid-column: 1 / 2;
       background-color: rgb(254,8,10);
     }
-    .but2 {
-      grid-row: 2 / 3;
-      grid-column: 2 / 3;
+    .chevDown {
+      grid-area: 2/2/3/3;
+      z-index: 1;
+      transition: all .5s ease;
+    }
+    
+    .overlayChev {
+      z-index: 10 !important;
+    }
+    .chevUp {
+      grid-area: 2/2/3/3;
+      z-index: -1;
+      border-radius: 50% !important;
+      width: 95%;
+      height: 95%;
+      background-color:#C0C0C0 ;    
     }
     .but3 {
       grid-row: 2 / 3;
@@ -195,7 +208,6 @@
     .itemsF16 {
       grid-area: 6 /4 / 7/ 5;
     }
-    
     .name {
       color: aquamarine;
     }

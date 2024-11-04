@@ -1,11 +1,62 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp} from 'react-icons/fa';
 import * as math from 'mathjs'
 import './utonycalc.css'
 
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
+
+  const Buttons = [
+  { label: 'AC', value: 'AC' },
+  { label: <FaChevronDown />, value: 'expand' },
+  { label: '%', value: '%' },
+  { label: '÷', value: '/' },
+
+  { label: '(', value: '(' },
+  { label: ')', value: ')' },
+  { label: '^', value: '^' },
+  { label: '^2', value: '^2' },
+
+  { label: '1', value: '1' },
+  { label: '2', value: '2' },
+  { label: '3', value: '3' },
+  { label: '+', value: '+' },
+
+  { label: '!', value: '!' },
+  { label: '√', value: 'sqrt' },
+  { label: '∛', value: 'cbrt' },
+  { label: '10^x', value: '10^' },
+
+  { label: '4', value: '4' },
+  { label: '5', value: '5' },
+  { label: '6', value: '6' },
+  { label: '-', value: '-' },
+
+  { label: 'e', value: 'e' },
+  { label: 'ln', value: 'ln' },
+  { label: 'log(', value: 'log(' },
+  { label: 'INV', value: 'inv' },
+
+  { label: '7', value: '7' },
+  { label: '8', value: '8' },
+  { label: '9', value: '9' },
+  { label: '×', value: '*' },
+
+  { label: '.', value: '.' },
+  { label: '0', value: '0' },
+  { label: '⇐', value: 'clear' },
+  { label: '=', value: '=' },
+
+  { label: 'sin(', value: 'sin(' },
+  { label: 'cos(', value: 'cos(' },
+  { label: 'tan(', value: 'tan(' },
+  { label: 'DEG', value: 'DEG' },
+
+  { label: <FaChevronUp />, value: 'expand' },
+
+];   
+
   const err = "math error";
 
 
@@ -55,26 +106,43 @@ function UTonyCalc() {
       } catch {
         setInputVal(err);
       }
-    } else if (val === '⇐') {
+    } else if (val === 'clear') {
       setInputVal(inputVal.slice(0, -1));
+      console.log("yes")
     } else if (val === 'AC') {
       setInputVal('');
-    } else if (val === "↓") {
+    } else if (val === "expand") {
+
       if (window.innerWidth <= 768) {
+        
         const butn =  document.querySelectorAll("#butns");
         const showAllButn = document.querySelector("#calccon")
-        
+        const chevButn = document.querySelector('.chevs');
+        const chevUp = document.querySelector('.chevUp');
+
+        if (showAllButn.classList.contains('fullCont')) {
+          chevUp.classList.add('overlayChev');
+        } else {
+          chevUp.classList.remove('overlayChev');
+        }
+
         butn.forEach((button) => {
+          const chevUp = document.querySelector('.chevUp');
+
           if (button.classList.contains('butnHid')) {
             button.classList.replace("butnHid", "butnShow");
-            showAllButn.classList.replace("cont", "fullCont");
           } else {
             button.classList.replace("butnShow", "butnHid");
-            showAllButn.classList.replace("fullCont", "cont");
           }
         });
-      } else if (window.innerWidth === 768) {
-        
+
+        if (showAllButn.classList.contains("cont")) {
+          showAllButn.classList.replace("cont", "fullCont");
+        } else {
+          showAllButn.classList.replace("fullCont", "cont");
+        }
+      } else if (window.innerWidth >= 768) {
+        showAllButn.classList.replace("fullCont", "cont");
       }
 
     }
@@ -88,29 +156,8 @@ function UTonyCalc() {
     if (onButtonClick && inputVal === "math error") {
       setInputVal('');
     }
-  }
-  
-  const Buttons = [
-    'AC', '', '%', '÷',
+  };
 
-    '(', ')', '^', '^2',
-
-    '1', '2', '3', '+',
-
-    '!', '√', '∛', '10^x',
-
-    '4', '5','6', '-',
-
-    'e', 'ln', 'log(', "INV",
-
-    '7', '8', '9', '×',
-
-    '.', '0',  '⇐', '=',
-    
-    'sin(', 'cos(', 'tan(', 'DEG'
-    ];
-
-   
   return (
     <>
     <div className="calcparent" id='target'>
@@ -121,15 +168,16 @@ function UTonyCalc() {
       <div className="calccont">
 
         <div className='cont' id='calccon'> 
-             <input type="text" name='calc' value={inputVal} className='item1' disabled readOnly/>
+             <input type="text" name='calc' value={inputVal} 
+             className='item1' disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button
-    key = {buttons} 
+    key = {index} 
     id ="butns"
     className={`
       ${index === 0 ? 'but1 butnc' : ''}
-      ${index === 1 ? 'but2 butnc showAll' : ''}
+      ${index === 1 ? 'chevDown butnc showAll chevs' : ''}
       ${index === 2 ? 'but3 butnc' : ''}
       ${index === 3 ? 'but4 butnc' : ''}
       ${index === 11 ? 'butPlus butnc' : ''}
@@ -169,10 +217,12 @@ function UTonyCalc() {
       ${index === 34 ? 'itemsF15': ''}
       ${index === 35 ? 'itemsF16': ''}
 
+      ${index === 36 ? "chevUp" : ''}
+
     `}
-    onClick={(e) => onButtonClick(e, buttons)}
+    onClick={(e) => onButtonClick(e, buttons.value)}
   >
-    {buttons}
+    {buttons.label}
   </button>
 ))}        </div>
 </div>
