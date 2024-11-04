@@ -24,8 +24,8 @@ function UTonyCalc() {
   { label: '+', value: '+' },
 
   { label: '!', value: '!' },
-  { label: '√', value: 'sqrt' },
-  { label: '∛', value: 'cbrt' },
+  { label: '√', value: '√' },
+  { label: '∛', value: '∛' },
   { label: '10^x', value: '10^' },
 
   { label: '4', value: '4' },
@@ -48,9 +48,9 @@ function UTonyCalc() {
   { label: '⇐', value: 'clear' },
   { label: '=', value: '=' },
 
-  { label: 'sin(', value: 'sin(' },
-  { label: 'cos(', value: 'cos(' },
-  { label: 'tan(', value: 'tan(' },
+  { label: 'sin', value: 'sin(' },
+  { label: 'cos', value: 'cos(' },
+  { label: 'tan', value: 'tan(' },
   { label: 'DEG', value: 'DEG' },
 
   { label: <FaChevronUp />, value: 'expand' },
@@ -93,13 +93,25 @@ function UTonyCalc() {
               }
             }
 
-      const closedInputVal = inputVal + ")";
-           const radExpression = getsArgument(closedInputVal);
-      const solvedResult = math.evaluate(radExpression);
-      const approxResult = solvedResult.toFixed(4);
-      setInputVal(approxResult);
+            const closedInputVal = inputVal + ")";
+                const radExpression = getsArgument(closedInputVal);
+            const solvedResult = math.evaluate(radExpression);
+            const approxResult = solvedResult.toFixed(4);
+            setInputVal(approxResult);
 
-          } else {
+        } else if (inputVal.includes('√') || inputVal.includes('∛') ) {
+          function evaluateExpression(expression) {
+            const modifiedExpression = expression
+              .replace(/√(\d+)/g, 'Math.sqrt($1)')
+              .replace(/∛(\d+)/g, 'Math.cbrt($1)');
+          
+            return modifiedExpression;
+          };
+    
+          const rootVal =  evaluateExpression(inputVal);
+          const rootedVal = eval(rootVal);
+          setInputVal(rootedVal);
+        } else {
             const solvedResult = math.evaluate(inputVal);
             setInputVal(solvedResult);
           }
@@ -108,7 +120,6 @@ function UTonyCalc() {
       }
     } else if (val === 'clear') {
       setInputVal(inputVal.slice(0, -1));
-      console.log("yes")
     } else if (val === 'AC') {
       setInputVal('');
     } else if (val === "expand") {
