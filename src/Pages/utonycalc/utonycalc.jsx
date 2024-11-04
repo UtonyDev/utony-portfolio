@@ -120,7 +120,7 @@ function UTonyCalc() {
         const chevButn = document.querySelector('.chevs');
         const chevUp = document.querySelector('.chevUp');
 
-        if (showAllButn.classList.contains('fullCont')) {
+        if (showAllButn.classList.contains('cont')) {
           chevUp.classList.add('overlayChev');
         } else {
           chevUp.classList.remove('overlayChev');
