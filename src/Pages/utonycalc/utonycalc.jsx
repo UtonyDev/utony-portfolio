@@ -34,8 +34,8 @@ function UTonyCalc() {
   { label: '-', value: '-' },
 
   { label: 'e', value: 'e' },
-  { label: 'ln', value: 'ln' },
-  { label: 'log(', value: 'log(' },
+  { label: 'ln', value: 'ln(' },
+  { label: 'log', value: 'log(' },
   { label: 'INV', value: 'inv' },
 
   { label: '7', value: '7' },
@@ -102,16 +102,47 @@ function UTonyCalc() {
         } else if (inputVal.includes('√') || inputVal.includes('∛') ) {
           function evaluateExpression(expression) {
             const modifiedExpression = expression
-              .replace(/√(\d+)/g, 'Math.sqrt($1)')
-              .replace(/∛(\d+)/g, 'Math.cbrt($1)');
-          
+              .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
+              .replace(/∛(\d*\.?\d+)/g, 'Math.cbrt($1)')
+              .replace(/√\be\b/g, 'Math.sqrt(Math.E)')
+              .replace(/∛\be\b/g, 'Math.cbrt(Math.E)');
+
             return modifiedExpression;
           };
     
           const rootVal =  evaluateExpression(inputVal);
           const rootedVal = eval(rootVal);
           setInputVal(rootedVal);
-        } else {
+          
+        } else if (inputVal.includes('ln(')) {
+          function evaluateExpress(express) {
+            const modifiedExpress = express
+            .replace(/ln\((\d*\.?\d+)/g, 'Math.log($1)')
+            .replace(/ln\(\be\b/g, 'Math.log(Math.E)');
+            
+            return modifiedExpress;
+          }
+          
+          const baseVal = evaluateExpress(inputVal);
+          const basedVal = eval(baseVal);
+          setInputVal(basedVal);
+
+        } else if ( inputVal.includes('log(')) {
+          function evaluateExpress(express) {
+            const modifiedExpress = express
+            .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
+            .replace(/log\(\be\b/g, 'Math.log10(Math.E)');
+            
+            console.log("Transformed Expression:", modifiedExpress); // Debug output
+            return modifiedExpress;
+          }
+          
+          const baseVal = evaluateExpress(inputVal);
+          const basedVal = eval(baseVal);
+          console.log("Evaluated Expression:", baseVal);
+          setInputVal(basedVal);
+        }
+        else {
             const solvedResult = math.evaluate(inputVal);
             setInputVal(solvedResult);
           }
