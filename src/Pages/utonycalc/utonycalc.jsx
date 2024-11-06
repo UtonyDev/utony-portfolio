@@ -80,22 +80,30 @@ function UTonyCalc() {
             
             // Matches and gets digit within a parentheses
             function getsArgument(expression) {
-              const regex = /\((\d+)\)/; 
-              const match = expression.match(regex);
+              const regex = /\((\d*\.?\d+)\)/ ; 
+              const regexE = /\(\be\b\)/;
+              const match1 = expression.match(regex);
+              const match2 = expression.match(regexE);
+              console.log(match1);
 
-              if (match) {
-                const degrees = parseFloat(match[match.length - 1]);
+              if (match1) {
+                const degrees = parseFloat(match1[match1.length - 1]);
                 const radians = degrees * Math.PI / 180;
                 const replacedExpression = expression.replace(regex, `(${radians})`);
                 return replacedExpression;
-              } else {
-                return expression;
+              } else if (match2) {
+                const radianE = Math.E * Math.PI / 180;
+                console.log(radianE);
+                const eulerExp = expression.replace(regexE, `(${radianE})`);
+                return eulerExp;
               }
             }
 
             const closedInputVal = inputVal + ")";
-                const radExpression = getsArgument(closedInputVal);
-            const solvedResult = math.evaluate(radExpression);
+            const radExpression = getsArgument(closedInputVal);
+            const mathExp = 'Math.' + radExpression;
+                console.log(mathExp)
+            const solvedResult = eval(mathExp)
             const approxResult = solvedResult.toFixed(4);
             setInputVal(approxResult);
 
