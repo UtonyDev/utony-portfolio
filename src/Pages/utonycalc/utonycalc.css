@@ -128,6 +128,7 @@
       height: 95%;
       background-color:#C0C0C0 ;    
     }
+
     .but3 {
       grid-row: 2 / 3;
       grid-column: 3 / 4;
@@ -208,6 +209,40 @@
     .itemsF16 {
       grid-area: 6 /4 / 7/ 5;
     }
+    
+    .RadToggle {
+      grid-area: 6 /4 / 7/ 5;
+      color: purple;
+      z-index: 6;
+    }
+    .DegButn {
+          z-index: 4 !important;
+        }
+    .radShow {
+      z-index: -4 !important;
+    }
+    .sinInv {
+      grid-area: 6/1/7/2;
+    }
+    .cosInv {
+      grid-area: 6/2/7/3;
+    }
+    .tanInv {
+      grid-area: 6/3/7/4;
+    }
+    .invButns {
+      z-index: -3;
+    }
+    .invsButnsShow {
+      z-index: 12 !important;
+    }
+
+    .trigButns {
+      z-index: 2;
+    }
+    .trigButnsHide {
+      z-index: -4;
+    }
     .name {
       color: aquamarine;
     }
@@ -227,9 +262,171 @@
       transition: left 1s;
     }
 
-  /* for meduim devices ( Tablets ) */
+    /* For Medium devices in Potriant orientaion */
+    @media (min-width: 768px) and (min-height: 1024px) {
 
+    .cont {
+      top: 7.5vh;  
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr !important;
+      box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
+      width: 90% !important; 
+      max-height: 100vh;
+    }
+
+      .item1 {
+        grid-area: 1/1/2/10;    
+      }
+    
+      .but1 {
+        grid-area: 2 /5/3/6 !important;
+        background-color: rgb(254,8,10);
+      }
+      .but2 {
+        grid-area: 2 /9/3/10;
+        display: none;
+      }
+      .but3 {
+        grid-area: 2 /7/3/8 !important;
+      }
+      .but4 {
+        grid-area: 2 /8/3/9 ;
+      }
+
+      .mathPie {
+        grid-area: 2/6/3/7;
+      }
+
+      .bno1 {
+        grid-area:3/5/4/6 ;
+      }
+      .bno2 {
+        grid-area: 3/6/4/7;
+      }
+
+      .bno3 {
+        grid-area: 3/7/4/8;
+      }
+
+      .bno4 {
+        grid-area: 4/5/5/6;
+      }
+
+      .bno5 {
+        grid-area: 4/6/5/7;
+      }
+
+      .bno6 {
+        grid-area: 4/7/5/8;
+      }
+      .bno7 {
+        grid-area: 5/5/6/6;
+      }
+      .bno8 {
+        grid-area: 5/6/6/7;
+      }
+      .bno9 {
+        grid-area: 5/7/6/8;
+      }
+
+      .butEqual {
+        grid-area: 6/8/7/9!important;
+      }
+
+      .butnZero {
+        grid-area: 6/6/7/7;
+      }
+
+      .butPoint {
+        grid-area: 6/5/7/6 !important;
+      }
+
+    .butClear {
+      grid-area: 6/7/7/8;
+    }
+  
+      .butTimes {
+        grid-area: 3 /8/4/9 ;
+      }
+  
+      .butPlus {
+        grid-area: 4 /8/5/9 ;
+      }
+      .butMinus {
+        grid-area: 5 /8/6/9 ;
+      }
+  
+      .itemsF1 {
+        grid-area:  2 / 1/ 3/ 2 ;
+      }.itemsF2 {
+        grid-area: 2 / 2/ 3/ 3 ;
+      }
+      .itemsF3 {
+        grid-area: 2 / 3/ 3/ 4 ;
+      }
+      .itemsF4 {
+        grid-area: 2 /4 / 3/ 5 ;
+      }
+      
+      .itemsF5 {
+        grid-area: 3 / 1/ 4/ 2  ;
+      }
+      .itemsF6 {
+        grid-area: 3 / 2/ 4/ 3 ;
+      }
+      .itemsF7 {
+        grid-area: 3 / 3/ 4/ 4 ;
+      }
+      .itemsF8 {
+        grid-area: 3 / 4/ 4/ 5 ;
+      }
+  
+      .itemsF9 {
+        grid-area: 4 /1 / 5/ 2 ;
+      }
+      .itemsF10 {
+        grid-area: 4 /2 / 5/ 3 ;
+      }
+      .itemsF11 {
+        grid-area: 4 /3 / 5/ 4 ;
+      }
+      .itemsF12 {
+        grid-area: 4 /4 / 5/ 5 ;
+      }
+      
+      .itemsF13 {
+        grid-area: 5 /1 / 6/ 2 ;
+      }
+      .itemsF14 {
+        grid-area: 5 /2 / 6/ 3 ;
+      }
+      .itemsF15 {
+        grid-area: 5 /3 / 6/ 4 ;
+      }
+      .itemsF16 {
+        grid-area: 5 /4 / 6/ 5;
+      }
+      .sinInv {
+        grid-area: 5/1/6/2;
+      }
+      .cosInv {
+        grid-area: 5/2/6/3;
+      }
+      .tanInv {
+        grid-area: 5/3/6/4;
+      }
+      .RadToggle {
+        grid-area: 5 /4 / 6/ 5;
+        color: purple !important;
+        z-index: 6;
+      }
+    }
+
+  /* for meduim devices ( Tablets ) */
   @media screen and (min-width: 768px) {
+    .calcparent {
+      width: 100% !important;
+    }
     .calccont {
       display: grid;
       place-items: center;
@@ -240,9 +437,8 @@
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr ;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
-      padding: 1em;
       width: auto; 
-      max-height: 85vh;
+      max-height: 100vh;
     }
 
     .item1 {
@@ -331,7 +527,20 @@
     .itemsF16 {
       grid-area: 5 /4 / 6/ 5;
     }
-
+    .sinInv {
+      grid-area: 5/1/6/2;
+    }
+    .cosInv {
+      grid-area: 5/2/6/3;
+    }
+    .tanInv {
+      grid-area: 5/3/6/4;
+    }
+    .RadToggle {
+      grid-area: 5 /4 / 6/ 5;
+      color: purple !important;
+      z-index: 6;
+    }
 
     .butnHid {
       display: block;
@@ -341,7 +550,9 @@
       border-radius: 30%;
       transition: all .5s ease;
     }
-
+    .chevUp {
+      display: none;
+    }
     .showAll {
       display: none;
     }
