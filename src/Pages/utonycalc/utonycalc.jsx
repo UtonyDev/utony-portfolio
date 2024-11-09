@@ -7,9 +7,15 @@ import './utonycalc.css'
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
 
-  const Buttons = [
-  { label: 'AC', value: 'AC' },
+  const Buttons = [  
+  { label: 'π', value: 'π' },
+  { label: '<', value: '<' },
+  { label: '>', value: '>' },
   { label: <FaChevronDown />, value: 'expand' },
+  { label: <FaChevronUp />, value: 'expand' },
+
+  { label: 'AC', value: 'AC' },
+  { label: 'H', value: 'history' },
   { label: '%', value: '%' },
   { label: '÷', value: '/' },
 
@@ -21,7 +27,8 @@ function UTonyCalc() {
   { label: '1', value: '1' },
   { label: '2', value: '2' },
   { label: '3', value: '3' },
-  { label: '+', value: '+' },
+  { label: '×', value: '*' },
+  
 
   { label: '!', value: '!' },
   { label: '√', value: '√' },
@@ -31,7 +38,8 @@ function UTonyCalc() {
   { label: '4', value: '4' },
   { label: '5', value: '5' },
   { label: '6', value: '6' },
-  { label: '-', value: '-' },
+  { label: '+', value: '+' },
+  
 
   { label: 'e', value: 'e' },
   { label: 'ln', value: 'ln(' },
@@ -41,11 +49,11 @@ function UTonyCalc() {
   { label: '7', value: '7' },
   { label: '8', value: '8' },
   { label: '9', value: '9' },
-  { label: '×', value: '*' },
+  { label: '-', value: '-' },
 
   { label: '.', value: '.' },
   { label: '0', value: '0' },
-  { label: '⇐', value: 'clear' },
+  { label: 'C', value: 'clear' },
   { label: '=', value: '=' },
 
   { label: 'Sin', value: 'sin(' },
@@ -53,30 +61,36 @@ function UTonyCalc() {
   { label: 'Tan', value: 'tan(' },
   { label: 'DEG', value: 'DEG' },
 
-  { label: <FaChevronUp />, value: 'expand' },
-
-  { label: 'RAD', value: 'RAD' },
   { label: 'Sin⁻¹', value: 'sin⁻¹(' },
   { label: 'Cos⁻¹', value: 'cos⁻¹(' },
-  { label: 'Tan⁻¹', value: 'tan⁻¹(' },
+  { label: 'Tan⁻¹', value: 'tan⁻¹(' },  
+  { label: 'RAD', value: 'RAD' },
 
-  { label: 'π', value: 'π' },
-  { label: '<', value: '<' },
-  { label: '>', value: '>' }
-  
+
+  { label: 'Cosec', value: 'cosec(' },
+  { label: 'Sec', value: 'sec(' },
+  { label: 'Cot', value: 'cot(' },
+  { label: 'hyp', value: 'Hyperbolic' }
+
 ];   
 
   const err = "math error";
 
-
   window.addEventListener("DOMContentLoaded", function() {
     setTimeout( () => {
         const open = this.document.querySelectorAll(".hid");
+        
         for (let i = 0; i < open.length; i++) {
             open[i].classList.replace("hid", "rev");
         }
     }, 0o0);
+    
 })
+
+const butnLen = () => {
+  console.log(Buttons.length);
+}
+butnLen();
 
   const onButtonClick = (e, val) => {
     e.preventDefault();
@@ -292,30 +306,23 @@ function UTonyCalc() {
 
     } 
     else if (val === 'DEG') {
-      const radTogg = document.querySelector('.RadToggle');
-      const DEgButn = document.querySelector('.itemsF16');
-      DEgButn.classList.toggle('DegButn');     
-      radTogg.classList.toggle('radShow');
-      console.log(DEgButn);
-      console.log(radTogg);
-
+      const RadButn = document.querySelector('.butnRAD');
+      const DegButn = document.querySelector('.butnDEG');
+      DegButn.classList.toggle('DegHide');     
+      RadButn.classList.toggle('RadShow');
     }
      else if (val === 'RAD') {
-      const radTogg = document.querySelector('.RadToggle');
-      const DEgButn = document.querySelector('.itemsF16');
-      DEgButn.classList.toggle('DegButn');     
-      radTogg.classList.toggle('radShow');
-      console.log(DEgButn);
-      console.log(radTogg);
-
+      const RadButn = document.querySelector('.butnRAD');
+      const DegButn = document.querySelector('.butnDEG');
+      DegButn.classList.toggle('DegHide');     
+      RadButn.classList.toggle('RadShow');
     } 
     else if (val === 'invert') {
-      const inverseButns = document.querySelectorAll('.invButns');
+      const hiddenButns = document.querySelectorAll('.invButns');
       const TrigButns = document.querySelectorAll('.trigButns');
-      console.log(inverseButns);
 
-      for (let i = 0; i < inverseButns.length; i++ ) {
-        inverseButns[i].classList.toggle('invsButnShow');
+      for (let i = 0; i < hiddenButns.length; i++ ) {
+        hiddenButns[i].classList.toggle('invsButnShow');
         TrigButns[i].classList.toggle('trigButnsHide');
       }
     }
@@ -342,80 +349,96 @@ function UTonyCalc() {
 
         <div className='cont' id='calccon'> 
              <input type="text" name='calc' value={inputVal} 
-             className='item1' disabled readOnly/>
+             className='inputField' disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button
     key = {index} 
     id ="butns"
-    className={`
-      ${index === 0 ? 'but1 butnc' : ''}
-      ${index === 1 ? 'chevDown butnc showAll chevs' : ''}
-      ${index === 2 ? 'but3 butnc' : ''}
-      ${index === 3 ? 'but4 butnc' : ''}
-      ${index === 11 ? 'butPlus butnc' : ''}
-      ${index === 19 ? 'butMinus butnc' : ''}
-      ${index === 27 ? 'butTimes butnc' : ''}      
-      ${index === 28 ? 'butPoint butnc' : ''}
-      ${index === 30 ? 'butClear butnc' : ''}
-      ${index === 31 ? 'butEqual butnc' : ''}
+    className={` 
+      ${
+        index === 0 || index === 1
+        || index === 2 || index === 3 || index === 4 
+        ? 'topKeys' : 'butns'
+      }
 
-      ${index === 11 || index === 19 
-        || index === 27 || index === 31
+      ${index === 0 ? 'butnPie' : ''}
+      ${index === 1 ? 'shiftLeft' : ''}
+      ${index === 2 ? 'shiftRight' : ''}
+      ${index === 3 ? 'chevDown' : ''}
+      ${index === 4 ? 'chevUp': '' }
+
+      ${index === 5 ? 'butnAC': '' }
+      ${index === 6 ? 'butnHist': '' }
+      ${index === 7 ? 'butnPercent': '' }
+      ${index === 8 ? 'butnDivide' : ''}
+
+      ${index === 9 ? 'bracOpen' : ''}
+      ${index === 10 ? 'bracClose' : ''}
+      ${index === 11 ? 'powerButn' : ''}
+      ${index === 12 ? 'sqrButn': '' }
+
+      ${index === 13 ? 'butn1': '' }
+      ${index === 14 ? 'butn2': '' }
+      ${index === 15 ? 'butn3': '' }
+      ${index === 16 ? 'butnTimes' : ''}
+
+      ${index === 17 ? 'butnFact': '' }
+      ${index === 18 ? 'butnSqrt': '' }
+      ${index === 19 ? 'butnCbrt': '' }
+      ${index === 20 ? 'butnExp': '' }
+
+      ${index === 21 ? 'butn4': ''}
+      ${index === 22 ? 'butn5': ''}
+      ${index === 23 ? 'butn6': ''}
+      ${index === 24 ? 'butnPlus': ''}
+        
+      ${index === 25 ? 'butnEuler' : ''}
+      ${index === 26 ? 'butnNatLog' : ''}
+      ${index === 27 ? 'butnLog' : ''}
+      ${index === 28 ? 'butnInvert' : ''}
+
+      ${index === 29 ? 'butn7' : ''}
+      ${index === 30 ? 'butn8' : ''}
+      ${index === 31 ? 'butn9' : ''}
+      ${index === 32 ? 'butnMinus' : ''} 
+
+      ${index === 33 ? 'butnPoint' : ''}
+      ${index === 34 ? 'butnZero' : ''}
+      ${index === 35 ? 'butnClear' : ''}
+      ${index === 36 ? 'butnEqual' : ''}
+
+      ${index === 37 ? "butnSine trigButns" : ''}
+      ${index === 38 ? "butnCos trigButns" : ''}
+      ${index === 39 ? "butnTan trigButns" : ''}
+      ${index === 40 ? "butnDEG trigButns" : ''}
+
+      ${index === 41 ? "butnSineI invButns" : ''}
+      ${index === 42 ? "butnCosI invButns" : ''}
+      ${index === 43 ? "butnTanI invButns" : ''}
+      ${index === 44 ? "butnRAD RadHide" : ''}
+
+      ${index === 45 ? "butnCosec" : ''}
+      ${index === 46 ? "butnSec" : ''}
+      ${index === 47 ? "butnCot" : ''}
+      ${index === 48 ? "butnHyp" : ''}
+
+      ${index === 49 ? "butnCot butnHid" : ''}
+
+      ${index === 6 || index === 7
+        || index === 8 || index === 16
+        || index === 24 || index === 32
         ? "butnc" : ""}
 
-        ${index === 8 ? 'bno1' : ''}
-        ${index === 9 ? 'bno2' : ''}
-        ${index === 10 ? 'bno3' : ''}
+      ${index === 9 || index === 10 || index === 11 || index === 12 
+        || index === 17 || index === 18 || index === 19 || index === 20
+        || index === 25 || index === 26 || index === 27 || index === 28
+        || index === 37 || index === 38 || index === 39 || index === 40
+        || index === 41 || index === 42 || index === 43 || index === 44
+        || index === 45 || index === 46 || index === 47 || index === 48
+        || index === 49
 
-        ${index === 16 ? 'bno4' : ''}
-        ${index === 17 ? 'bno5' : ''}
-        ${index === 18 ? 'bno6' : ''}
-
-        ${index === 24 ? 'bno7' : ''}
-        ${index === 25 ? 'bno8' : ''}
-        ${index === 26 ? 'bno9' : ''}
-
-        ${index === 29 ? 'butnZero' : ''}
-
-
-      ${index === 4 || index === 5 || index === 6 || index === 7 
-        || index === 12 || index === 13 || index === 14 || index === 15
-        || index === 20 || index === 21 || index === 22 || index === 23
-        || index === 32 || index === 33 || index === 34 || index === 35
-        ? 'butnHid': 'butn'}
-
-      ${index === 4 ? 'itemsF1': '' }
-      ${index === 5 ? 'itemsF2': '' }
-      ${index === 6 ? 'itemsF3': '' }
-      ${index === 7 ? 'itemsF4': '' }
-
-      ${index === 12 ? 'itemsF5': '' }
-      ${index === 13 ? 'itemsF6': '' }
-      ${index === 14 ? 'itemsF7': '' }
-      ${index === 15 ? 'itemsF8': '' }
-
-      ${index === 20 ? 'itemsF9': '' }
-      ${index === 21 ? 'itemsF10': '' }
-      ${index === 22 ? 'itemsF11': '' }
-      ${index === 23 ? 'itemsF12': '' }
-
-      ${index === 32 ? 'itemsF13 trigButns': ''}
-      ${index === 33 ? 'itemsF14 trigButns': ''}
-      ${index === 34 ? 'itemsF15 trigButns': ''}
-      ${index === 35 ? 'itemsF16 trigButns': ''}
-
-      ${index === 36 ? "chevUp" : ''}
-
-      ${index === 37 ? "RadToggle butnHid radShow" : ''}
-
-      ${index === 38 ? "sinInv invButns butnHid" : ''}
-      ${index === 39 ? "cosInv invButns butnHid " : ''}
-      ${index === 40 ? "tanInv invButns butnHid" : ''}
-
-      ${index === 41 ? "mathPie butnHid" : ''}
-      ${index === 42 ? "shiftLeft butnHid" : ''}
-      ${index === 43 ? "shiftRight invButns butnHid" : ''}
+        ? 'butnHid': ''}
 
     `}
     onClick={(e) => onButtonClick(e, buttons.value)}

@@ -48,7 +48,7 @@
       display: grid;
       max-height: 88vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr ;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
       box-shadow: 0px 0px 0px var(--bxShadowblr);
@@ -63,7 +63,7 @@
       display: grid;
       max-height: 88vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;      
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
       box-shadow: 0px 0px 0px var(--bxShadowblr);
@@ -74,22 +74,22 @@
     }   
     input {
       height: 15vh;
-      width: 99%;
-      margin: 2px;
+      width: auto;
+      margin: 0;
       border: solid 0px grey;
       border-radius: 5px;
-      font-size: 300%;
+      font-size: 200%;
       color: rgba(127, 255, 212, 0.8);
     }
     button { 
       background-color: rgba(127, 255, 212, 1);
       border: none;
       box-shadow: 2.5px 2.5px 2.5px rgba(0, 0, 1, 0.2);
-      margin-top: 5%;
+      margin-top: 2.5%;
       font-size: 1.5em;
       color: #0a0a0a;
     }
-    .butn {
+    .butns {
       border-radius: 40%;
       width: 92.5%;
       height: 92.5%;
@@ -101,154 +101,192 @@
       height: 95%;
       background-color:#C0C0C0 ;
     }
-    .item1 {
-      grid-row: span 1;
-      grid-column:1 / span 4;
+    .inputField {
+      grid-area: 1/1/2/5;    
+    }
+
+    .topKeys {
+      background-color:#e2e0e0 ;
+      border-radius: 50%;
+      width: 75% !important;
+      height: 75% !important;
+      margin: 12.25%;
     }
   
-    .but1 {
-      grid-row: 2 / 3;
-      grid-column: 1 / 2;
-      background-color: rgb(254,8,10);
+    .butnPie {
+      grid-area: 2/1/3/2;
     }
-    .chevDown {
+    .shiftLeft {
       grid-area: 2/2/3/3;
+    }
+    .shiftRight {
+      grid-area: 2/3/3/4;
+    } 
+    .chevDown {
+      grid-area: 2/4/3/5;
+
       z-index: 1;
       transition: all .5s ease;
     }
-    
-    .overlayChev {
-      z-index: 10 !important;
-    }
     .chevUp {
-      grid-area: 2/2/3/3;
+      grid-area: 2/4/3/5;
       z-index: -1;
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
       background-color:#C0C0C0 ;    
     }
-
-    .but3 {
-      grid-row: 2 / 3;
-      grid-column: 3 / 4;
-    }
-    .but4 {
-      grid-row: 2 / 3;
-      grid-column: 4 / 5;
-    }
-    .butEqual {
-      background-color: rgb(82, 168, 152);
-      border-radius: 45% !important;
-    }
-    .butClear {
-      background-color: #C0C0C0 !important;
-      color: rgb(143, 75, 75);
+    
+    .overlayChev {
+      z-index: 10 !important;
     }
     
+    .butnAC {
+     background-color: rgb(254,8,10);
+    }
+    .butnHist {
+      display: block !important;
+      color: rgb(1, 66, 1) !important;
+    }
+    .butnPercent {
+      grid-area: ;
+    }
+    .butnDivide {
+      grid-area: ;
+    }
+
+    .butnEqual {
+      background-color: rgb(162, 253, 253);
+      color: rgb(1, 66, 1);
+    }
+
+    .bracOpen {
+      grid-area: 3/1/4/2;
+    }
+    .bracClose {
+      grid-area: 3/2/4/3;
+    }
+    .powerButn {
+      grid-area: 3/3/4/4;
+    }
+    .sqrButn {
+      grid-area: 3/4/4/5;
+    }
+
+    .butnFact {
+      grid-area: 4/1/5/2;
+    }
+    .butnSqrt {
+      grid-area: 4/2/5/3;
+    }
+    .butnCbrt {
+      grid-area: 4/3/5/4;
+    }
+    .butnExp {
+      grid-area: 4/4/5/5;
+    }
+
+    .butnEuler {
+      grid-area: 5/1/6/2;
+    }
+    .butnNatLog {
+      grid-area: 5/2/6/3;
+    }
+    .butnLog {
+      grid-area: 5/3/6/4;
+    }
+    .butnInvert {
+      grid-area: 5/4/6/5;
+    }
+
+    .butnSine {
+      grid-area: 6/1/7/2;
+    }
+    .butnCos {
+      grid-area: 6/2/7/3;
+    }
+    .butnTan {
+      grid-area: 6/3/7/4;
+    }
+    .butnDEG {
+      grid-area: 6/4/7/5;
+    }
+
+    .butnSineI {
+      grid-area: 6/1/7/2;
+    }
+    .butnCosI {
+      grid-area: 6/2/7/3;
+    }
+    .butnTanI {
+      grid-area: 6/3/7/4;
+    }
+    .butnRAD {
+      grid-area: 6/4/7/5;
+    }
+
+    .butnCosec {
+      grid-area: 7/1/8/2;
+      font-size: 1em !important;
+    }
+    .butnSec {
+      grid-area: 7/2/8/3;
+    }
+    .butnCot {
+      grid-area: 7/3/8/4;
+    }
+    .butnHyp {
+      grid-area: 7/4/8/5;
+    }
+
     .butnHid {
       display: none;
       transition: all .5s ease;
     }
     .butnShow {
       display: block;
-      margin: 5% !important;
+      margin: 1% !important;
       background-color: var(--topbackclr);
       color: var(--butnTxtclr);
       border-radius: 30%;
       transition: all .5s ease;
     }
-
-    .itemsF1 {
-      grid-area:  3 / 1/ 4/ 2 ;
-    }.itemsF2 {
-      grid-area: 3 / 2/ 4/ 3 ;
-    }
-    .itemsF3 {
-      grid-area: 3 / 3/ 4/ 4 ;
-    }
-    .itemsF4 {
-      grid-area: 3 /4 / 4/ 5 ;
-    }
     
-    .itemsF5 {
-      grid-area: 4 / 1/ 5/ 2  ;
-    }
-    .itemsF6 {
-      grid-area: 4 / 2/ 5/ 3 ;
-    }
-    .itemsF7 {
-      grid-area: 4 / 3/ 5/ 4 ;
-    }
-    .itemsF8 {
-      grid-area: 4 / 4/ 5/ 5 ;
-    }
-
-    .itemsF9 {
-      grid-area: 5 /1 / 6/ 2 ;
-    }
-    .itemsF10 {
-      grid-area: 5 /2 / 6/ 3 ;
-    }
-    .itemsF11 {
-      grid-area: 5 /3 / 6/ 4 ;
-    }
-    .itemsF12 {
-      grid-area: 5 /4 / 6/ 5 ;
-    }
-    
-    .itemsF13 {
-      grid-area: 6 /1 / 7/ 2 ;
-    }
-    .itemsF14 {
-      grid-area: 6 /2 / 7/ 3 ;
-    }
-    .itemsF15 {
-      grid-area: 6 /3 / 7/ 4 ;
-    }
-    .itemsF16 {
-      grid-area: 6 /4 / 7/ 5;
-    }
-    
-    .RadToggle {
-      grid-area: 6 /4 / 7/ 5;
+    .RadHide {
       color: purple;
-      z-index: 6;
+      z-index: -4;
     }
-    .DegButn {
-          z-index: 4 !important;
-        }
-    .radShow {
-      z-index: -4 !important;
+    .RadShow {
+      z-index: 6 ;
     }
-    .sinInv {
-      grid-area: 6/1/7/2;
+    .DegHide {
+          z-index: -6;
     }
-    .cosInv {
-      grid-area: 6/2/7/3;
-    }
-    .tanInv {
-      grid-area: 6/3/7/4;
-    }
+    
+    
     .invButns {
       z-index: -3;
     }
     .invsButnsShow {
       z-index: 12 !important;
     }
-
     .trigButns {
       z-index: 2;
     }
     .trigButnsHide {
       z-index: -4;
     }
+    .butInvs {
+      display: none;
+    }
+
     .name {
       color: aquamarine;
     }
     .gb {
       color: #dcdcdc;
     }
+
     .hid {
       position: relative;
       left: -100%;
@@ -262,170 +300,10 @@
       transition: left 1s;
     }
 
-    /* For Medium devices in Potriant orientaion */
-    @media (min-width: 768px) and (min-height: 1024px) {
-
-    .cont {
-      top: 7.5vh;  
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr !important;
-      box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
-      width: 90% !important; 
-      max-height: 100vh;
-    }
-
-      .item1 {
-        grid-area: 1/1/2/10;    
-      }
-    
-      .but1 {
-        grid-area: 2 /5/3/6 !important;
-        background-color: rgb(254,8,10);
-      }
-      .but2 {
-        grid-area: 2 /9/3/10;
-        display: none;
-      }
-      .but3 {
-        grid-area: 2 /7/3/8 !important;
-      }
-      .but4 {
-        grid-area: 2 /8/3/9 ;
-      }
-
-      .mathPie {
-        grid-area: 2/6/3/7;
-      }
-
-      .bno1 {
-        grid-area:3/5/4/6 ;
-      }
-      .bno2 {
-        grid-area: 3/6/4/7;
-      }
-
-      .bno3 {
-        grid-area: 3/7/4/8;
-      }
-
-      .bno4 {
-        grid-area: 4/5/5/6;
-      }
-
-      .bno5 {
-        grid-area: 4/6/5/7;
-      }
-
-      .bno6 {
-        grid-area: 4/7/5/8;
-      }
-      .bno7 {
-        grid-area: 5/5/6/6;
-      }
-      .bno8 {
-        grid-area: 5/6/6/7;
-      }
-      .bno9 {
-        grid-area: 5/7/6/8;
-      }
-
-      .butEqual {
-        grid-area: 6/8/7/9!important;
-      }
-
-      .butnZero {
-        grid-area: 6/6/7/7;
-      }
-
-      .butPoint {
-        grid-area: 6/5/7/6 !important;
-      }
-
-    .butClear {
-      grid-area: 6/7/7/8;
-    }
-  
-      .butTimes {
-        grid-area: 3 /8/4/9 ;
-      }
-  
-      .butPlus {
-        grid-area: 4 /8/5/9 ;
-      }
-      .butMinus {
-        grid-area: 5 /8/6/9 ;
-      }
-  
-      .itemsF1 {
-        grid-area:  2 / 1/ 3/ 2 ;
-      }.itemsF2 {
-        grid-area: 2 / 2/ 3/ 3 ;
-      }
-      .itemsF3 {
-        grid-area: 2 / 3/ 3/ 4 ;
-      }
-      .itemsF4 {
-        grid-area: 2 /4 / 3/ 5 ;
-      }
-      
-      .itemsF5 {
-        grid-area: 3 / 1/ 4/ 2  ;
-      }
-      .itemsF6 {
-        grid-area: 3 / 2/ 4/ 3 ;
-      }
-      .itemsF7 {
-        grid-area: 3 / 3/ 4/ 4 ;
-      }
-      .itemsF8 {
-        grid-area: 3 / 4/ 4/ 5 ;
-      }
-  
-      .itemsF9 {
-        grid-area: 4 /1 / 5/ 2 ;
-      }
-      .itemsF10 {
-        grid-area: 4 /2 / 5/ 3 ;
-      }
-      .itemsF11 {
-        grid-area: 4 /3 / 5/ 4 ;
-      }
-      .itemsF12 {
-        grid-area: 4 /4 / 5/ 5 ;
-      }
-      
-      .itemsF13 {
-        grid-area: 5 /1 / 6/ 2 ;
-      }
-      .itemsF14 {
-        grid-area: 5 /2 / 6/ 3 ;
-      }
-      .itemsF15 {
-        grid-area: 5 /3 / 6/ 4 ;
-      }
-      .itemsF16 {
-        grid-area: 5 /4 / 6/ 5;
-      }
-      .sinInv {
-        grid-area: 5/1/6/2;
-      }
-      .cosInv {
-        grid-area: 5/2/6/3;
-      }
-      .tanInv {
-        grid-area: 5/3/6/4;
-      }
-      .RadToggle {
-        grid-area: 5 /4 / 6/ 5;
-        color: purple !important;
-        z-index: 6;
-      }
-    }
-
-  /* for meduim devices ( Tablets ) */
+  /* for Meduim size devices ( Tablets ) */
   @media screen and (min-width: 768px) {
     .calcparent {
-      width: 100% !important;
+      width: auto ;
     }
     .calccont {
       display: grid;
@@ -434,45 +312,74 @@
     }
     .cont {
       top: 7.5vh;  
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr ;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr !important;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
-      width: auto; 
-      max-height: 100vh;
+      width: 100% ; 
+      max-height: 90vh;
+      padding: 0 ;
     }
 
     .item1 {
-      grid-area: 1/1/2/10;    
+      grid-area: 1/1/2/10;
     }
-  
+
+    .mathPie {
+      grid-area: 2/5/3/6 !important;
+    }
+
+    .shiftLeft {
+      grid-area: 2/6/3/7 !important;
+    }
+    .shiftRight {
+      grid-area: 2/7/3/8 !important;
+    }
+
+    .butInvs {
+      grid-area: 2/8/3/9 !important;
+    }
+
+    .butnHist {
+      grid-area: 2/9/3/10;
+    }
     .but1 {
-      grid-area: 2 /9/3/10 ;
+      grid-area: 3 /9/4/10 ;
       background-color: rgb(254,8,10);
     }
     .but2 {
-      grid-area: 2 /9/3/10;
+      grid-area: 3 /9/4/10;
       display: none;
     }
-    .but3 {
-      grid-area: 3 /9/4/10;
+    .butpercent {
+      grid-area: 4/9/5/10;
     }
     .but4 {
-      grid-area: 2 /8/3/9 ;
-    }
-
-    .butTimes {
       grid-area: 3 /8/4/9 ;
     }
 
-    .butPlus {
+    .butTimes {
       grid-area: 4 /8/5/9 ;
     }
-    .butMinus {
+
+    .butPlus {
       grid-area: 5 /8/6/9 ;
+    }
+    .butMinus {
+      grid-area: 6 /8/7/9 ;
+    }
+
+    .butClear {
+      grid-area: 6/7/7/8;
+    }
+    .butnZero {
+      grid-area: 6/6/7/7;
+    }
+    .butPoint {
+      grid-area: 6/5/7/6;
     }
 
     .butEqual {
-      grid-area: 4/9/6/10;
+      grid-area: 5/9/7/10;
       border-radius: 15% !important;
       background-color: rgb(108,225,203);
     }
@@ -544,7 +451,6 @@
 
     .butnHid {
       display: block;
-      margin: 5% !important;
       background-color: var(--topbackclr);
       color: var(--butnTxtclr);
       border-radius: 30%;
@@ -561,8 +467,6 @@
       border: none;
       border-radius: 2px;
       box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
-      padding: 20px;
-      margin: 5px;
     }
   }
 
@@ -570,7 +474,6 @@
     .calcparent {
       background-color: var(--topbackclr);
       padding-top: 7vh !important;
-      padding-bottom: 10vh;
     }
     .back {
       z-index: 100;
@@ -581,7 +484,7 @@
     .cont {
       top: 7.5vh;  
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
       padding: 1em;
       width: 80%; 
