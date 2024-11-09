@@ -148,12 +148,6 @@
       display: block !important;
       color: rgb(1, 66, 1) !important;
     }
-    .butnPercent {
-      grid-area: ;
-    }
-    .butnDivide {
-      grid-area: ;
-    }
 
     .butnEqual {
       background-color: rgb(162, 253, 253);
