@@ -113,9 +113,11 @@ body[data-theme = 'dark'] {
 
 #icn {
    padding: 0.8em;
-   color: var(--iconclr);
 }
- /* menu styles */
+.icon-style {
+   color: aquamarine !important;
+ }
+  /* menu styles */
  img.propic {
    width: 75px !important; 
    height: 75px !important;
@@ -132,6 +134,10 @@ body[data-theme = 'dark'] {
    transition: right 1s;
    z-index: 1000;
    padding-inline: 1rem;
+   
+}
+.lnk {
+   font-size: 1.2em !important;
 }
 .menupc {
    background-color: var(--white) !important;
@@ -161,7 +167,7 @@ body[data-theme = 'dark'] {
 }
 .more {
    color: var(--TxtFontXClr) !important;
-   font-size: 0.5em;
+   font-size: .9em !important;
    cursor: pointer;
 }
 #chev {
@@ -169,6 +175,7 @@ body[data-theme = 'dark'] {
    cursor: pointer;
    color: var(--iconclr);
    float: right;
+   display: none;
 }
 .more {
    color: var(--TxtFontXClr);
@@ -405,7 +412,7 @@ p {
 
    hr { 
       color: var(--iconclr) !important;
-      display: none;  
+      background-color: #0a0a0a !important;
     }
    
    .morecon a:hover hr {

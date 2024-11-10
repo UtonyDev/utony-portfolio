@@ -17,7 +17,7 @@ function UTonyCalc() {
   { label: 'AC', value: 'AC' },
   { label: 'H', value: 'history' },
   { label: '%', value: '%' },
-  { label: '÷', value: '/' },
+  { label: '÷', value: '÷' },
 
   { label: '(', value: '(' },
   { label: ')', value: ')' },
@@ -27,7 +27,7 @@ function UTonyCalc() {
   { label: '1', value: '1' },
   { label: '2', value: '2' },
   { label: '3', value: '3' },
-  { label: '×', value: '*' },
+  { label: '×', value: '×' },
   
 
   { label: '!', value: '!' },
@@ -67,11 +67,24 @@ function UTonyCalc() {
   { label: 'RAD', value: 'RAD' },
 
 
-  { label: 'Cosec', value: 'cosec(' },
+  { label: 'Csc', value: 'csc(' },
   { label: 'Sec', value: 'sec(' },
   { label: 'Cot', value: 'cot(' },
-  { label: 'hyp', value: 'Hyperbolic' }
+  { label: 'hyp', value: 'Hyp' },
 
+  { label: 'ans', value: 'prevAns' },
+
+  { label: 'Sinh', value: 'sinh(' },
+  { label: 'Cosh', value: 'cosh(' },
+  { label: 'Tanh', value: 'tanh(' },
+
+  { label: 'Csc⁻¹', value: 'csc⁻¹(' },
+  { label: 'Sec⁻¹', value: 'sec⁻¹(' },
+  { label: 'Cot⁻¹', value: 'cot⁻¹(' },
+
+  { label: 'Csch', value: 'csch(' },
+  { label: 'Sech', value: 'sech(' },
+  { label: 'Coth', value: 'coth(' },
 ];   
 
   const err = "math error";
@@ -87,10 +100,6 @@ function UTonyCalc() {
     
 })
 
-const butnLen = () => {
-  console.log(Buttons.length);
-}
-butnLen();
 
   const onButtonClick = (e, val) => {
     e.preventDefault();
@@ -101,7 +110,7 @@ butnLen();
           || inputVal.includes('cos(') 
           || inputVal.includes('tan(')
         ) {
-            const DEgButn = document.querySelector('.itemsF16');
+            const DegButn = document.querySelector('.butnDEG');
              //for evaluation when argument is in degree   
             const DegEvaluate = () => {
               function getsArgument(expression) {
@@ -148,7 +157,7 @@ butnLen();
                   const replacedExpression = expression.replace(regex, `(${radians})`);
                   return replacedExpression;
                 } else if (match2) {
-                  const radianE = Math.E * Math.PI / 180;
+                  const radianE = Math.E;
                   console.log(radianE);
                   const eulerExp = expression.replace(regexE, `(${radianE})`);
                   return eulerExp;
@@ -165,7 +174,7 @@ butnLen();
             } 
 
             
-            if (DEgButn.classList.contains('DegButn')) {
+            if (DegButn.classList.contains('DegHide')) {
               RadEvaluate();
               console.log(true)
             } else {
@@ -176,7 +185,7 @@ butnLen();
         } else if (inputVal.includes('sin⁻¹(')
           || inputVal.includes('cos⁻¹(')
           || inputVal.includes('tan⁻¹(')) {
-            const DEgButn = document.querySelector('.itemsF16');
+            const DegButn = document.querySelector('.butnDEG');
 
           const degArcTrigEval = () => {
             function evaluateExpression(expression) {
@@ -210,7 +219,7 @@ butnLen();
             setInputVal(approxEval);
           }
 
-          if (DEgButn.classList.contains('DegButn')) {
+          if (DegButn.classList.contains('DegHide')) {
             radArcTrigEval();
             console.log(true)
           } else {
@@ -261,7 +270,144 @@ butnLen();
           const basedVal = eval(baseVal);
           console.log("Evaluated Expression:", baseVal);
           setInputVal(basedVal);
-        }
+        } else if (
+          inputVal.includes('csc(') ||
+          inputVal.includes('sec(') ||
+          inputVal.includes('cot(')
+        ) {
+          const DegButn = document.querySelector('.butnDEG');
+
+             //for evaluation when argument is in degree
+             const DegInvEvaluate = () => { 
+              function getsArgument(expression) {
+                const regex = /\((\d*\.?\d+)\)/ ; 
+                const regexE = /\(\be\b\)/;
+                const match1 = expression.match(regex);
+                const match2 = expression.match(regexE);
+  
+                if (match1) {
+                  const degrees = parseFloat(match1[match1.length - 1]);
+                  const radians = degrees * Math.PI / 180;
+                  const replacedExpression = expression.replace(regex, `(${radians})`);
+
+                  const modifiedExpression = replacedExpression
+                .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
+                .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
+                .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
+  
+                return modifiedExpression;
+          
+                } else if (match2) {
+                  const radianE = Math.E * Math.PI / 180;
+                  console.log(radianE);
+                  const eulerExp = expression.replace(regexE, `(${radianE})`);
+                  return eulerExp;
+                }
+              }
+              const closedInputVal = inputVal + ")";
+              const radExpression = getsArgument(closedInputVal);
+              const mathExp = radExpression;
+                  console.log(mathExp)
+              const solvedResult = eval(mathExp)
+              const invrtResult = 1 / solvedResult
+              const approxResult = invrtResult.toFixed(4);
+              setInputVal(approxResult);
+            }
+ 
+            const RadInvEvaluate = () => { 
+              function getsArgument(expression) {
+                const regex = /\((\d*\.?\d+)\)/ ; 
+                const regexE = /\(\be\b\)/;
+                const match1 = expression.match(regex);
+                const match2 = expression.match(regexE);
+  
+                if (match1) {
+                  const degrees = parseFloat(match1[match1.length - 1]);
+                  const radians = degrees ;
+                  const replacedExpression = expression.replace(regex, `(${radians})`);
+
+                  const modifiedExpression = replacedExpression
+                .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
+                .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
+                .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
+  
+                return modifiedExpression;
+          
+                } else if (match2) {
+                  const radianE = Math.E * Math.PI / 180;
+                  console.log(radianE);
+                  const eulerExp = expression.replace(regexE, `(${radianE})`);
+                  return eulerExp;
+                }
+              }
+              const closedInputVal = inputVal + ")";
+              const radExpression = getsArgument(closedInputVal);
+              const mathExp = radExpression;
+                  console.log(mathExp)
+              const solvedResult = eval(mathExp)
+              const invrtResult = 1 / solvedResult
+              const approxResult = invrtResult.toFixed(4);
+              setInputVal(approxResult);
+            }
+
+            if (DegButn.classList.contains('DegHide')) {
+              RadInvEvaluate();
+              console.log(true)
+            } else {
+              DegInvEvaluate();
+              console.log(false)
+            }
+          } else if (inputVal.includes('π') 
+            || inputVal.includes('×')
+            || inputVal.includes('÷')
+          ) {
+
+            function evaluateExpression(expression) {
+              const modifiedExpression = expression
+                .replace(/π/g, 'Math.PI')
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/');
+               
+              return modifiedExpression;
+            };
+
+            const pieExp = evaluateExpression(inputVal);
+            const pie = eval(pieExp);
+            setInputVal(pie);  
+          } else if (inputVal.includes('sinh(')
+            || inputVal.includes('cosh(') 
+            || inputVal.includes('tanh(')
+        ) {
+          //for evaluation when argument is in degree   
+           function getsArgument(expression) {
+             const regex = /\((\d*\.?\d+)\)/ ; 
+             const regexE = /\(\be\b\)/;
+             const match1 = expression.match(regex);
+             const match2 = expression.match(regexE);
+             console.log(match1);
+
+             if (match1) {
+               const degrees = parseFloat(match1[match1.length - 1]);
+               const radians = degrees;
+               const replacedExpression = expression.replace(regex, `(${radians})`);
+               return replacedExpression;
+             } else if (match2) {
+               const radianE = Math.E;
+               console.log(radianE);
+               const eulerExp = expression.replace(regexE, `(${radianE})`);
+               return eulerExp;
+             }
+           }
+
+           const closedInputVal = inputVal + ")";
+           const radExpression = getsArgument(closedInputVal);
+           const mathExp = 'Math.' + radExpression;
+               console.log(mathExp)
+           const solvedResult = eval(mathExp)
+           const approxResult = solvedResult.toFixed(4);
+           setInputVal(approxResult);
+
+          }
         else {
             const solvedResult = math.evaluate(inputVal);
             setInputVal(solvedResult);
@@ -320,10 +466,21 @@ butnLen();
     else if (val === 'invert') {
       const hiddenButns = document.querySelectorAll('.invButns');
       const TrigButns = document.querySelectorAll('.trigButns');
+      const InvButn = document.querySelector('.butnInvert');
+      InvButn.classList.toggle('invClr');
 
       for (let i = 0; i < hiddenButns.length; i++ ) {
         hiddenButns[i].classList.toggle('invsButnShow');
         TrigButns[i].classList.toggle('trigButnsHide');
+      }
+    } 
+    else if (val === 'Hyp') {
+      const hiddenButns = document.querySelectorAll('.invHyp');
+      const HypButns = document.querySelector('.butnHyp');
+      HypButns.classList.toggle('hypHighlgt');
+
+      for (let i = 0; i < hiddenButns.length; i++ ) {
+        hiddenButns[i].classList.toggle('hypShow');
       }
     }
     else {
@@ -408,22 +565,35 @@ butnLen();
       ${index === 35 ? 'butnClear' : ''}
       ${index === 36 ? 'butnEqual' : ''}
 
-      ${index === 37 ? "butnSine trigButns" : ''}
+      ${index === 37 ? "butnSin trigButns" : ''}
       ${index === 38 ? "butnCos trigButns" : ''}
       ${index === 39 ? "butnTan trigButns" : ''}
-      ${index === 40 ? "butnDEG trigButns" : ''}
+      ${index === 40 ? "butnDEG " : ''}
 
-      ${index === 41 ? "butnSineI invButns" : ''}
-      ${index === 42 ? "butnCosI invButns" : ''}
-      ${index === 43 ? "butnTanI invButns" : ''}
+      ${index === 41 ? "butnArcSin invButns" : ''}
+      ${index === 42 ? "butnArcCos invButns" : ''}
+      ${index === 43 ? "butnArcTan invButns" : ''}
       ${index === 44 ? "butnRAD RadHide" : ''}
 
-      ${index === 45 ? "butnCosec" : ''}
-      ${index === 46 ? "butnSec" : ''}
-      ${index === 47 ? "butnCot" : ''}
-      ${index === 48 ? "butnHyp" : ''}
+      ${index === 45 ? "butnCsc trigButns" : ''}
+      ${index === 46 ? "butnSec trigButns" : ''}
+      ${index === 47 ? "butnCot trigButns" : ''}
+      ${index === 48 ? "butnHyp " : ''}
 
-      ${index === 49 ? "butnCot butnHid" : ''}
+      ${index === 49 ? "butnAns butnHid butnc" : ''}
+
+      ${index === 50 ? "butnSinh butnHid invHyp hypHide" : ''}
+      ${index === 51 ? "butnCosh butnHid invHyp hypHide" : ''}
+      ${index === 52 ? "butnTanh butnHid invHyp hypHide" : ''}
+
+      ${index === 53 ? "butnArcCsc butnHid invButns" : ''}
+      ${index === 54 ? "butnArcSec butnHid invButns" : ''}
+      ${index === 55 ? "butnArcCot butnHid invButns" : ''}
+
+      ${index === 56 ? "butnCsch butnHid invHyp hypHide" : ''}
+      ${index === 57 ? "butnSech butnHid invHyp hypHide" : ''}
+      ${index === 58 ? "butnCoth butnHid invHyp hypHide" : ''}
+
 
       ${index === 6 || index === 7
         || index === 8 || index === 16
@@ -436,7 +606,7 @@ butnLen();
         || index === 37 || index === 38 || index === 39 || index === 40
         || index === 41 || index === 42 || index === 43 || index === 44
         || index === 45 || index === 46 || index === 47 || index === 48
-        || index === 49
+        || index === 49 || index === 50
 
         ? 'butnHid': ''}
 

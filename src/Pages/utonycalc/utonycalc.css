@@ -191,46 +191,104 @@
     }
     .butnInvert {
       grid-area: 5/4/6/5;
+      font-size: 1.2em !important;
+
     }
 
-    .butnSine {
+    .butnSin {
       grid-area: 6/1/7/2;
+      font-size: 1.2em !important;
     }
     .butnCos {
       grid-area: 6/2/7/3;
+      font-size: 1.2em !important;
     }
     .butnTan {
       grid-area: 6/3/7/4;
+      font-size: 1.2em !important;
     }
     .butnDEG {
       grid-area: 6/4/7/5;
+      color: rgb(69, 69, 99) !important;
     }
 
-    .butnSineI {
+    .butnArcSin {
       grid-area: 6/1/7/2;
+      font-size: 1.2em !important;
+
     }
-    .butnCosI {
+    .butnArcCos {
       grid-area: 6/2/7/3;
+      font-size: 1.2em !important;
+
     }
-    .butnTanI {
+    .butnArcTan {
       grid-area: 6/3/7/4;
+      font-size: 1.2em !important;
+
     }
     .butnRAD {
       grid-area: 6/4/7/5;
     }
 
-    .butnCosec {
+    .butnCsc {
       grid-area: 7/1/8/2;
-      font-size: 1em !important;
+      font-size: 1.2em !important;
     }
     .butnSec {
       grid-area: 7/2/8/3;
+      font-size: 1.2em !important;
+
     }
     .butnCot {
       grid-area: 7/3/8/4;
+      font-size: 1.2em !important;
+
     }
     .butnHyp {
       grid-area: 7/4/8/5;
+      font-size: 1.2em !important;
+    }
+
+    .butnSinh {
+      grid-area: 6/1/7/2;
+      font-size: 1.2em !important;
+    }
+    .butnCosh {
+      grid-area: 6/2/7/3;
+      font-size: 1.2em !important;
+    }
+    .butnTanh {
+      grid-area: 6/3/7/4;
+      font-size: 1.2em !important;
+    }
+
+    .butnArcCsc {
+      grid-area: 7/1/8/2;
+      font-size: 1.2em !important;
+    }
+    .butnArcSec {
+      grid-area: 7/2/8/3;
+      font-size: 1.2em !important;
+
+    }
+    .butnArcCot {
+      grid-area: 7/3/8/4;
+      font-size: 1.2em !important;
+    }
+
+    .butnCsch {
+      grid-area: 7/1/8/2;
+      font-size: 1.2em !important;
+    }
+    .butnSech {
+      grid-area: 7/2/8/3;
+      font-size: 1.2em !important;
+
+    }
+    .butnCoth {
+      grid-area: 7/3/8/4;
+      font-size: 1.2em !important;
     }
 
     .butnHid {
@@ -254,24 +312,43 @@
       z-index: 6 ;
     }
     .DegHide {
-          z-index: -6;
+      z-index: -6;
     }
     
-    
-    .invButns {
-      z-index: -3;
-    }
-    .invsButnsShow {
-      z-index: 12 !important;
-    }
     .trigButns {
       z-index: 2;
     }
     .trigButnsHide {
       z-index: -4;
     }
+
+    .invButns {
+      z-index: -3;
+    }
+    .invsButnsShow {
+      z-index: 4 !important;
+    }
+    .invClr {
+      color: rgb(247, 177, 189) !important;
+    }
+
+    .hypHide {
+      z-index: -8;    
+    }
+    .hypShow {
+      z-index: 6 !important;
+    }
+    .hypHighlgt {
+      color: rgb(56, 100, 56);
+    }
+
     .butInvs {
       display: none;
+    }
+
+    .butnAns {
+      display: none;
+      color: rgb(243, 71, 9);
     }
 
     .name {
@@ -314,14 +391,13 @@
       padding: 0 ;
     }
 
-    .item1 {
+    .inputField {
       grid-area: 1/1/2/10;
     }
 
-    .mathPie {
+    .butnPie {
       grid-area: 2/5/3/6 !important;
     }
-
     .shiftLeft {
       grid-area: 2/6/3/7 !important;
     }
@@ -336,113 +412,168 @@
     .butnHist {
       grid-area: 2/9/3/10;
     }
-    .but1 {
+    .butnAC {
       grid-area: 3 /9/4/10 ;
       background-color: rgb(254,8,10);
     }
-    .but2 {
-      grid-area: 3 /9/4/10;
-      display: none;
-    }
-    .butpercent {
+    .butnPercent {
       grid-area: 4/9/5/10;
     }
-    .but4 {
+    
+
+    .butnDivide {
+      grid-area: 2/8/3/9;
+    }
+    .butnTimes {
       grid-area: 3 /8/4/9 ;
     }
-
-    .butTimes {
+    .butnPlus {
       grid-area: 4 /8/5/9 ;
     }
-
-    .butPlus {
+    .butnMinus {
       grid-area: 5 /8/6/9 ;
     }
-    .butMinus {
-      grid-area: 6 /8/7/9 ;
+
+    .butnAns {
+      grid-area: 6/8/7/9;
+      border-radius: 50% !important;
+      width: 95%;
+      height: 95%;
+      background-color: #C0C0C0 !important;
+      color: #0a0a0a !important;
     }
 
-    .butClear {
+    .butnClear {
       grid-area: 6/7/7/8;
     }
     .butnZero {
       grid-area: 6/6/7/7;
     }
-    .butPoint {
+    .butnPoint {
       grid-area: 6/5/7/6;
     }
 
-    .butEqual {
+    .butnEqual {
       grid-area: 5/9/7/10;
       border-radius: 15% !important;
       background-color: rgb(108,225,203);
     }
 
-    .itemsF1 {
+    .bracOpen {
       grid-area:  2 / 1/ 3/ 2 ;
-    }.itemsF2 {
+    } 
+    .bracClose{
       grid-area: 2 / 2/ 3/ 3 ;
     }
-    .itemsF3 {
+    .powerButn {
       grid-area: 2 / 3/ 3/ 4 ;
     }
-    .itemsF4 {
+    .sqrButn {
       grid-area: 2 /4 / 3/ 5 ;
     }
     
-    .itemsF5 {
+    .butnFact {
       grid-area: 3 / 1/ 4/ 2  ;
     }
-    .itemsF6 {
+    .butnSqrt {
       grid-area: 3 / 2/ 4/ 3 ;
     }
-    .itemsF7 {
+    .butnCbrt {
       grid-area: 3 / 3/ 4/ 4 ;
     }
-    .itemsF8 {
+    .butnExp {
       grid-area: 3 / 4/ 4/ 5 ;
     }
 
-    .itemsF9 {
+    .butnEuler {
       grid-area: 4 /1 / 5/ 2 ;
     }
-    .itemsF10 {
+    .butnNatLog {
       grid-area: 4 /2 / 5/ 3 ;
     }
-    .itemsF11 {
+    .butnLog {
       grid-area: 4 /3 / 5/ 4 ;
     }
-    .itemsF12 {
+    .butnInvert {
       grid-area: 4 /4 / 5/ 5 ;
     }
     
-    .itemsF13 {
+    .butnSin {
       grid-area: 5 /1 / 6/ 2 ;
     }
-    .itemsF14 {
+    .butnCos {
       grid-area: 5 /2 / 6/ 3 ;
     }
-    .itemsF15 {
+    .butnTan {
       grid-area: 5 /3 / 6/ 4 ;
     }
-    .itemsF16 {
+    .butnDEG {
       grid-area: 5 /4 / 6/ 5;
-    }
-    .sinInv {
-      grid-area: 5/1/6/2;
-    }
-    .cosInv {
-      grid-area: 5/2/6/3;
-    }
-    .tanInv {
-      grid-area: 5/3/6/4;
-    }
-    .RadToggle {
-      grid-area: 5 /4 / 6/ 5;
-      color: purple !important;
-      z-index: 6;
     }
 
+    .butnSinh {
+      grid-area: 5 /1 / 6/ 2 ;
+    }
+    .butnCosh {
+      grid-area: 5 /2 / 6/ 3 ;
+    }
+    .butnTanh {
+      grid-area: 5 /3 / 6/ 4 ;
+    }
+
+    .hypHighlgt {
+      color: rgb(56, 100, 56) !important;
+    }
+
+    .butnArcSin {
+      grid-area: 5/1/6/2;
+    }
+    .butnArcCos {
+      grid-area: 5/2/6/3;
+    }
+    .butnArcTan {
+      grid-area: 5/3/6/4;
+    }
+
+    .butnRAD {
+      grid-area: 5 /4 / 6/ 5;
+      color: purple !important;
+      z-index: -6;
+    }
+
+    .butnCsc {
+      grid-area: 6/1/7/2;
+    }
+    .butnSec {
+      grid-area: 6/2/7/3;
+    }
+    .butnCot {
+      grid-area: 6/3/7/4;
+    }
+
+    .butnArcCsc {
+      grid-area: 6/1/7/2;
+    }
+    .butnArcSec {
+      grid-area: 6/2/7/3;
+    }
+    .butnArcCot {
+      grid-area: 6/3/7/4;
+    }
+
+    .butnCsch {
+      grid-area: 6/1/7/2;
+    }
+    .butnSech {
+      grid-area: 6/2/7/3;
+    }
+    .butnCoth {
+      grid-area: 6/3/7/4;
+    }
+
+    .butnHyp {
+      grid-area: 6/4/7/5;
+    }
     .butnHid {
       display: block;
       background-color: var(--topbackclr);
@@ -451,6 +582,9 @@
       transition: all .5s ease;
     }
     .chevUp {
+      display: none;
+    }
+    .chevDown {
       display: none;
     }
     .showAll {

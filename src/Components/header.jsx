@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { FaBars, FaChevronDown, FaChevronUp} from 'react-icons/fa';
+
 import Togicon from './tog-icon/togicon';
 
 function Header({ nameAnimation, nmeAnima }) {
