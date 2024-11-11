@@ -107,8 +107,8 @@
 
     .topKeys {
       background-color:#e2e0e0 ;
-      border-radius: 50%;
-      width: 75% !important;
+      border-radius: 60%;
+      width: 80% !important;
       height: 75% !important;
       margin: 12.25%;
     }
@@ -388,11 +388,56 @@
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
       width: 100% ; 
       max-height: 90vh;
-      padding: 0 ;
+      padding: 0;
+      background-color: rgba(243, 236, 236, 0.5) !important;
     }
 
     .inputField {
       grid-area: 1/1/2/10;
+    }
+
+    button { 
+      background-color: aquamarine;
+      border: none;
+      border-radius: 2px;
+      box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
+    }
+
+    .butns {
+      box-shadow:  5px 5px 5px rgba(0, 0, 1, 0.2) !important;
+      height: 85% !important;
+      width: 90% !important;
+      margin-top:  15%;
+      margin-left: 2%;
+    }
+
+    .butnHid {
+      display: block;
+      box-shadow: 5px 5px 5px 5px rgba(0, 0, 1, 0.2);
+      background-color: var(--topbackclr);
+      color: var(--butnTxtclr);
+      border-radius: 40%;
+      height: 85% !important;
+      width: 90% !important;
+      transition: all .5s ease;
+    }
+
+    .topKeys {
+      background-color:#e2e0e0 ;
+      border-radius: 45% !important;
+      height: 85% !important;
+      width: 90% !important;
+      margin-left: 0% !important;
+    }
+
+    .chevUp {
+      display: none;
+    }
+    .chevDown {
+      display: none;
+    }
+    .showAll {
+      display: none;
     }
 
     .butnPie {
@@ -435,12 +480,13 @@
     }
 
     .butnAns {
-      grid-area: 6/8/7/9;
+      grid-area: 5/9/6/9;
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
       background-color: #C0C0C0 !important;
       color: #0a0a0a !important;
+      margin-top: 10% !important;
     }
 
     .butnClear {
@@ -454,9 +500,12 @@
     }
 
     .butnEqual {
-      grid-area: 5/9/7/10;
+      grid-area: 6/8/7/10;
       border-radius: 15% !important;
       background-color: rgb(108,225,203);
+      margin-top: 10%;
+      height: 77% !important;
+      width: 90% !important;
     }
 
     .bracOpen {
@@ -574,28 +623,6 @@
     .butnHyp {
       grid-area: 6/4/7/5;
     }
-    .butnHid {
-      display: block;
-      background-color: var(--topbackclr);
-      color: var(--butnTxtclr);
-      border-radius: 30%;
-      transition: all .5s ease;
-    }
-    .chevUp {
-      display: none;
-    }
-    .chevDown {
-      display: none;
-    }
-    .showAll {
-      display: none;
-    }
-    button { 
-      background-color: aquamarine;
-      border: none;
-      border-radius: 2px;
-      box-shadow: 5px 5px 5px rgba(0, 0, 1, 0.2);
-    }
   }
 
   @media screen and (min-width: 1000px) {
@@ -614,6 +641,7 @@
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
+      background-color: rgba(243, 236, 236, 0.5) !important;
       padding: 1em;
       width: 80%; 
       max-height: 75vh;
@@ -621,6 +649,10 @@
 
     .butnHid {
       display: block;
+      height: 95% !important;
+      width: 95% !important;
+      margin-top: 10%;
+      margin-left: -2.5% !important;
     }
 
   }

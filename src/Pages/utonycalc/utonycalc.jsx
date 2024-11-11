@@ -72,7 +72,7 @@ function UTonyCalc() {
   { label: 'Cot', value: 'cot(' },
   { label: 'hyp', value: 'Hyp' },
 
-  { label: 'ans', value: 'prevAns' },
+  { label: 'ans', value: 'ans' },
 
   { label: 'Sinh', value: 'sinh(' },
   { label: 'Cosh', value: 'cosh(' },
@@ -377,8 +377,8 @@ function UTonyCalc() {
           } else if (inputVal.includes('sinh(')
             || inputVal.includes('cosh(') 
             || inputVal.includes('tanh(')
-        ) {
-          //for evaluation when argument is in degree   
+        )  {
+          //for evaluation when argument is in degree and radian since its hyperbolic
            function getsArgument(expression) {
              const regex = /\((\d*\.?\d+)\)/ ; 
              const regexE = /\(\be\b\)/;
@@ -406,6 +406,93 @@ function UTonyCalc() {
            const solvedResult = eval(mathExp)
            const approxResult = solvedResult.toFixed(4);
            setInputVal(approxResult);
+
+          } else if (inputVal.includes('csc⁻¹(')
+            || inputVal.includes('sec⁻¹(')
+            || inputVal.includes('cot⁻¹(')) {
+
+          const DegButn = document.querySelector('.butnDEG');
+          //for evaluation when argument is in degree   
+         const DegEvaluate = () => {
+           function getsArgument(expression) {
+             const regex = /\((\d*\.?\d+)\)/ ; 
+             const regexE = /\(\be\b\)/;
+             const match1 = expression.match(regex);
+             const match2 = expression.match(regexE);
+
+             if (match1) {
+               const degrees = parseFloat(match1[match1.length - 1]);
+               const arg = degrees;
+               const invArg = 1 / arg;
+               console.log(arg);
+               console.log(invArg);
+               const replacedExpression = expression.replace(regex, `(${invArg})`);
+               const modifiedExpression = replacedExpression
+               .replace(/csc⁻¹\((\d*\.?\d+)/g, 'Math.asin($1')
+               .replace(/sec⁻¹\((\d*\.?\d+)/g, 'Math.acos($1')
+               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1')
+               return modifiedExpression;             
+              } 
+               else if (match2) {
+               const argE = Math.E;
+               const invArgE = 1 / argE;
+               console.log(invArgE);
+               const eulerExp = expression.replace(regexE, `(${invRadianE})`);
+               return eulerExp;
+             }
+           }
+
+           const closedInputVal = inputVal + ")";
+           const Expression = getsArgument(closedInputVal);
+           console.log(Expression)
+           const solvedExp = eval(Expression);
+           console.log(solvedExp)
+           const solvedinDeg = solvedExp * (180 / Math.PI);
+           const approxinDeg = solvedinDeg.toFixed(4);
+          setInputVal(approxinDeg);       
+         }
+         DegEvaluate();
+         //for evaluation when argument is in radians
+
+            }  
+            else if (inputVal.includes('csch(')
+              || inputVal.includes('sech(') 
+              || inputVal.includes('coth(')
+          )  {
+            function getsArgument(expression) {
+              const regex = /\((\d*\.?\d+)\)/ ; 
+              const regexE = /\(\be\b\)/;
+              const match1 = expression.match(regex);
+              const match2 = expression.match(regexE);
+              console.log(match1);
+ 
+              if (match1) {
+                const degrees = parseFloat(match1[match1.length - 1]);
+                const radians = degrees;
+                const replacedExpression = expression.replace(regex, `(${radians})`);
+
+                const modifiedExpression = replacedExpression
+                .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1')
+                .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1')
+                .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
+  
+                return modifiedExpression;              
+              } else if (match2) {
+                const radianE = Math.E;
+                console.log(radianE);
+                const eulerExp = expression.replace(regexE, `(${radianE})`);
+                return eulerExp;
+              }
+            }
+ 
+            const closedInputVal = inputVal + ")";
+            const radExpression = getsArgument(closedInputVal);
+            const mathExp = radExpression;
+            const EvaluatedExp = eval(mathExp);
+            console.log(EvaluatedExp);
+            const invResult = 1 / EvaluatedExp;
+            console.log(invResult);
+            setInputVal(invResult);
 
           }
         else {
@@ -482,6 +569,9 @@ function UTonyCalc() {
       for (let i = 0; i < hiddenButns.length; i++ ) {
         hiddenButns[i].classList.toggle('hypShow');
       }
+    } 
+    else if (val === 'ans') {
+
     }
     else {
       setInputVal(inputVal + val);
@@ -506,7 +596,9 @@ function UTonyCalc() {
 
         <div className='cont' id='calccon'> 
              <input type="text" name='calc' value={inputVal} 
-             className='inputField' disabled readOnly/>
+             className='inputField' 
+             
+             />
 
           {Buttons.map((buttons, index) => (
   <button

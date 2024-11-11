@@ -20,12 +20,14 @@ box-sizing: border-box;
    --hideContent: none;
 }
 body[data-theme = 'light'] {
+   --menuCard: rgba(247, 246, 246, 0.8);
    --svgBackClr: aliceblue;
    --topbackclr: #ffffff;
    --white:  #ffffff;
    --footBackclr: rgba(229, 229, 229, 0.5);
 }
 body[data-theme = 'dark'] {
+   --menuCard: rgba(10, 10, 10, 0.8);
    --menuBar: #292b2c;
    --svgBackClr: #0a0a0a;
    --topbackclr: #292b2c;
@@ -137,7 +139,7 @@ body[data-theme = 'dark'] {
    
 }
 .lnk {
-   font-size: 1.2em !important;
+   font-size: 1em !important;
 }
 .menupc {
    background-color: var(--white) !important;
@@ -167,7 +169,7 @@ body[data-theme = 'dark'] {
 }
 .more {
    color: var(--TxtFontXClr) !important;
-   font-size: .9em !important;
+   font-size: .8em !important;
    cursor: pointer;
 }
 #chev {
@@ -362,7 +364,7 @@ p {
       display: flex;
       justify-content: flex-end;
       backdrop-filter: blur(0);
-      background-color: var(--white);
+      background-color: var(--menuBar);
       transition: right 1s;
       z-index: 1000;
       padding-inline: 1rem;
@@ -397,7 +399,7 @@ p {
       overflow: hidden !important;
       padding: 0;
       border-radius: 5px;
-      background-color: var(--menuBar);
+      background-color: var(--menuCard);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Light shadow */
    }
    .moreconv { 
