@@ -598,7 +598,7 @@ function UTonyCalc() {
              <input type="text" name='calc' value={inputVal} 
              className='inputField' 
              
-             />
+             disabled readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button
