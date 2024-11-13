@@ -1,16 +1,17 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { FaChevronDown, FaChevronUp} from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaCommentsDollar} from 'react-icons/fa';
 import * as math from 'mathjs'
 import './utonycalc.css'
 
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
+  const [cursorPos, setCursorPos] = useState(0);
 
   const Buttons = [  
   { label: 'π', value: 'π' },
-  { label: '<', value: '<' },
-  { label: '>', value: '>' },
+  { label: '←', value: '←' },
+  { label: '→', value: '→' },
   { label: <FaChevronDown />, value: 'expand' },
   { label: <FaChevronUp />, value: 'expand' },
 
@@ -86,7 +87,6 @@ function UTonyCalc() {
   { label: 'Sech', value: 'sech(' },
   { label: 'Coth', value: 'coth(' },
 ];   
-
   const err = "math error";
 
   window.addEventListener("DOMContentLoaded", function() {
@@ -99,8 +99,6 @@ function UTonyCalc() {
     }, 0o0);
     
 })
-
-
   const onButtonClick = (e, val) => {
     e.preventDefault();
     
@@ -139,9 +137,9 @@ function UTonyCalc() {
                   console.log(mathExp)
               const solvedResult = eval(mathExp)
               const approxResult = solvedResult.toFixed(4);
-              setInputVal(approxResult);
+              setInputVal(approxResult.toString());
+              setCursorPos(approxResult.toString().length); 
             }
-
             //for evaluation when argument is in radians
             const RadEvaluate = () => {
               function getsArgument(expression) {
@@ -170,10 +168,10 @@ function UTonyCalc() {
                     console.log(mathExp)
                 const solvedResult = eval(mathExp)
                 const approxResult = solvedResult.toFixed(4);
-                setInputVal(approxResult);
+                setInputVal(approxResult.toString());
+                setCursorPos(approxResult.toString().length);
             } 
 
-            
             if (DegButn.classList.contains('DegHide')) {
               RadEvaluate();
               console.log(true)
@@ -199,8 +197,9 @@ function UTonyCalc() {
 
             const radExp =  evaluateExpression(inputVal);
             const evalTrig = eval(radExp) * (180 / Math.PI);
-            const approxEval = evalTrig.toFixed(4);
-            setInputVal(approxEval);
+            const approxResult = evalTrig.toFixed(4);
+            setInputVal(approxResult.toString());
+            setCursorPos(solvedResult.toString().length); 
           }
 
           const radArcTrigEval = () => {
@@ -215,8 +214,9 @@ function UTonyCalc() {
       
             const radExp =  evaluateExpression(inputVal);
             const evalTrig = eval(radExp);
-            const approxEval = evalTrig.toFixed(4);
-            setInputVal(approxEval);
+            const approxResult = evalTrig.toFixed(4);
+            setInputVal(approxResult.toString());
+            setCursorPos(solvedResult.toString().length); 
           }
 
           if (DegButn.classList.contains('DegHide')) {
@@ -240,9 +240,11 @@ function UTonyCalc() {
           };
     
           const rootVal =  evaluateExpression(inputVal);
-          const rootedVal = eval(rootVal);
-          setInputVal(rootedVal);
-          
+          const result = eval(rootVal);
+          setInputVal(result.toString());
+          setCursorPos(result.toString().length); 
+
+
         } else if (inputVal.includes('ln(')) {
           function evaluateExpress(express) {
             const modifiedExpress = express
@@ -253,8 +255,9 @@ function UTonyCalc() {
           }
           
           const baseVal = evaluateExpress(inputVal);
-          const basedVal = eval(baseVal);
-          setInputVal(basedVal);
+          const result = eval(baseVal);
+          setInputVal(result.toString());
+          setCursorPos(result.toString().length); 
 
         } else if ( inputVal.includes('log(')) {
           function evaluateExpress(express) {
@@ -267,9 +270,11 @@ function UTonyCalc() {
           }
           
           const baseVal = evaluateExpress(inputVal);
-          const basedVal = eval(baseVal);
+          const result = eval(baseVal);
           console.log("Evaluated Expression:", baseVal);
-          setInputVal(basedVal);
+          setInputVal(result.toString());
+          setCursorPos(result.toString().length); 
+
         } else if (
           inputVal.includes('csc(') ||
           inputVal.includes('sec(') ||
@@ -311,7 +316,9 @@ function UTonyCalc() {
               const solvedResult = eval(mathExp)
               const invrtResult = 1 / solvedResult
               const approxResult = invrtResult.toFixed(4);
-              setInputVal(approxResult);
+              setInputVal(approxResult.toString());
+              setCursorPos(approxResult.toString().length); 
+
             }
  
             const RadInvEvaluate = () => { 
@@ -347,7 +354,9 @@ function UTonyCalc() {
               const solvedResult = eval(mathExp)
               const invrtResult = 1 / solvedResult
               const approxResult = invrtResult.toFixed(4);
-              setInputVal(approxResult);
+              setInputVal(approxResult.toString());
+              setCursorPos(approxResult.toString().length); 
+
             }
 
             if (DegButn.classList.contains('DegHide')) {
@@ -371,9 +380,11 @@ function UTonyCalc() {
               return modifiedExpression;
             };
 
-            const pieExp = evaluateExpression(inputVal);
-            const pie = eval(pieExp);
-            setInputVal(pie);  
+            const symbolExp = evaluateExpression(inputVal);
+            const result = eval(symbolExp);
+            setInputVal(result.toString());
+            setCursorPos(result.toString().length);
+  
           } else if (inputVal.includes('sinh(')
             || inputVal.includes('cosh(') 
             || inputVal.includes('tanh(')
@@ -405,7 +416,9 @@ function UTonyCalc() {
                console.log(mathExp)
            const solvedResult = eval(mathExp)
            const approxResult = solvedResult.toFixed(4);
-           setInputVal(approxResult);
+           setInputVal(approxResult.toString());
+           setCursorPos(approxResult.toString().length); 
+
 
           } else if (inputVal.includes('csc⁻¹(')
             || inputVal.includes('sec⁻¹(')
@@ -448,11 +461,11 @@ function UTonyCalc() {
            const solvedExp = eval(Expression);
            console.log(solvedExp)
            const solvedinDeg = solvedExp * (180 / Math.PI);
-           const approxinDeg = solvedinDeg.toFixed(4);
-          setInputVal(approxinDeg);       
+           const approxResult = solvedinDeg.toFixed(4);
+          setInputVal(approxResult.toString());
+          setCursorPos(approxResult.toString().length);
          }
          DegEvaluate();
-         //for evaluation when argument is in radians
 
             }  
             else if (inputVal.includes('csch(')
@@ -492,19 +505,34 @@ function UTonyCalc() {
             console.log(EvaluatedExp);
             const invResult = 1 / EvaluatedExp;
             console.log(invResult);
-            setInputVal(invResult);
+            setInputVal(invResult.toString());
+            setCursorPos(invResult.toString().length); 
 
           }
         else {
-            const solvedResult = math.evaluate(inputVal);
-            setInputVal(solvedResult);
+            const solvedResult = eval(inputVal);
+            setInputVal(solvedResult.toString());
+            setCursorPos(solvedResult.toString().length); 
           }
       } catch {
         setInputVal(err);
       }
     } else if (val === 'clear') {
-      setInputVal(inputVal.slice(0, -1));
-    } else if (val === 'AC') {
+      if (cursorPos > 0) {
+        const newInput = inputVal.slice(0, cursorPos - 1) + inputVal.slice(cursorPos);
+        setInputVal(newInput);
+        setCursorPos(cursorPos - 1);
+      }
+    } else if (val === '←') {
+      if (cursorPos > 0) setCursorPos(cursorPos - 1);
+      console.log(cursorPos);
+    }
+    else if (val === '→') {
+      if (cursorPos < inputVal.length) setCursorPos(cursorPos + 1);      
+      console.log(cursorPos);
+
+    }
+    else if (val === 'AC') {
       setInputVal('');
     } else if (val === "expand") {
 
@@ -574,7 +602,12 @@ function UTonyCalc() {
 
     }
     else {
-      setInputVal(inputVal + val);
+      const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
+      const valueLength = newInput.length;
+      console.log(valueLength);
+      setInputVal(newInput);
+      setCursorPos(cursorPos + valueLength);
+      console.log(cursorPos);
     }
     clrField();
   };
@@ -585,20 +618,26 @@ function UTonyCalc() {
     }
   };
 
+  const trackCursor = (inputVal) => {
+    // Insert an underscore or other character to indicate cursor position
+    const left = inputVal.slice(0, cursorPos);
+    const right = inputVal.slice(cursorPos);
+    return `${left}|${right}`; // `|` indicates cursor position
+  };
+
   return (
     <>
     <div className="calcparent" id='target'>
-    <Link to="/UHomepage" className='back'>
+     <Link to="/UHomepage" className='back'>
     <i className="fa-solid fa-chevron-left"></i> Home </Link>
     <form> 
       <label> 
       <div className="calccont">
 
         <div className='cont' id='calccon'> 
-             <input type="text" name='calc' value={inputVal} 
+             <input type="text" name='calc' value={trackCursor(inputVal)} 
              className='inputField' 
-             
-             disabled readOnly/>
+              readOnly/>
 
           {Buttons.map((buttons, index) => (
   <button

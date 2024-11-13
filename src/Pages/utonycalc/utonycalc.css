@@ -21,6 +21,8 @@
  }
  
   /* Default Styles for mobile devices */
+
+  
   .calcparent {
     background-color: var(--topbackclr);
     height: 110vh;
@@ -40,6 +42,12 @@
   [class="fa-solid fa-chevron-left"] {
     font-size: small !important;
     line-height: 10px;
+  }
+
+  .virtualInputField {
+    position: absolute;
+    top: 0 !important;
+    width: 100% !important;
   }
 
     .cont {
