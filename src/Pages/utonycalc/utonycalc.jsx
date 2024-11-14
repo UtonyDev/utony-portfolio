@@ -122,8 +122,13 @@ function UTonyCalc() {
                   const degrees = parseFloat(match1[match1.length - 1]);
                   const radians = degrees * Math.PI / 180;
                   const replacedExpression = expression.replace(regex, `(${radians})`);
-                  return replacedExpression;
-                } else if (match2) {
+                  const modifiedExpression = replacedExpression
+                  .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1')
+                  .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1')
+                  .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
+    
+                  return modifiedExpression;
+                  } else if (match2) {
                   const radianE = Math.E * Math.PI / 180;
                   console.log(radianE);
                   const eulerExp = expression.replace(regexE, `(${radianE})`);
@@ -133,7 +138,7 @@ function UTonyCalc() {
   
               const closedInputVal = inputVal + ")";
               const radExpression = getsArgument(closedInputVal);
-              const mathExp = 'Math.' + radExpression;
+              const mathExp = radExpression;
                   console.log(mathExp)
               const solvedResult = eval(mathExp)
               const approxResult = solvedResult.toFixed(4);
@@ -534,6 +539,8 @@ function UTonyCalc() {
     }
     else if (val === 'AC') {
       setInputVal('');
+      setCursorPos(0, cursorPos);
+      console.log(cursorPos);
     } else if (val === "expand") {
 
       if (window.innerWidth <= 768) {
@@ -604,7 +611,11 @@ function UTonyCalc() {
     else {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
       const valueLength = newInput.length;
-      if ((val === 'sin(') || (val === 'cos(')) {
+      if (
+      (val === 'sin(') || (val === 'cos(') || (val === 'tan(') ||
+      (val === 'csc(') || (val === 'sec(') || (val === 'cot(') ||
+      (val === 'log(') || (val === 'ln(')
+      ) {
         console.log(valueLength);      
         setCursorPos(cursorPos + valueLength);
         setInputVal(newInput);
