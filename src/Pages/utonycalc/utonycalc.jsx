@@ -604,10 +604,17 @@ function UTonyCalc() {
     else {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
       const valueLength = newInput.length;
-      console.log(valueLength);
-      setInputVal(newInput);
-      setCursorPos(cursorPos + valueLength);
-      console.log(cursorPos);
+      if ((val === 'sin(') || (val === 'cos(')) {
+        console.log(valueLength);      
+        setCursorPos(cursorPos + valueLength);
+        setInputVal(newInput);
+        console.log(cursorPos);  
+      } else {
+        console.log(valueLength);      
+        setCursorPos(cursorPos + 1);
+        setInputVal(newInput);
+        console.log(cursorPos);  
+      }
     }
     clrField();
   };
