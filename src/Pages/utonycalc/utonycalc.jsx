@@ -540,10 +540,24 @@ function UTonyCalc() {
         console.log(storedHistory);
         // Display the history in an element 
         const historyElement = document.getElementById('history');
+        historyElement.classList.toggle('showHistory');
+
         storedHistory.forEach(item => {
-          const listItem = document.createElement('li');
-          listItem.textContent = `Expression: ${item.enteredExpression} = ${item.preciseResult}`;
-          historyElement.appendChild(listItem);
+          const listItem = document.createElement('div');
+            listItem.classList.add('historyItem'); // Add a class for custom styling
+
+            const expression = document.createElement('p');
+            expression.textContent = item.enteredExpression;
+
+            const result = document.createElement('p');
+            result.textContent = item.preciseResult;
+
+            listItem.appendChild(expression);
+            listItem.appendChild(result);
+            historyElement.appendChild(listItem);
+
+            const hr = document.createElement('hr');
+            historyElement.appendChild(hr);
         });
 
     } else  {
