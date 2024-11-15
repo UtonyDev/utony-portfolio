@@ -9,14 +9,14 @@ function UTonyCalc() {
   const [cursorPos, setCursorPos] = useState(0);
 
   const Buttons = [  
-  { label: 'π', value: 'π' },
+  { label: 'H', value: 'history' },
   { label: '←', value: '←' },
   { label: '→', value: '→' },
   { label: <FaChevronDown />, value: 'expand' },
   { label: <FaChevronUp />, value: 'expand' },
 
   { label: 'AC', value: 'AC' },
-  { label: 'H', value: 'history' },
+  { label: 'π', value: 'π' },
   { label: '%', value: '%' },
   { label: '÷', value: '÷' },
 
@@ -538,6 +538,13 @@ function UTonyCalc() {
      
         let storedHistory = JSON.parse(localStorage.getItem('calculationHistory'));
         console.log(storedHistory);
+        // Display the history in an element 
+        const historyElement = document.getElementById('history');
+        storedHistory.forEach(item => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `Expression: ${item.enteredExpression} = ${item.preciseResult}`;
+          historyElement.appendChild(listItem);
+        });
 
     } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
@@ -586,7 +593,7 @@ function UTonyCalc() {
     <form> 
       <label> 
       <div className="calccont">
-
+         <div id="history"> </div>
         <div className='cont' id='calccon'> 
              <input type="text" name='calc' value={trackCursor(inputVal)} 
              className='inputField' 
@@ -603,14 +610,14 @@ function UTonyCalc() {
         ? 'topKeys' : 'butns'
       }
 
-      ${index === 0 ? 'butnPie' : ''}
+      ${index === 0 ? 'butnHist' : ''}
       ${index === 1 ? 'shiftLeft' : ''}
       ${index === 2 ? 'shiftRight' : ''}
       ${index === 3 ? 'chevDown' : ''}
       ${index === 4 ? 'chevUp': '' }
 
       ${index === 5 ? 'butnAC': '' }
-      ${index === 6 ? 'butnHist': '' }
+      ${index === 6 ? 'butnPie': '' }
       ${index === 7 ? 'butnPercent': '' }
       ${index === 8 ? 'butnDivide' : ''}
 
