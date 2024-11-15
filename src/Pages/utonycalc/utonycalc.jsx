@@ -23,7 +23,7 @@ function UTonyCalc() {
   { label: '(', value: '(' },
   { label: ')', value: ')' },
   { label: '^', value: '^' },
-  { label: '^2', value: '^2' },
+  { label: 'x² ', value: '²' },
 
   { label: '1', value: '1' },
   { label: '2', value: '2' },
@@ -87,7 +87,6 @@ function UTonyCalc() {
   { label: 'Sech', value: 'sech(' },
   { label: 'Coth', value: 'coth(' },
 ];   
-  const err = "math error";
 
   window.addEventListener("DOMContentLoaded", function() {
     setTimeout( () => {
@@ -101,337 +100,133 @@ function UTonyCalc() {
 })
   const onButtonClick = (e, val) => {
     e.preventDefault();
+    const err = "math error";
+
     
     if (val === '=') {
       try {
-        if (inputVal.includes('sin(') 
-          || inputVal.includes('cos(') 
-          || inputVal.includes('tan(')
+      // converts the argument between radian and degree
+        function getArgument(expression) {
+          const regex = /\((\d*\.?\d+)\)/;
+          const regexE = /\(\be\b\)/;
+          const match1 = expression.match(regex);
+          const match2 = expression.match(regexE);          
+          const DegButn = document.querySelector('.butnDEG');
+
+          if (match1) {
+            const degrees = parseFloat(match1[1]);
+            const radians = DegButn.classList.contains('DegHide') ? degrees : degrees * Math.PI / 180;
+            return expression.replace(regex, `(${radians})`);
+          } else if (match2) {
+            const radianE = DegButn.classList.contains('DegHide') ? Math.E : Math.E * Math.PI / 180;
+            return expression.replace(regexE, `(${radianE})`);
+          }
+          return expression;
+        }
+      // rounds result appropriately 
+        function adjustPrecision(result, precision = 10, tolerance = 1e-10) {
+          const roundedResult = Math.round(result * 10 ** precision) / 10 ** precision;
+          if (Math.abs(result - roundedResult) < tolerance) {
+
+            return roundedResult; // Return rounded value
+          }
+          return parseFloat(result.toFixed(precision));        
+        }
+
+        if (
+        inputVal.includes('sin(') || 
+        inputVal.includes('cos(') || 
+        inputVal.includes('tan(')
         ) {
-            const DegButn = document.querySelector('.butnDEG');
-             //for evaluation when argument is in degree   
-            const DegEvaluate = () => {
-              function getsArgument(expression) {
-                const regex = /\((\d*\.?\d+)\)/ ; 
-                const regexE = /\(\be\b\)/;
-                const match1 = expression.match(regex);
-                const match2 = expression.match(regexE);
-                console.log(match1);
-  
-                if (match1) {
-                  const degrees = parseFloat(match1[match1.length - 1]);
-                  const radians = degrees * Math.PI / 180;
-                  const replacedExpression = expression.replace(regex, `(${radians})`);
-                  const modifiedExpression = replacedExpression
-                  .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1')
-                  .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1')
-                  .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
-    
-                  return modifiedExpression;
-                  } else if (match2) {
-                  const radianE = Math.E * Math.PI / 180;
-                  console.log(radianE);
-                  const eulerExp = expression.replace(regexE, `(${radianE})`);
-                  return eulerExp;
-                }
-              }
-  
-              const closedInputVal = inputVal + ")";
-              const radExpression = getsArgument(closedInputVal);
-              const mathExp = radExpression;
-                  console.log(mathExp)
-              const solvedResult = eval(mathExp)
-              const approxResult = solvedResult.toFixed(4);
-              setInputVal(approxResult.toString());
-              setCursorPos(approxResult.toString().length); 
-            }
-            //for evaluation when argument is in radians
-            const RadEvaluate = () => {
-              function getsArgument(expression) {
-                const regex = /\((\d*\.?\d+)\)/ ; 
-                const regexE = /\(\be\b\)/;
-                const match1 = expression.match(regex);
-                const match2 = expression.match(regexE);
-                console.log(match1);
-  
-                if (match1) {
-                  const degrees = parseFloat(match1[match1.length - 1]);
-                  const radians = degrees;
-                  const replacedExpression = expression.replace(regex, `(${radians})`);
-                  return replacedExpression;
-                } else if (match2) {
-                  const radianE = Math.E;
-                  console.log(radianE);
-                  const eulerExp = expression.replace(regexE, `(${radianE})`);
-                  return eulerExp;
-                }
-              }
+        // Converts the expression to its valid format and evaluates it.
+        function evaluateExpression(expression) {
+          const modifiedExpression = expression
+            .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1')
+            .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1')
+            .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/');
+        
+          const result = eval(modifiedExpression);
+          return result.toFixed(4);
+        }
 
-              const closedInputVal = inputVal + ")";
-              const radExpression = getsArgument(closedInputVal);
-              const mathExp = 'Math.' + radExpression;
-                    console.log(mathExp)
-                const solvedResult = eval(mathExp)
-                const approxResult = solvedResult.toFixed(4);
-                setInputVal(approxResult.toString());
-                setCursorPos(approxResult.toString().length);
-            } 
-
-            if (DegButn.classList.contains('DegHide')) {
-              RadEvaluate();
-              console.log(true)
-            } else {
-              DegEvaluate();
-              console.log(false)
-            }
-
-        } else if (inputVal.includes('sin⁻¹(')
-          || inputVal.includes('cos⁻¹(')
-          || inputVal.includes('tan⁻¹(')) {
-            const DegButn = document.querySelector('.butnDEG');
-
-          const degArcTrigEval = () => {
-            function evaluateExpression(expression) {
-              const modifiedExpression = expression
-                .replace(/sin⁻¹\((\d*\.?\d+)/g, 'Math.asin($1)')
-                .replace(/cos⁻¹\((\d*\.?\d+)/g, 'Math.acos($1)')
-                .replace(/tan⁻¹\((\d*\.?\d+)/g, 'Math.atan($1)')
-  
-              return modifiedExpression;
-            };
-
-            const radExp =  evaluateExpression(inputVal);
-            const evalTrig = eval(radExp) * (180 / Math.PI);
-            const approxResult = evalTrig.toFixed(4);
-            setInputVal(approxResult.toString());
-            setCursorPos(solvedResult.toString().length); 
-          }
-
-          const radArcTrigEval = () => {
-            function evaluateExpression(expression) {
-              const modifiedExpression = expression
-                .replace(/sin⁻¹\((\d*\.?\d+)/g, 'Math.asin($1)')
-                .replace(/cos⁻¹\((\d*\.?\d+)/g, 'Math.acos($1)')
-                .replace(/tan⁻¹\((\d*\.?\d+)/g, 'Math.atan($1)')
-  
-              return modifiedExpression;
-            };
+      const closedInputVal = inputVal + ")";
+      const radExpression = getArgument(closedInputVal);
+      const result = evaluateExpression(radExpression);
+      const preciseResult = adjustPrecision(result);      
+      const enteredExpression = closedInputVal;      
+      console.log(enteredExpression);
+      localStorage.setItem('question', enteredExpression);
+      localStorage.setItem('answer', preciseResult);
+      console.log('Stored Result:', preciseResult);      
+      setInputVal(preciseResult.toString());
+      setCursorPos(preciseResult.toString().length);
       
-            const radExp =  evaluateExpression(inputVal);
-            const evalTrig = eval(radExp);
-            const approxResult = evalTrig.toFixed(4);
-            setInputVal(approxResult.toString());
-            setCursorPos(solvedResult.toString().length); 
-          }
-
-          if (DegButn.classList.contains('DegHide')) {
-            radArcTrigEval();
-            console.log(true)
-          } else {
-            degArcTrigEval();
-            console.log(false)
-          }
-
-
-        } else if (inputVal.includes('√') || inputVal.includes('∛') ) {
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
-              .replace(/∛(\d*\.?\d+)/g, 'Math.cbrt($1)')
-              .replace(/√\be\b/g, 'Math.sqrt(Math.E)')
-              .replace(/∛\be\b/g, 'Math.cbrt(Math.E)');
-
-            return modifiedExpression;
-          };
-    
-          const rootVal =  evaluateExpression(inputVal);
-          const result = eval(rootVal);
-          setInputVal(result.toString());
-          setCursorPos(result.toString().length); 
-
-
-        } else if (inputVal.includes('ln(')) {
-          function evaluateExpress(express) {
-            const modifiedExpress = express
-            .replace(/ln\((\d*\.?\d+)/g, 'Math.log($1)')
-            .replace(/ln\(\be\b/g, 'Math.log(Math.E)');
-            
-            return modifiedExpress;
-          }
-          
-          const baseVal = evaluateExpress(inputVal);
-          const result = eval(baseVal);
-          setInputVal(result.toString());
-          setCursorPos(result.toString().length); 
-
-        } else if ( inputVal.includes('log(')) {
-          function evaluateExpress(express) {
-            const modifiedExpress = express
-            .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
-            .replace(/log\(\be\b/g, 'Math.log10(Math.E)');
-            
-            console.log("Transformed Expression:", modifiedExpress); // Debug output
-            return modifiedExpress;
-          }
-          
-          const baseVal = evaluateExpress(inputVal);
-          const result = eval(baseVal);
-          console.log("Evaluated Expression:", baseVal);
-          setInputVal(result.toString());
-          setCursorPos(result.toString().length); 
 
         } else if (
           inputVal.includes('csc(') ||
           inputVal.includes('sec(') ||
           inputVal.includes('cot(')
         ) {
-          const DegButn = document.querySelector('.butnDEG');
-
-             //for evaluation when argument is in degree
-             const DegInvEvaluate = () => { 
-              function getsArgument(expression) {
-                const regex = /\((\d*\.?\d+)\)/ ; 
-                const regexE = /\(\be\b\)/;
-                const match1 = expression.match(regex);
-                const match2 = expression.match(regexE);
-  
-                if (match1) {
-                  const degrees = parseFloat(match1[match1.length - 1]);
-                  const radians = degrees * Math.PI / 180;
-                  const replacedExpression = expression.replace(regex, `(${radians})`);
-
-                  const modifiedExpression = replacedExpression
-                .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
-                .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
-                .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
-  
-                return modifiedExpression;
+        // Converts the expression to its valid format, resolve its inverse and evaluates it.
+          function evaluateExpression(expression) {
+            const modifiedExpression = expression
+              .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
+              .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
+              .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/');
           
-                } else if (match2) {
-                  const radianE = Math.E * Math.PI / 180;
-                  console.log(radianE);
-                  const eulerExp = expression.replace(regexE, `(${radianE})`);
-                  return eulerExp;
-                }
-              }
-              const closedInputVal = inputVal + ")";
-              const radExpression = getsArgument(closedInputVal);
-              const mathExp = radExpression;
-                  console.log(mathExp)
-              const solvedResult = eval(mathExp)
-              const invrtResult = 1 / solvedResult
-              const approxResult = invrtResult.toFixed(4);
-              setInputVal(approxResult.toString());
-              setCursorPos(approxResult.toString().length); 
-
-            }
- 
-            const RadInvEvaluate = () => { 
-              function getsArgument(expression) {
-                const regex = /\((\d*\.?\d+)\)/ ; 
-                const regexE = /\(\be\b\)/;
-                const match1 = expression.match(regex);
-                const match2 = expression.match(regexE);
+            const result = 1 / eval(modifiedExpression);
+            return result.toFixed(4);
+          }
   
-                if (match1) {
-                  const degrees = parseFloat(match1[match1.length - 1]);
-                  const radians = degrees ;
-                  const replacedExpression = expression.replace(regex, `(${radians})`);
+        const closedInputVal = inputVal + ")";
+        const radExpression = getArgument(closedInputVal);        
+        const result = evaluateExpression(radExpression);
+        const preciseResult = adjustPrecision(result);
+      // Store preciseResult in localStorage
+        const enteredExpression = closedInputVal;      
+        console.log(enteredExpression);
+        localStorage.setItem('question', enteredExpression);        
+        localStorage.setItem('answer', preciseResult);
+        console.log('Stored Result:', preciseResult);
+        setInputVal(preciseResult.toString());
+        setCursorPos(preciseResult.toString().length);
+   
+        } else if (
+          inputVal.includes('sin⁻¹(') || 
+          inputVal.includes('cos⁻¹(') || 
+          inputVal.includes('tan⁻¹(')) {
 
-                  const modifiedExpression = replacedExpression
-                .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
-                .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
-                .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
-  
-                return modifiedExpression;
-          
-                } else if (match2) {
-                  const radianE = Math.E * Math.PI / 180;
-                  console.log(radianE);
-                  const eulerExp = expression.replace(regexE, `(${radianE})`);
-                  return eulerExp;
-                }
-              }
-              const closedInputVal = inputVal + ")";
-              const radExpression = getsArgument(closedInputVal);
-              const mathExp = radExpression;
-                  console.log(mathExp)
-              const solvedResult = eval(mathExp)
-              const invrtResult = 1 / solvedResult
-              const approxResult = invrtResult.toFixed(4);
-              setInputVal(approxResult.toString());
-              setCursorPos(approxResult.toString().length); 
-
-            }
-
-            if (DegButn.classList.contains('DegHide')) {
-              RadInvEvaluate();
-              console.log(true)
-            } else {
-              DegInvEvaluate();
-              console.log(false)
-            }
-          } else if (inputVal.includes('π') 
-            || inputVal.includes('×')
-            || inputVal.includes('÷')
-          ) {
-
-            function evaluateExpression(expression) {
+            function evaluateInverseTrig(expression) {
               const modifiedExpression = expression
-                .replace(/π/g, 'Math.PI')
-                .replace(/×/g, '*')
-                .replace(/÷/g, '/');
-               
-              return modifiedExpression;
-            };
+                .replace(/sin⁻¹\((\d*\.?\d+)/g, 'Math.asin($1)')
+                .replace(/cos⁻¹\((\d*\.?\d+)/g, 'Math.acos($1)')
+                .replace(/tan⁻¹\((\d*\.?\d+)/g, 'Math.atan($1)');
+                
+              const DegButn = document.querySelector('.butnDEG');
+              const result = eval(modifiedExpression);
+              return DegButn.classList.contains('DegHide') ? result : result * 180 / Math.PI;
+            }
+            const result = evaluateInverseTrig(inputVal);
+            const preciseResult = adjustPrecision(result);
+          // Store preciseResult in localStorage
+            const enteredExpression = inputVal + ')';    
+            console.log(enteredExpression);
+            localStorage.setItem('question', enteredExpression);        
+              localStorage.setItem('answer', preciseResult);
+            console.log('Stored Result:', preciseResult);
+            setInputVal(preciseResult.toString());
+            setCursorPos(preciseResult.toString().length);
 
-            const symbolExp = evaluateExpression(inputVal);
-            const result = eval(symbolExp);
-            setInputVal(result.toString());
-            setCursorPos(result.toString().length);
-  
-          } else if (inputVal.includes('sinh(')
-            || inputVal.includes('cosh(') 
-            || inputVal.includes('tanh(')
-        )  {
-          //for evaluation when argument is in degree and radian since its hyperbolic
-           function getsArgument(expression) {
-             const regex = /\((\d*\.?\d+)\)/ ; 
-             const regexE = /\(\be\b\)/;
-             const match1 = expression.match(regex);
-             const match2 = expression.match(regexE);
-             console.log(match1);
-
-             if (match1) {
-               const degrees = parseFloat(match1[match1.length - 1]);
-               const radians = degrees;
-               const replacedExpression = expression.replace(regex, `(${radians})`);
-               return replacedExpression;
-             } else if (match2) {
-               const radianE = Math.E;
-               console.log(radianE);
-               const eulerExp = expression.replace(regexE, `(${radianE})`);
-               return eulerExp;
-             }
-           }
-
-           const closedInputVal = inputVal + ")";
-           const radExpression = getsArgument(closedInputVal);
-           const mathExp = 'Math.' + radExpression;
-               console.log(mathExp)
-           const solvedResult = eval(mathExp)
-           const approxResult = solvedResult.toFixed(4);
-           setInputVal(approxResult.toString());
-           setCursorPos(approxResult.toString().length); 
-
-
-          } else if (inputVal.includes('csc⁻¹(')
-            || inputVal.includes('sec⁻¹(')
-            || inputVal.includes('cot⁻¹(')) {
+        } else if (
+          inputVal.includes('csc⁻¹(') || 
+          inputVal.includes('sec⁻¹(') || 
+          inputVal.includes('cot⁻¹(')) {
 
           const DegButn = document.querySelector('.butnDEG');
-          //for evaluation when argument is in degree   
-         const DegEvaluate = () => {
            function getsArgument(expression) {
              const regex = /\((\d*\.?\d+)\)/ ; 
              const regexE = /\(\be\b\)/;
@@ -440,7 +235,7 @@ function UTonyCalc() {
 
              if (match1) {
                const degrees = parseFloat(match1[match1.length - 1]);
-               const arg = degrees;
+               const arg = degrees ;
                const invArg = 1 / arg;
                console.log(arg);
                console.log(invArg);
@@ -462,66 +257,145 @@ function UTonyCalc() {
 
            const closedInputVal = inputVal + ")";
            const Expression = getsArgument(closedInputVal);
-           console.log(Expression)
            const solvedExp = eval(Expression);
-           console.log(solvedExp)
-           const solvedinDeg = solvedExp * (180 / Math.PI);
-           const approxResult = solvedinDeg.toFixed(4);
-          setInputVal(approxResult.toString());
-          setCursorPos(approxResult.toString().length);
-         }
-         DegEvaluate();
+           const result = DegButn.classList.contains('DegHide') ?  solvedExp : 
+            solvedExp * (180 / Math.PI);
+            const preciseResult = adjustPrecision(result);
+          // Store preciseResult in localStorage
+            const enteredExpression = closedInputVal;      
+            console.log(enteredExpression);
+            localStorage.setItem('question', enteredExpression);          
+            localStorage.setItem('answer', preciseResult);
+            console.log('Stored Result:', preciseResult);
+          setInputVal(preciseResult.toString());
+          setCursorPos(preciseResult.toString().length);
 
-            }  
-            else if (inputVal.includes('csch(')
-              || inputVal.includes('sech(') 
-              || inputVal.includes('coth(')
-          )  {
-            function getsArgument(expression) {
-              const regex = /\((\d*\.?\d+)\)/ ; 
-              const regexE = /\(\be\b\)/;
-              const match1 = expression.match(regex);
-              const match2 = expression.match(regexE);
-              console.log(match1);
- 
-              if (match1) {
-                const degrees = parseFloat(match1[match1.length - 1]);
-                const radians = degrees;
-                const replacedExpression = expression.replace(regex, `(${radians})`);
+        } else if (
+          inputVal.includes('sinh(') || 
+          inputVal.includes('cosh(') || 
+          inputVal.includes('tanh(')
+        )  {
+          //for evaluation when argument is in degree and radian since its hyperbolic
+          function evaluateExpression(expression) {
+            const modifiedExpression = expression
+              .replace(/sinh\((\d*\.?\d+)/g, 'Math.sinh($1')
+              .replace(/cosh\((\d*\.?\d+)/g, 'Math.cosh($1')
+              .replace(/tanh\((\d*\.?\d+)/g, 'Math.tanh($1')
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/');
+          
+            const result = eval(modifiedExpression);
+            return result.toFixed(4);
+          }  
+          const closedInputVal = inputVal + ")";
+          const result = evaluateExpression(closedInputVal);
+          const preciseResult = adjustPrecision(result);
+        // Store preciseResult in localStorage
+          const enteredExpression = closedInputVal;      
+          console.log(enteredExpression);
+          localStorage.setItem('question', enteredExpression);        
+          localStorage.setItem('answer', preciseResult);
+          console.log('Stored Result:', preciseResult);
+          setInputVal(preciseResult.toString());
+          setCursorPos(preciseResult.toString().length);
 
-                const modifiedExpression = replacedExpression
-                .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1')
-                .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1')
-                .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
-  
-                return modifiedExpression;              
-              } else if (match2) {
-                const radianE = Math.E;
-                console.log(radianE);
-                const eulerExp = expression.replace(regexE, `(${radianE})`);
-                return eulerExp;
-              }
-            }
- 
-            const closedInputVal = inputVal + ")";
-            const radExpression = getsArgument(closedInputVal);
-            const mathExp = radExpression;
-            const EvaluatedExp = eval(mathExp);
-            console.log(EvaluatedExp);
-            const invResult = 1 / EvaluatedExp;
-            console.log(invResult);
-            setInputVal(invResult.toString());
-            setCursorPos(invResult.toString().length); 
+        } else if (
+          inputVal.includes('csch(') || 
+          inputVal.includes('sech(') || 
+          inputVal.includes('coth(')
+        )  {
+            function evaluateExpression(expression) {
+            const modifiedExpression = expression
+              .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1')
+              .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1')
+              .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/');
+          
+            const result = eval(modifiedExpression);
+            return result.toFixed(4);
+          }  
+          const closedInputVal = inputVal + ")";
+          const result = 1 / evaluateExpression(closedInputVal);
+          const preciseResult = adjustPrecision(result);
+        // Store preciseResult in localStorage
+          const enteredExpression = closedInputVal;      
+          console.log(enteredExpression);
+          localStorage.setItem('question', enteredExpression);        
+          localStorage.setItem('answer', preciseResult);
+          console.log('Stored Result:', preciseResult);
+          setInputVal(preciseResult.toString());
+          setCursorPos(preciseResult.toString().length);
+                       
+        } else if (
+          inputVal.includes('π') ||
+          inputVal.includes('×') || 
+          inputVal.includes('÷') || 
+          inputVal.includes('√') ||
+          inputVal.includes('∛') || 
+          inputVal.includes('ln(') ||
+          inputVal.includes('log(')
+        ) {
+          function evaluateExpression(expression) {
+            const modifiedExpression = expression
+              .replace(/π/g, 'Math.PI')
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/')
+              .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
+              .replace(/∛(\d*\.?\d+)/g, 'Math.cbrt($1)')
+              .replace(/√\be\b/g, 'Math.sqrt(Math.E)')
+              .replace(/∛\be\b/g, 'Math.cbrt(Math.E)')
+              .replace(/ln\((\d*\.?\d+)/g, 'Math.log($1)')
+              .replace(/ln\(\be\b/g, 'Math.log(Math.E)')
+              .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
+              .replace(/log\(\be\b/g, 'Math.log10(Math.E)');
 
-          }
-        else {
-            const solvedResult = eval(inputVal);
-            setInputVal(solvedResult.toString());
-            setCursorPos(solvedResult.toString().length); 
+            return modifiedExpression;
+          };
+
+          const symbolExp = evaluateExpression(inputVal);
+          const result = eval(symbolExp);
+          const preciseResult = adjustPrecision(result);
+          // Store preciseResult in localStorage
+          const enteredExpression = inputVal;      
+          console.log(enteredExpression);
+          localStorage.setItem('question', enteredExpression);          
+          localStorage.setItem('answer', preciseResult);
+          console.log('Stored Result:', preciseResult);
+          setInputVal(preciseResult.toString());
+          setCursorPos(preciseResult.toString().length);
+
+        } else if (
+          inputVal.includes('²')){
+            function sqr(Expression) {
+              const modifiedExpression = Expression
+              .replace(/\u00B2/g, '');
+
+              return modifiedExpression;
+            } 
+
+            const num = sqr(inputVal);
+            const result = num * num;
+            setInputVal(result.toString());
+            setCursorPos(result.toString().length);
+
+        } else {
+            const result = eval(inputVal);
+            const preciseResult = adjustPrecision(result);          
+          // Store preciseResult in localStorage
+            const enteredExpression = inputVal;      
+            console.log(enteredExpression);
+            localStorage.setItem('question', enteredExpression);          
+            localStorage.setItem('answer', preciseResult);
+            console.log('Stored Result:', preciseResult);            
+            setInputVal(preciseResult.toString());
+            setCursorPos(preciseResult.toString().length); 
           }
       } catch {
         setInputVal(err);
+        setCursorPos(cursorPos + 9);
       }
+
     } else if (val === 'clear') {
       if (cursorPos > 0) {
         const newInput = inputVal.slice(0, cursorPos - 1) + inputVal.slice(cursorPos);
@@ -529,13 +403,39 @@ function UTonyCalc() {
         setCursorPos(cursorPos - 1);
       }
     } else if (val === '←') {
-      if (cursorPos > 0) setCursorPos(cursorPos - 1);
+      if (cursorPos > 0) {
+        const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
+        const valueLength = newInput.length;
+        console.log(newInput);
+
+        if (inputVal.includes('sin(') || inputVal.includes('cos(') ||
+         inputVal.includes('tan(') || inputVal.includes('csc(') ||
+         inputVal.includes('sec(') || inputVal.includes('cot(') ) {
+          setCursorPos(cursorPos - 4);
+        } else if (inputVal.includes('sinh(')) {
+          setCursorPos(cursorPos - 5);
+        } else {
+          setCursorPos(cursorPos - 1);
+        }
+      } 
       console.log(cursorPos);
     }
     else if (val === '→') {
-      if (cursorPos < inputVal.length) setCursorPos(cursorPos + 1);      
-      console.log(cursorPos);
+      if (cursorPos < inputVal.length) {
+        const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
+        const valueLength = newInput.length;
+        console.log(newInput);
 
+        if (inputVal.includes('sin(') || inputVal.includes('cos(') ||
+         inputVal.includes('tan(') || inputVal.includes('csc(') ||
+         inputVal.includes('sec(') || inputVal.includes('cot(')) {
+          setCursorPos(cursorPos + 4);
+        } else if (inputVal.includes('sinh(')) {
+          setCursorPos(cursorPos + 5); 
+        } else {
+          setCursorPos(cursorPos + 1);
+        }      }       
+      console.log(cursorPos);
     }
     else if (val === 'AC') {
       setInputVal('');
@@ -605,16 +505,51 @@ function UTonyCalc() {
         hiddenButns[i].classList.toggle('hypShow');
       }
     } 
-    else if (val === 'ans') {
+    else if (val === '10^') {
+      const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
+      console.log('exponent clicked');      
+      setCursorPos(cursorPos + 4);
+      setInputVal(newInput);
+      console.log(cursorPos);    
+    } else if (val === 'ans') {
+      const storedResult = localStorage.getItem('answer');
+      console.log('Retrieved Result:', storedResult);
+      const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
+      const valueLength = newInput.length;
+      const resultLength = storedResult.length;
+      setCursorPos(cursorPos + resultLength);
+      setInputVal(storedResult);
 
-    }
-    else {
+    } else if (val === 'history') {
+      let calculationHistory = [];
+      // Create a new history object
+        const historyItem = {
+          enteredExpression: localStorage.getItem('question'),
+          preciseResult: localStorage.getItem('answer')
+        };
+        // Add the new history item to the array
+        calculationHistory.unshift(historyItem);
+        // Limit the history to the last 10 entries
+        if (calculationHistory.length > 10) {
+          calculationHistory.shift(); // Remove the oldest entry
+        }
+        console.log(historyItem);
+        localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
+     
+        let storedHistory = JSON.parse(localStorage.getItem('calculationHistory'));
+        console.log(storedHistory);
+
+    } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
       const valueLength = newInput.length;
       if (
       (val === 'sin(') || (val === 'cos(') || (val === 'tan(') ||
       (val === 'csc(') || (val === 'sec(') || (val === 'cot(') ||
-      (val === 'log(') || (val === 'ln(')
+      (val === 'sin⁻¹(') || (val === 'cos⁻¹(') || (val === 'tan⁻¹(') ||
+      (val === 'csc⁻¹(') || (val === 'sec⁻¹(') || (val === 'cot⁻¹(') ||
+      (val === 'sinh(') || (val === 'cosh(') || (val === 'tanh(') ||
+      (val === 'csch(') || (val === 'sech(') || (val === 'coth(') ||
+      (val === 'log(') || (val === 'ln(') 
       ) {
         console.log(valueLength);      
         setCursorPos(cursorPos + valueLength);
