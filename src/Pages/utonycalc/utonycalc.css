@@ -44,11 +44,6 @@
     line-height: 10px;
   }
 
-  .virtualInputField {
-    position: absolute;
-    top: 0 !important;
-    width: 100% !important;
-  }
 
   #history {
     transform-origin: left;
@@ -113,7 +108,25 @@
       z-index: 10;
       background-color:var(--white);
       transition: all 1s ease;
-    }   
+    }    
+     .virtualInputField {
+    position: absolute;
+    top: 0 !important;
+    width: 100% !important;
+    height: 15vh;
+    padding: 0;
+    background-color: #C0C0C0;
+    border-radius: 5px;
+    }
+    .enteredExpression {
+      font-size: 150%;
+      color: rgba(127, 255, 212, 0.8);
+    }
+    .preciseResult {
+      font-size: 150%;
+      color: #e2e0e0;  
+    }
+
     input {
       height: 15vh;
       width: auto;
@@ -122,6 +135,7 @@
       border-radius: 5px;
       font-size: 250%;
       color: rgba(127, 255, 212, 0.8);
+      visibility: hidden;
     }
     button { 
       background-color: rgba(127, 255, 212, 1);

@@ -7,6 +7,7 @@ import './utonycalc.css'
 function UTonyCalc() {
   const [inputVal, setInputVal] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
+  const [newResult, setNewResult] = useState(inputVal);
 
   const Buttons = [  
   { label: 'H', value: 'history' },
@@ -100,7 +101,10 @@ function UTonyCalc() {
 })
   const onButtonClick = (e, val) => {
     e.preventDefault();
+
     const err = "math error";
+    let preciseResult;
+    let enteredExpression;
 
     function renderHistory(calculationHistory) {
       const historyContainer = document.getElementById('history');
@@ -216,13 +220,13 @@ function UTonyCalc() {
       const closedInputVal = inputVal + ")";
       const radExpression = getArgument(closedInputVal);
       const result = evaluateExpression(radExpression);
-      let preciseResult = adjustPrecision(result);      
-      let enteredExpression = closedInputVal;
+      preciseResult = adjustPrecision(result);      
+      enteredExpression = closedInputVal;
       localStorage.setItem('question', enteredExpression);
       localStorage.setItem('answer', preciseResult);
       logHistory(enteredExpression, preciseResult);
-
-      setInputVal(preciseResult.toString());
+      setInputVal(enteredExpression);
+      setNewResult(preciseResult);
       setCursorPos(preciseResult.toString().length);
 
         } else if (
@@ -527,6 +531,7 @@ function UTonyCalc() {
     }
     else if (val === 'AC') {
       setInputVal('');
+      setNewResult('')
       setCursorPos(0, cursorPos);
       console.log(cursorPos);
     } else if (val === "expand") {
@@ -666,7 +671,11 @@ function UTonyCalc() {
       <div className="calccont">
          <div id="history"> </div>
         <div className='cont' id='calccon'> 
-             <input type="text" name='calc' value={trackCursor(inputVal)} 
+            <div className="virtualInputField">
+              <p className="enteredExpression">{trackCursor(inputVal )}</p>
+              <p className="preciseResult">{newResult}</p>
+            </div>
+             <input type="text" name='calc' value={trackCursor(inputVal )} 
              className='inputField' 
               readOnly/>
 
