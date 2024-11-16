@@ -102,6 +102,39 @@ function UTonyCalc() {
     e.preventDefault();
     const err = "math error";
 
+    function renderHistory(calculationHistory) {
+      const historyContainer = document.getElementById('history');
+      if (!historyContainer) {
+        console.error('History container element not found.');
+        return;
+      }
+      historyContainer.innerHTML = '';
+
+      calculationHistory.forEach(item => {
+        const historyItemDiv = document.createElement('div');
+        historyItemDiv.classList.add('historyItem'); 
+        // Create paragraph for enteredExpression
+        const enteredExpressionP = document.createElement('p');
+        enteredExpressionP.textContent = item.enteredExpression;
+        enteredExpressionP.classList.add('entered-expression'); 
+
+        // Create paragraph for preciseResult
+        const preciseResultP = document.createElement('p');
+        preciseResultP.textContent = item.preciseResult;
+        preciseResultP.classList.add('precise-result'); 
+        // Create paragragh for horizontal dermacator
+        const horizonLine = document.createElement('hr');
+        horizonLine.classList.add('horizonalLine'); 
+        // Append the paragraphs to the history item div
+        historyItemDiv.appendChild(enteredExpressionP);
+        historyItemDiv.appendChild(preciseResultP);
+        historyItemDiv.appendChild(horizonLine);
+
+    
+        // Append the history item div to the container
+        historyContainer.appendChild(historyItemDiv);
+      });
+    }
     
     if (val === '=') {
       try {
@@ -123,6 +156,15 @@ function UTonyCalc() {
           }
           return expression;
         }
+      // Adds the symbol (*) between a number preceding a Math. function.
+      function pushTimesSign(expression) {
+        // Regex to match a number followed by a Math expression
+        const regex = /(\d)(Math\.\w+)/g;
+        // Replace matches with the number followed by * and the Math expression
+        const correctedExpression = expression.replace(regex, '$1*$2');
+      
+        return correctedExpression;
+      }
       // rounds result appropriately 
         function adjustPrecision(result, precision = 10, tolerance = 1e-10) {
           const roundedResult = Math.round(result * 10 ** precision) / 10 ** precision;
@@ -132,7 +174,24 @@ function UTonyCalc() {
           }
           return parseFloat(result.toFixed(precision));        
         }
+        let calculationHistory = JSON.parse(localStorage.getItem('calculationHistory'))
+         || [];
+        // Logs the expression and result into the array.
+        function logHistory(enteredExpression, preciseResult) {
+          const historyItem = { enteredExpression, preciseResult };
+          calculationHistory.unshift(historyItem);
 
+          if (calculationHistory.length > 30 ) {
+            console.log('thats enough');
+            calculationHistory.pop();
+          }
+    
+          // Save updated history to localStorage
+          localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
+          // Debugging: Check history in the console
+          console.log('Calculation History:', calculationHistory);
+        }
+    
         if (
         inputVal.includes('sin(') || 
         inputVal.includes('cos(') || 
@@ -146,23 +205,25 @@ function UTonyCalc() {
             .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
             .replace(/×/g, '*')
             .replace(/÷/g, '/');
-        
-          const result = eval(modifiedExpression);
+            console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
+
+          const result = eval(newModExpression);
           return result.toFixed(4);
         }
 
       const closedInputVal = inputVal + ")";
       const radExpression = getArgument(closedInputVal);
       const result = evaluateExpression(radExpression);
-      const preciseResult = adjustPrecision(result);      
-      const enteredExpression = closedInputVal;      
-      console.log(enteredExpression);
+      let preciseResult = adjustPrecision(result);      
+      let enteredExpression = closedInputVal;
       localStorage.setItem('question', enteredExpression);
       localStorage.setItem('answer', preciseResult);
-      console.log('Stored Result:', preciseResult);      
+      logHistory(enteredExpression, preciseResult);
+
       setInputVal(preciseResult.toString());
       setCursorPos(preciseResult.toString().length);
-      
 
         } else if (
           inputVal.includes('csc(') ||
@@ -177,8 +238,11 @@ function UTonyCalc() {
               .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
+              console.log('moded Expression:' + modifiedExpression);
+              const newModExpression = pushTimesSign(modifiedExpression);
+              console.log(newModExpression);
           
-            const result = 1 / eval(modifiedExpression);
+            const result = 1 / eval(newModExpression);
             return result.toFixed(4);
           }
   
@@ -186,12 +250,11 @@ function UTonyCalc() {
         const radExpression = getArgument(closedInputVal);        
         const result = evaluateExpression(radExpression);
         const preciseResult = adjustPrecision(result);
-      // Store preciseResult in localStorage
         const enteredExpression = closedInputVal;      
-        console.log(enteredExpression);
         localStorage.setItem('question', enteredExpression);        
         localStorage.setItem('answer', preciseResult);
-        console.log('Stored Result:', preciseResult);
+        logHistory(enteredExpression, preciseResult);
+
         setInputVal(preciseResult.toString());
         setCursorPos(preciseResult.toString().length);
    
@@ -205,9 +268,12 @@ function UTonyCalc() {
                 .replace(/sin⁻¹\((\d*\.?\d+)/g, 'Math.asin($1)')
                 .replace(/cos⁻¹\((\d*\.?\d+)/g, 'Math.acos($1)')
                 .replace(/tan⁻¹\((\d*\.?\d+)/g, 'Math.atan($1)');
+                console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
                 
               const DegButn = document.querySelector('.butnDEG');
-              const result = eval(modifiedExpression);
+              const result = eval(newModExpression);
               return DegButn.classList.contains('DegHide') ? result : result * 180 / Math.PI;
             }
             const result = evaluateInverseTrig(inputVal);
@@ -216,8 +282,8 @@ function UTonyCalc() {
             const enteredExpression = inputVal + ')';    
             console.log(enteredExpression);
             localStorage.setItem('question', enteredExpression);        
-              localStorage.setItem('answer', preciseResult);
-            console.log('Stored Result:', preciseResult);
+            localStorage.setItem('answer', preciseResult);
+            logHistory(enteredExpression, preciseResult);
             setInputVal(preciseResult.toString());
             setCursorPos(preciseResult.toString().length);
 
@@ -243,8 +309,11 @@ function UTonyCalc() {
                const modifiedExpression = replacedExpression
                .replace(/csc⁻¹\((\d*\.?\d+)/g, 'Math.asin($1')
                .replace(/sec⁻¹\((\d*\.?\d+)/g, 'Math.acos($1')
-               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1')
-               return modifiedExpression;             
+               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1');
+               console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
+               return newModExpression;             
               } 
                else if (match2) {
                const argE = Math.E;
@@ -267,6 +336,8 @@ function UTonyCalc() {
             localStorage.setItem('question', enteredExpression);          
             localStorage.setItem('answer', preciseResult);
             console.log('Stored Result:', preciseResult);
+            logHistory(enteredExpression, preciseResult);
+
           setInputVal(preciseResult.toString());
           setCursorPos(preciseResult.toString().length);
 
@@ -283,8 +354,11 @@ function UTonyCalc() {
               .replace(/tanh\((\d*\.?\d+)/g, 'Math.tanh($1')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
+              console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
           
-            const result = eval(modifiedExpression);
+            const result = eval(newModExpression);
             return result.toFixed(4);
           }  
           const closedInputVal = inputVal + ")";
@@ -296,6 +370,7 @@ function UTonyCalc() {
           localStorage.setItem('question', enteredExpression);        
           localStorage.setItem('answer', preciseResult);
           console.log('Stored Result:', preciseResult);
+          logHistory(enteredExpression, preciseResult);
           setInputVal(preciseResult.toString());
           setCursorPos(preciseResult.toString().length);
 
@@ -311,8 +386,11 @@ function UTonyCalc() {
               .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
+              console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
           
-            const result = eval(modifiedExpression);
+            const result = eval(newModExpression);
             return result.toFixed(4);
           }  
           const closedInputVal = inputVal + ")";
@@ -324,6 +402,7 @@ function UTonyCalc() {
           localStorage.setItem('question', enteredExpression);        
           localStorage.setItem('answer', preciseResult);
           console.log('Stored Result:', preciseResult);
+          logHistory(enteredExpression, preciseResult);
           setInputVal(preciseResult.toString());
           setCursorPos(preciseResult.toString().length);
                        
@@ -349,8 +428,11 @@ function UTonyCalc() {
               .replace(/ln\(\be\b/g, 'Math.log(Math.E)')
               .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
               .replace(/log\(\be\b/g, 'Math.log10(Math.E)');
+              console.log('moded Expression:' + modifiedExpression);
+            const newModExpression = pushTimesSign(modifiedExpression);
+            console.log(newModExpression);
 
-            return modifiedExpression;
+            return newModExpression;
           };
 
           const symbolExp = evaluateExpression(inputVal);
@@ -362,6 +444,7 @@ function UTonyCalc() {
           localStorage.setItem('question', enteredExpression);          
           localStorage.setItem('answer', preciseResult);
           console.log('Stored Result:', preciseResult);
+          logHistory(enteredExpression, preciseResult);
           setInputVal(preciseResult.toString());
           setCursorPos(preciseResult.toString().length);
 
@@ -376,18 +459,23 @@ function UTonyCalc() {
 
             const num = sqr(inputVal);
             const result = num * num;
+            const preciseResult = adjustPrecision(result);
+            const enteredExpression = inputVal;      
+            localStorage.setItem('question', enteredExpression);          
+            localStorage.setItem('answer', preciseResult);
+            logHistory(enteredExpression, preciseResult);
             setInputVal(result.toString());
             setCursorPos(result.toString().length);
 
         } else {
-            const result = eval(inputVal);
+            const result = math.evaluate(inputVal);
             const preciseResult = adjustPrecision(result);          
-          // Store preciseResult in localStorage
             const enteredExpression = inputVal;      
             console.log(enteredExpression);
             localStorage.setItem('question', enteredExpression);          
             localStorage.setItem('answer', preciseResult);
-            console.log('Stored Result:', preciseResult);            
+            console.log('Stored Result:', preciseResult);
+            logHistory(enteredExpression, preciseResult);           
             setInputVal(preciseResult.toString());
             setCursorPos(preciseResult.toString().length); 
           }
@@ -521,44 +609,13 @@ function UTonyCalc() {
       setInputVal(storedResult);
 
     } else if (val === 'history') {
-      let calculationHistory = [];
-      // Create a new history object
-        const historyItem = {
-          enteredExpression: localStorage.getItem('question'),
-          preciseResult: localStorage.getItem('answer')
-        };
-        // Add the new history item to the array
-        calculationHistory.unshift(historyItem);
-        // Limit the history to the last 10 entries
-        if (calculationHistory.length > 10) {
-          calculationHistory.shift(); // Remove the oldest entry
-        }
-        console.log(historyItem);
-        localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
-     
-        let storedHistory = JSON.parse(localStorage.getItem('calculationHistory'));
-        console.log(storedHistory);
         // Display the history in an element 
         const historyElement = document.getElementById('history');
         historyElement.classList.toggle('showHistory');
 
-        storedHistory.forEach(item => {
-          const listItem = document.createElement('div');
-            listItem.classList.add('historyItem'); // Add a class for custom styling
-
-            const expression = document.createElement('p');
-            expression.textContent = item.enteredExpression;
-
-            const result = document.createElement('p');
-            result.textContent = item.preciseResult;
-
-            listItem.appendChild(expression);
-            listItem.appendChild(result);
-            historyElement.appendChild(listItem);
-
-            const hr = document.createElement('hr');
-            historyElement.appendChild(hr);
-        });
+        const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+        console.log(storedHistory);
+        renderHistory(storedHistory);
 
     } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
