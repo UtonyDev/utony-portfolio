@@ -46,38 +46,47 @@
 
 
   #history {
-    transform-origin: left;
+    transform-origin: top left;
     transform: scale(0, 0);
     position: absolute;
-    top: 24.5vh;
+    top: 27.5vh;
     left: 2vh;
     z-index: 1;
-    background-color:var(--white);
+    background-color: #C0C0C0;
     box-shadow: 0px 0px 0px var(--bxShadowblr);
-    height: 82px;
-    width: 71.4px;
+    height: 28.5vh;
+    width: 88%;
     border-radius: 50%;
     overflow-y: scroll !important;
     transition:  all 1s ease;
   }
   .showHistory {
-    transform-origin: left;
+    transform-origin: top left;
     transform: scale(1, 1)!important;
     transition:  all 1s ease;
-    top: 32.5vh !important;
+    top: 27.5vh !important;
     left: -2vh !important;
     z-index: 100 !important;
-    height: 55vh !important;
-    width: 87% !important; 
+    height: 28.5vh !important;
+    width: 88% !important; 
     padding: 5%;
     margin: 5%;
     border-radius: 5% !important;
   }
   .historyItem > p {
-    font-size: 150% !important;
+    font-size: 120% !important;
     text-decoration: none;    
     color: #7fffd4;
   }
+
+  .entered-expression {
+    color: #7fffd4;
+  }
+  .precise-result {
+    color: #e2e0e0 !important;  
+    background-color: transparent;
+  }
+
 
     .cont {
       position: relative;
@@ -126,6 +135,7 @@
       font-size: 150%;
       color: #e2e0e0;  
     }
+
 
     input {
       height: 15vh;

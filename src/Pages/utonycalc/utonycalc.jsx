@@ -128,7 +128,7 @@ function UTonyCalc() {
         preciseResultP.classList.add('precise-result'); 
         // Create paragragh for horizontal dermacator
         const horizonLine = document.createElement('hr');
-        horizonLine.classList.add('horizonalLine'); 
+        horizonLine.classList.add('horizonal-Line'); 
         // Append the paragraphs to the history item div
         historyItemDiv.appendChild(enteredExpressionP);
         historyItemDiv.appendChild(preciseResultP);
@@ -139,7 +139,38 @@ function UTonyCalc() {
         historyContainer.appendChild(historyItemDiv);
       });
     }
-    
+
+    function showFunctKeys() {
+      if (window.innerWidth <= 768) {
+        const butn =  document.querySelectorAll("#butns");
+        const showAllButn = document.querySelector("#calccon")
+        const chevUp = document.querySelector('.chevUp');
+
+        if (showAllButn.classList.contains('cont')) {
+          chevUp.classList.add('overlayChev');
+        } else {
+          chevUp.classList.remove('overlayChev');
+        }
+
+        butn.forEach((button) => {
+          if (button.classList.contains('butnHid')) {
+            button.classList.replace("butnHid", "butnShow");
+          } else {
+            button.classList.replace("butnShow", "butnHid");
+          }
+        });
+
+        if (showAllButn.classList.contains("cont")) {
+          showAllButn.classList.replace("cont", "fullCont");
+        } else {
+          showAllButn.classList.replace("fullCont", "cont");
+        }
+
+      } else if (window.innerWidth >= 768) {
+        showAllButn.classList.replace("fullCont", "cont");
+      }
+    }
+
     if (val === '=') {
       try {
       // converts the argument between radian and degree
@@ -159,9 +190,9 @@ function UTonyCalc() {
             return expression.replace(regexE, `(${radianE})`);
           }
           return expression;
-        }
+      }
       // Adds the symbol (*) between a number preceding a Math. function.
-      function pushTimesSign(expression) {
+        function pushTimesSign(expression) {
         // Regex to match a number followed by a Math expression
         const regex = /(\d)(Math\.\w+)/g;
         // Replace matches with the number followed by * and the Math expression
@@ -204,9 +235,9 @@ function UTonyCalc() {
         // Converts the expression to its valid format and evaluates it.
         function evaluateExpression(expression) {
           const modifiedExpression = expression
-            .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1')
-            .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1')
-            .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
+            .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1)')
+            .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1)')
+            .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1)')
             .replace(/×/g, '*')
             .replace(/÷/g, '/');
             console.log('moded Expression:' + modifiedExpression);
@@ -217,7 +248,7 @@ function UTonyCalc() {
           return result.toFixed(4);
         }
 
-      const closedInputVal = inputVal + ")";
+      const closedInputVal = inputVal;
       const radExpression = getArgument(closedInputVal);
       const result = evaluateExpression(radExpression);
       preciseResult = adjustPrecision(result);      
@@ -227,7 +258,7 @@ function UTonyCalc() {
       logHistory(enteredExpression, preciseResult);
       setInputVal(enteredExpression);
       setNewResult(preciseResult);
-      setCursorPos(preciseResult.toString().length);
+      setCursorPos(enteredExpression.toString().length);
 
         } else if (
           inputVal.includes('csc(') ||
@@ -237,9 +268,9 @@ function UTonyCalc() {
         // Converts the expression to its valid format, resolve its inverse and evaluates it.
           function evaluateExpression(expression) {
             const modifiedExpression = expression
-              .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
-              .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
-              .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
+              .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1)')
+              .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1)')
+              .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1)')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
               console.log('moded Expression:' + modifiedExpression);
@@ -250,7 +281,7 @@ function UTonyCalc() {
             return result.toFixed(4);
           }
   
-        const closedInputVal = inputVal + ")";
+        const closedInputVal = inputVal;
         const radExpression = getArgument(closedInputVal);        
         const result = evaluateExpression(radExpression);
         const preciseResult = adjustPrecision(result);
@@ -258,9 +289,9 @@ function UTonyCalc() {
         localStorage.setItem('question', enteredExpression);        
         localStorage.setItem('answer', preciseResult);
         logHistory(enteredExpression, preciseResult);
-
-        setInputVal(preciseResult.toString());
-        setCursorPos(preciseResult.toString().length);
+        setInputVal(enteredExpression);
+        setNewResult(preciseResult);
+        setCursorPos(enteredExpression.toString().length);
    
         } else if (
           inputVal.includes('sin⁻¹(') || 
@@ -288,8 +319,9 @@ function UTonyCalc() {
             localStorage.setItem('question', enteredExpression);        
             localStorage.setItem('answer', preciseResult);
             logHistory(enteredExpression, preciseResult);
-            setInputVal(preciseResult.toString());
-            setCursorPos(preciseResult.toString().length);
+            setInputVal(enteredExpression);
+            setNewResult(preciseResult);
+            setCursorPos(enteredExpression.toString().length);
 
         } else if (
           inputVal.includes('csc⁻¹(') || 
@@ -311,9 +343,9 @@ function UTonyCalc() {
                console.log(invArg);
                const replacedExpression = expression.replace(regex, `(${invArg})`);
                const modifiedExpression = replacedExpression
-               .replace(/csc⁻¹\((\d*\.?\d+)/g, 'Math.asin($1')
-               .replace(/sec⁻¹\((\d*\.?\d+)/g, 'Math.acos($1')
-               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1');
+               .replace(/csc⁻¹\((\d*\.?\d+)/g, 'Math.asin($1)')
+               .replace(/sec⁻¹\((\d*\.?\d+)/g, 'Math.acos($1)')
+               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1)');
                console.log('moded Expression:' + modifiedExpression);
             const newModExpression = pushTimesSign(modifiedExpression);
             console.log(newModExpression);
@@ -328,7 +360,7 @@ function UTonyCalc() {
              }
            }
 
-           const closedInputVal = inputVal + ")";
+           const closedInputVal = inputVal;
            const Expression = getsArgument(closedInputVal);
            const solvedExp = eval(Expression);
            const result = DegButn.classList.contains('DegHide') ?  solvedExp : 
@@ -341,9 +373,9 @@ function UTonyCalc() {
             localStorage.setItem('answer', preciseResult);
             console.log('Stored Result:', preciseResult);
             logHistory(enteredExpression, preciseResult);
-
-          setInputVal(preciseResult.toString());
-          setCursorPos(preciseResult.toString().length);
+            setInputVal(enteredExpression);
+            setNewResult(preciseResult);
+            setCursorPos(enteredExpression.toString().length);
 
         } else if (
           inputVal.includes('sinh(') || 
@@ -353,9 +385,9 @@ function UTonyCalc() {
           //for evaluation when argument is in degree and radian since its hyperbolic
           function evaluateExpression(expression) {
             const modifiedExpression = expression
-              .replace(/sinh\((\d*\.?\d+)/g, 'Math.sinh($1')
-              .replace(/cosh\((\d*\.?\d+)/g, 'Math.cosh($1')
-              .replace(/tanh\((\d*\.?\d+)/g, 'Math.tanh($1')
+              .replace(/sinh\((\d*\.?\d+)/g, 'Math.sinh($1)')
+              .replace(/cosh\((\d*\.?\d+)/g, 'Math.cosh($1)')
+              .replace(/tanh\((\d*\.?\d+)/g, 'Math.tanh($1)')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
               console.log('moded Expression:' + modifiedExpression);
@@ -376,7 +408,7 @@ function UTonyCalc() {
           console.log('Stored Result:', preciseResult);
           logHistory(enteredExpression, preciseResult);
           setInputVal(preciseResult.toString());
-          setCursorPos(preciseResult.toString().length);
+          setCursorPos(enteredExpression.toString().length);
 
         } else if (
           inputVal.includes('csch(') || 
@@ -385,9 +417,9 @@ function UTonyCalc() {
         )  {
             function evaluateExpression(expression) {
             const modifiedExpression = expression
-              .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1')
-              .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1')
-              .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
+              .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1)')
+              .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1)')
+              .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1)')
               .replace(/×/g, '*')
               .replace(/÷/g, '/');
               console.log('moded Expression:' + modifiedExpression);
@@ -397,7 +429,7 @@ function UTonyCalc() {
             const result = eval(newModExpression);
             return result.toFixed(4);
           }  
-          const closedInputVal = inputVal + ")";
+          const closedInputVal = inputVal;
           const result = 1 / evaluateExpression(closedInputVal);
           const preciseResult = adjustPrecision(result);
         // Store preciseResult in localStorage
@@ -408,7 +440,7 @@ function UTonyCalc() {
           console.log('Stored Result:', preciseResult);
           logHistory(enteredExpression, preciseResult);
           setInputVal(preciseResult.toString());
-          setCursorPos(preciseResult.toString().length);
+          setCursorPos(enteredExpression.toString().length);
                        
         } else if (
           inputVal.includes('π') ||
@@ -449,8 +481,9 @@ function UTonyCalc() {
           localStorage.setItem('answer', preciseResult);
           console.log('Stored Result:', preciseResult);
           logHistory(enteredExpression, preciseResult);
-          setInputVal(preciseResult.toString());
-          setCursorPos(preciseResult.toString().length);
+          setInputVal(enteredExpression);
+          setNewResult(preciseResult);
+          setCursorPos(enteredExpression.toString().length);
 
         } else if (
           inputVal.includes('²')){
@@ -471,6 +504,8 @@ function UTonyCalc() {
             setInputVal(result.toString());
             setCursorPos(result.toString().length);
 
+        } else if (inputVal.includes('')) {
+
         } else {
             const result = math.evaluate(inputVal);
             const preciseResult = adjustPrecision(result);          
@@ -480,7 +515,8 @@ function UTonyCalc() {
             localStorage.setItem('answer', preciseResult);
             console.log('Stored Result:', preciseResult);
             logHistory(enteredExpression, preciseResult);           
-            setInputVal(preciseResult.toString());
+            setInputVal(enteredExpression);
+            setNewResult(preciseResult);
             setCursorPos(preciseResult.toString().length); 
           }
       } catch {
@@ -535,38 +571,9 @@ function UTonyCalc() {
       setCursorPos(0, cursorPos);
       console.log(cursorPos);
     } else if (val === "expand") {
+    showFunctKeys();
 
-      if (window.innerWidth <= 768) {
-        
-        const butn =  document.querySelectorAll("#butns");
-        const showAllButn = document.querySelector("#calccon")
-        const chevUp = document.querySelector('.chevUp');
-
-        if (showAllButn.classList.contains('cont')) {
-          chevUp.classList.add('overlayChev');
-        } else {
-          chevUp.classList.remove('overlayChev');
-        }
-
-        butn.forEach((button) => {
-          if (button.classList.contains('butnHid')) {
-            button.classList.replace("butnHid", "butnShow");
-          } else {
-            button.classList.replace("butnShow", "butnHid");
-          }
-        });
-
-        if (showAllButn.classList.contains("cont")) {
-          showAllButn.classList.replace("cont", "fullCont");
-        } else {
-          showAllButn.classList.replace("fullCont", "cont");
-        }
-      } else if (window.innerWidth >= 768) {
-        showAllButn.classList.replace("fullCont", "cont");
-      }
-
-    } 
-    else if (val === 'DEG') {
+  } else if (val === 'DEG') {
       const RadButn = document.querySelector('.butnRAD');
       const DegButn = document.querySelector('.butnDEG');
       DegButn.classList.toggle('DegHide');     
