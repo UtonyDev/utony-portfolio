@@ -46,6 +46,7 @@
 
 
   #history {
+    transition:  transform .5s ease !important;
     transform-origin: top left;
     transform: scale(0, 0);
     position: absolute;
@@ -58,12 +59,11 @@
     width: 88%;
     border-radius: 50%;
     overflow-y: scroll !important;
-    transition:  all 1s ease;
   }
   .showHistory {
-    transform-origin: top left;
+    transform-origin: top left !important;
     transform: scale(1, 1)!important;
-    transition:  all 1s ease;
+    transition:  transform .5s ease, padding .5s ease;
     top: 27.5vh !important;
     left: -2vh !important;
     z-index: 100 !important;
@@ -165,7 +165,7 @@
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
-      background-color:#C0C0C0 ;
+      background-color:#C0C0C0;
     }
     .inputField {
       grid-area: 1/1/2/5;    
