@@ -764,8 +764,6 @@ function UTonyCalc() {
       console.log(cursorPos);
     } else if (val === "expand") {
     showFunctKeys();
-    historyElement = document.getElementById('history');
-    historyElement.classList.remove('showHistory');
 
   } else if (val === 'DEG') {
       const RadButn = document.querySelector('.butnRAD');
@@ -817,19 +815,14 @@ function UTonyCalc() {
     } else if (val === 'history') {
         // Display the history in an element 
         historyElement = document.getElementById('history');
-        historyElement.classList.toggle('showHistory');
-
+        if (historyElement.classList.contains("hideHistory")) {
+          historyElement.classList.replace('hideHistory', 'showHistory');
+        } else {
+          historyElement.classList.replace('showHistory', 'hideHistory');
+        }
         const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
         console.log(storedHistory);
         renderHistory(storedHistory);
-
-        for (let i = 0; i < butn.length; i++) {
-          if ( butn[i].classList.contains('butnShow')) {
-          } else {
-            showFunctKeys();
-          }
-  
-        }
         
     } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
@@ -880,7 +873,7 @@ function UTonyCalc() {
     <form> 
       <label> 
       <div className="calccont">
-         <div id="history"> </div>
+         <div id="history" className='hideHistory'> </div>
         <div className='cont' id='calccon'> 
             <div className="virtualInputField">
               <p className="enteredExpression">{trackCursor(inputVal )}</p>

@@ -47,16 +47,18 @@
 
 
   #history {
-    transition:  transform .5s ease !important;
+    background-color: #C0C0C0;
+    box-shadow: 0px 0px 0px var(--bxShadowblr);
+  }
+  .hideHistory {
+    transition: all .5s ease;
     transform-origin: top left;
     transform: scale(0, 0);
     position: absolute;
     top: 27.5vh;
-    left: 2vh;
+    left: 16.5%;
     z-index: 1;
-    background-color: #C0C0C0;
-    box-shadow: 0px 0px 0px var(--bxShadowblr);
-    height: 28.5vh;
+    height: 0;
     width: 88%;
     border-radius: 50%;
     overflow-y: scroll !important;
@@ -64,15 +66,17 @@
   .showHistory {
     transform-origin: top left !important;
     transform: scale(1, 1)!important;
-    transition:  transform .5s ease, padding .5s ease;
-    top: 27.5vh !important;
-    left: -2vh !important;
+    transition:  all .5s ease;
+    position: absolute;
+    top: 30.5vh !important;
+    left: -3.5% !important; 
     z-index: 100 !important;
-    height: 28.5vh !important;
-    width: 88% !important; 
+    height: 60vh !important;
+    width: 87% !important; 
     padding: 5%;
-    margin: 5%;
+    margin: 5% !important;
     border-radius: 5% !important;
+    overflow-y: scroll !important;
   }
   .historyItem > p {
     font-size: 120% !important;
@@ -81,7 +85,7 @@
   }
 
   .entered-expression {
-    color: var(--aquamFont);
+    color: var(--aquamFont) !important;
   }
   .precise-result {
     color: #e2e0e0 !important;  
