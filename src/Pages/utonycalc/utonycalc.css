@@ -154,7 +154,6 @@
       box-shadow: 2.5px 2.5px 2.5px rgba(0, 0, 1, 0.2);
       margin-top: 0;
       font-size: 1.5em;
-      font-weight:500 !important;
       color: #0a0a0a;
     }
     .butns {
@@ -170,6 +169,8 @@
       height: 95%;
       background-color: rgba(42, 125, 120, 0.9);
       color: #CFCFCF;
+      font-weight: 450 !important;
+
     }
     .butnHid {
       display: none;
