@@ -583,7 +583,8 @@ function UTonyCalc() {
           function evaluateExpression(expression) {
             const modifiedExpression = expression
               .replace(/×/g, '*')
-              .replace(/÷/g, '/')               
+              .replace(/÷/g, '/')  
+              .replace(/\^/g, '**')             
               .replace(/ln\((\d*\.?\d+)/g, 'Math.log($1)')
               .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
               .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
@@ -675,8 +676,6 @@ function UTonyCalc() {
             }
             handleInputDisplay();
   
-        } else if (inputVal.includes('')) {
-
         } else {
             const result = math.evaluate(inputVal);
             const preciseResult = adjustPrecision(result);          
