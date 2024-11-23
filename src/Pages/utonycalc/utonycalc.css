@@ -1,12 +1,15 @@
 * {
     font-family: "Roboto" sans-serif;
     font-size: large;
-    color: rgba(0, 0, 1, 1);
   }
+
   [data-theme = 'light'] {
     --svgBackClr: aliceblue;
     --topbackclr: #ffffff;
     --white:  #ffffff;
+    --grey: #7A7A7A;
+    --aquamFont: #0C645B;
+    --iconclr: #535557;
     --bxShadowblr: rgba(0, 0, 1, 0);
     --butnTxtclr: #C0C0C0;
  }
@@ -19,10 +22,8 @@
     --butnTxtclr: #C0C0C0;
     --bxShadowblr: rgba(0, 0, 255, 0);
  }
- 
-  /* Default Styles for mobile devices */
 
-  
+  /* Default Styles for mobile devices */
   .calcparent {
     background-color: var(--topbackclr);
     height: 110vh;
@@ -31,7 +32,7 @@
 
   .back {
     padding-left: 10px !important;
-    color: gainsboro;
+    color: var(--grey);
     text-decoration: solid;
     font-size: .9rem !important;
     position: relative;
@@ -80,13 +81,12 @@
   }
 
   .entered-expression {
-    color: #7fffd4;
+    color: var(--aquamFont);
   }
   .precise-result {
     color: #e2e0e0 !important;  
     background-color: transparent;
   }
-
 
     .cont {
       position: relative;
@@ -102,6 +102,7 @@
       z-index: 10;
       background-color:var(--white);
       transition: all .5s ease;
+      margin: 2%;
     }
     .fullCont {
       position: relative;
@@ -117,19 +118,20 @@
       z-index: 10;
       background-color:var(--white);
       transition: all 1s ease;
+      margin: 1%;
     }    
      .virtualInputField {
     position: absolute;
     top: 0 !important;
     width: 100% !important;
-    height: 15vh;
+    height: 17vh;
     padding: 0;
     background-color: #C0C0C0;
     border-radius: 5px;
     }
     .enteredExpression {
       font-size: 150%;
-      color: rgba(127, 255, 212, 0.8);
+      color: var(--aquamFont);
     }
     .preciseResult {
       font-size: 150%;
@@ -148,40 +150,58 @@
       visibility: hidden;
     }
     button { 
-      background-color: rgba(127, 255, 212, 1);
       border: none;
       box-shadow: 2.5px 2.5px 2.5px rgba(0, 0, 1, 0.2);
-      margin-top: 2.5%;
+      margin-top: 0;
       font-size: 1.5em;
+      font-weight:500 !important;
       color: #0a0a0a;
     }
     .butns {
       border-radius: 40%;
       width: 92.5%;
       height: 92.5%;
-      background-color: rgba(127, 255, 212, 0.75);
+      background-color: #A1A1A1;
+      color: #0a0a0a;
     }
     .butnc {
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
-      background-color:#C0C0C0;
+      background-color: rgba(42, 125, 120, 0.9);
+      color: #CFCFCF;
     }
+    .butnHid {
+      display: none;
+      transition: all .5s ease;
+    }
+    .butnShow {
+      display: block;
+      margin: 1% !important;
+      background-color: #ffffff;
+      color: var(--butnTxtclr);
+      border-radius: 30%;
+      transition: all .5s ease;
+      box-shadow: none !important;
+    }
+
     .inputField {
       grid-area: 1/1/2/5;    
     }
 
     .topKeys {
-      background-color:#e2e0e0 ;
+      background-color: #ffffff;
       border-radius: 60%;
-      width: 80% !important;
-      height: 75% !important;
-      margin: 12.25%;
+      width: 50% !important;
+      height: 50% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      position: relative;
+      top: 30% !important;
+      left: 20%;
     }
   
-    .butnPie {
-     
-    }
     .shiftLeft {
       grid-area: 2/2/3/3;
     }
@@ -190,7 +210,6 @@
     } 
     .chevDown {
       grid-area: 2/4/3/5;
-
       z-index: 1;
       transition: all .5s ease;
     }
@@ -200,7 +219,6 @@
       border-radius: 50% !important;
       width: 95%;
       height: 95%;
-      background-color:#C0C0C0 ;    
     }
     
     .overlayChev {
@@ -217,7 +235,7 @@
     }
 
     .butnEqual {
-      background-color: rgb(162, 253, 253);
+      background-color: #a2fdfd;
       color: rgb(1, 66, 1);
     }
 
@@ -358,18 +376,6 @@
       font-size: 1.2em !important;
     }
 
-    .butnHid {
-      display: none;
-      transition: all .5s ease;
-    }
-    .butnShow {
-      display: block;
-      margin: 1% !important;
-      background-color: var(--topbackclr);
-      color: var(--butnTxtclr);
-      border-radius: 30%;
-      transition: all .5s ease;
-    }
     
     .RadHide {
       color: purple;

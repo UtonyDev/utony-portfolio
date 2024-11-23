@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { FaBars, FaChevronDown, FaChevronUp} from 'react-icons/fa';
+import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard } from 'react-icons/fa';
 
 import Togicon from './tog-icon/togicon';
 
@@ -140,11 +140,9 @@ function Header({ nameAnimation, nmeAnima }) {
 
 <div id='menu' className="menurev menupc hide">
 
-
-    <img src="/utlogopic.jpeg" alt="UTony Dev" className="propic" />
-
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
+      <FaAddressCard/>
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
@@ -158,6 +156,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
     <a className="lnk" >
+      <FaPhoneAlt/>
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
@@ -186,6 +185,7 @@ function Header({ nameAnimation, nmeAnima }) {
   </div>
 
   <Link href="jump" className="lnk">
+  <FaInfo/>
      About
   </Link>
   {/* Remove empty div if not needed */}
