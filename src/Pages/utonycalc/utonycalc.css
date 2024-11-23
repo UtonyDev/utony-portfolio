@@ -68,7 +68,7 @@
     transform: scale(1, 1)!important;
     transition:  all .5s ease;
     position: absolute;
-    top: 30.5vh !important;
+    top: 32vh !important;
     left: -3.5% !important; 
     z-index: 100 !important;
     height: 60vh !important;
