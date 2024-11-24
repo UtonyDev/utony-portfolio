@@ -51,7 +51,7 @@
     box-shadow: 0px 0px 0px var(--bxShadowblr);
   }
   .hideHistory {
-    transition: all .5s ease;
+    transition: transform .5s ease;
     transform-origin: top left;
     transform: scale(0, 0);
     position: absolute;
@@ -66,7 +66,7 @@
   .showHistory {
     transform-origin: top left !important;
     transform: scale(1, 1)!important;
-    transition:  all .5s ease;
+    transition: transform .5s ease;
     position: absolute;
     top: 32vh !important;
     left: -3.5% !important; 

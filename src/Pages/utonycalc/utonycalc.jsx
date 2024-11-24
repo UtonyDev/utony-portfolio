@@ -119,32 +119,51 @@ function UTonyCalc() {
         return;
       }
       historyContainer.innerHTML = '';
-
+    
       calculationHistory.forEach(item => {
         const historyItemDiv = document.createElement('div');
         historyItemDiv.classList.add('historyItem'); 
+    
         // Create paragraph for enteredExpression
         const enteredExpressionP = document.createElement('p');
         enteredExpressionP.textContent = item.enteredExpression;
-        enteredExpressionP.classList.add('entered-expression'); 
-
+        enteredExpressionP.classList.add('entered-expression');
+        // Add click event listener to enteredExpressionP
+        enteredExpressionP.addEventListener('click', () => {
+          let histExpression = item.enteredExpression; // or enteredExpressionP.textContent
+          console.log(histExpression);
+          let currentValue = inputVal + histExpression;
+          setCursorPos(currentValue.toString().length);
+          setInputVal(currentValue);
+        });
+    
         // Create paragraph for preciseResult
         const preciseResultP = document.createElement('p');
         preciseResultP.textContent = item.preciseResult;
-        preciseResultP.classList.add('precise-result'); 
-        // Create paragragh for horizontal dermacator
+        preciseResultP.classList.add('precise-result');
+        // Add click event listener to preciseResultP
+        preciseResultP.addEventListener('click', () => {
+          let histResult = preciseResultP.textContent; 
+          console.log(histResult);
+          let currentValue = inputVal + histResult;
+          setCursorPos(currentValue.toString().length);
+          setInputVal(currentValue);
+        });
+    
+        // Create paragraph for horizontal demarcator
         const horizonLine = document.createElement('hr');
-        horizonLine.classList.add('horizonal-Line'); 
+        horizonLine.classList.add('horizontal-Line'); 
+    
         // Append the paragraphs to the history item div
         historyItemDiv.appendChild(enteredExpressionP);
         historyItemDiv.appendChild(preciseResultP);
         historyItemDiv.appendChild(horizonLine);
-
     
         // Append the history item div to the container
         historyContainer.appendChild(historyItemDiv);
       });
     }
+    
     function showFunctKeys() {
       if (window.innerWidth <= 768) {
         
@@ -273,28 +292,28 @@ function UTonyCalc() {
           logHistory(enteredExpression, preciseResult);
         // Add value input to field.
           function setInputValue() {
-                        return new Promise(resolve => {
-                          setInputVal(enteredExpression.toString());
-                          setNewResult(preciseResult.toString());
-                          setCursorPos(enteredExpression.toString().length);
-                          resolve();
-                        });
+            return new Promise(resolve => {
+              setInputVal(enteredExpression.toString());
+              setNewResult(preciseResult.toString());
+              setCursorPos(enteredExpression.toString().length);
+              resolve();
+            });
           }
         // Moves answer to the top after second click of equals to.
           function newInputValue() {
-                        setInputVal(preciseResult.toString());
-                        setNewResult("");
-                        setCursorPos(preciseResult.toString().length);
+            setInputVal(preciseResult.toString());
+            setNewResult("");
+            setCursorPos(preciseResult.toString().length);
           }
         // displays result and expression
           async function handleInputDisplay() {
-                        if (isFirstExecution) {
-                          await setInputValue(); // Wait for setInputValue to complete
-                          setIsFirstExecution(false); // Mark as completed
-                        } else {
-                          newInputValue(); // Execute newInputValue.
-                          setIsFirstExecution(true); // Reset for next cycle
-                        }
+              if (isFirstExecution) {
+                await setInputValue(); // Wait for setInputValue to complete
+                setIsFirstExecution(false); // Mark as completed
+              } else {
+                newInputValue(); // Execute newInputValue.
+                setIsFirstExecution(true); // Reset for next cycle
+              }
           }
           handleInputDisplay();
 
@@ -572,21 +591,75 @@ function UTonyCalc() {
           setCursorPos(enteredExpression.toString().length);
                            
         } else if (
+          inputVal.includes('ln(') ||
+          inputVal.includes('log(')
+        ) {
+          function evaluateExpression(expression) {
+            const modifiedExpression = expression
+            .replace(/log\((\d*\.?\d+|e|π)/g, (match, group) => 
+              `Math.log10(${group === 'e' ? 'Math.E' : group === 'π' ? 
+                'Math.PI' : group})`)
+            .replace(/ln\((\d*\.?\d+|e|π)/g, (match, group) => 
+              `Math.log(${group === 'e' ? 'Math.E' : group === 'π' ? 
+                'Math.PI' : group})`);
+            console.log('moded Expression:' + modifiedExpression);
+              
+            const newModExpression = 
+              pushTimesSign(modifiedExpression);
+
+            return newModExpression;
+          };
+
+
+          const symbolExp = evaluateExpression(inputVal);
+          console.log(symbolExp);
+          const result = eval(symbolExp);
+          const preciseResult = adjustPrecision(result);
+          // Store preciseResult in localStorage
+          const enteredExpression = inputVal;      
+          console.log(enteredExpression);
+          localStorage.setItem('question', enteredExpression);          
+          localStorage.setItem('answer', preciseResult);
+          console.log('Stored Result:', preciseResult);
+          logHistory(enteredExpression, preciseResult);
+          function setInputValue() {
+            return new Promise(resolve => {
+              setInputVal(enteredExpression.toString());
+              setNewResult(preciseResult.toString());
+              setCursorPos(enteredExpression.toString().length);
+              resolve();
+            });
+          }
+        // Moves answer to the top after second click of equals to.
+          function newInputValue() {
+            setInputVal(preciseResult.toString());
+            setNewResult("");
+            setCursorPos(preciseResult.toString().length);
+          }
+        // displays result and expression
+          async function handleInputDisplay() {
+            if (isFirstExecution) {
+              await setInputValue(); // Wait for setInputValue to complete
+              setIsFirstExecution(false); // Mark as completed
+            } else {
+              newInputValue(); // Execute newInputValue.
+              setIsFirstExecution(true); // Reset for next cycle
+            }
+          }
+          handleInputDisplay();
+
+        } else if (
           inputVal.includes('π') ||
           inputVal.includes('×') || 
           inputVal.includes('÷') || 
           inputVal.includes('√') ||
-          inputVal.includes('∛') || 
-          inputVal.includes('ln(') ||
-          inputVal.includes('log(')
+          inputVal.includes('∛')
         ) {
           function evaluateExpression(expression) {
             const modifiedExpression = expression
               .replace(/×/g, '*')
               .replace(/÷/g, '/')  
               .replace(/\^/g, '**')             
-              .replace(/ln\((\d*\.?\d+)/g, 'Math.log($1)')
-              .replace(/log\((\d*\.?\d+)/g, 'Math.log10($1)')
               .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
               .replace(/∛(\d*\.?\d+)/g, 'Math.cbrt($1)')             
               .replace(/\be\b/g, 'Math.E')
@@ -859,7 +932,7 @@ function UTonyCalc() {
   let left; 
   let right;
   const trackCursor = (inputVal) => {
-    // Insert a vertical to indicate cursor position.
+    // Insert a vertical line to indicate cursor position.
     left = inputVal.slice(0, cursorPos);
     right = inputVal.slice(cursorPos);
     return `${left}|${right}`;
