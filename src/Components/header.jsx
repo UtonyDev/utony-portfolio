@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard } from 'react-icons/fa';
+import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard, FaFolder, FaEnvelope, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
 
 import Togicon from './tog-icon/togicon';
 
@@ -139,10 +139,11 @@ function Header({ nameAnimation, nmeAnima }) {
 </div>
 
 <div id='menu' className="menurev menupc hide">
+      <img src="/utlogopic.jpeg" alt="" className="propic" />
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
-      <FaAddressCard/>
+      <FaFolder/>
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
@@ -156,7 +157,7 @@ function Header({ nameAnimation, nmeAnima }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
     <a className="lnk" >
-      <FaPhoneAlt/>
+      <FaEnvelope/>
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
@@ -185,7 +186,7 @@ function Header({ nameAnimation, nmeAnima }) {
   </div>
 
   <Link href="jump" className="lnk">
-  <FaInfo/>
+    <FaUserCircle/>
      About
   </Link>
   {/* Remove empty div if not needed */}

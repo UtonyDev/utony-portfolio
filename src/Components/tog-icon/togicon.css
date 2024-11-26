@@ -1,3 +1,21 @@
+body[data-theme = 'light'] {
+  --menuCard: rgba(247, 246, 246, 0.8);
+  --svgBackClr: aliceblue;
+  --topbackclr: #ffffff;
+  --sliderBack:  #CFCFCF;
+  --footBackclr: rgba(229, 229, 229, 0.5);
+}
+body[data-theme = 'dark'] {
+  --aquamFont: #70FFCF;
+  --grey: #C9C9C9;
+  --svgBackClr: #282C34;
+  --topbackclr: #080808;
+  --white: #292b2c;
+  --TxtFontXClr: #C0C0C0;
+  --footBackclr: rgba(64, 64, 64, 0.5);
+}
+
+
 .wrapper {
     padding: 13px;
 }
@@ -21,7 +39,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #CFCFCF;
+    background-color: var(--sliderBack);
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -42,11 +60,11 @@
 
   }
   input:checked + .slider {
-    background-color: #0C645B;
+    background-color: var(--aquamFont);
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #0C645B;
+    box-shadow: 0 0 1px var(--aquamFont);
   }
   
   input:checked + .slider:before {
