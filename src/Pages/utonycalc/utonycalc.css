@@ -6,7 +6,7 @@
   [data-theme = 'light'] {
     --svgBackClr: aliceblue;
     --topbackclr: #ffffff;
-    --white:  #ffffff;
+    --contwhite:  #ffffff;
     --grey: #7A7A7A;
     --aquamFont: #0C645B;
     --iconclr: #535557;
@@ -17,7 +17,7 @@
   [data-theme = 'dark'] {
     --svgBackClr: #0a0a0a;
     --topbackclr: #292b2c;
-    --white: #292b2c;
+    --contwhite: #0a0a0a;
     --TxtFontXClr: #C0C0C0;
     --butnTxtclr: #C0C0C0;
     --bxShadowblr: rgba(0, 0, 255, 0);
@@ -85,7 +85,7 @@
   }
 
   .entered-expression {
-    color: var(--aquamFont) !important;
+    color: #0C645B !important;
   }
   .precise-result {
     color: #e2e0e0 !important;  
@@ -104,7 +104,7 @@
       box-shadow: 0px 0px 0px var(--bxShadowblr);
       overflow: hidden;
       z-index: 10;
-      background-color:var(--white);
+      background-color:var(--contwhite);
       transition: all .5s ease;
       margin: 2%;
     }
@@ -120,7 +120,7 @@
       box-shadow: 0px 0px 0px var(--bxShadowblr);
       overflow: hidden;
       z-index: 10;
-      background-color:var(--white);
+      background-color:var(--contwhite);
       transition: all 1s ease;
       margin: 1%;
     }    
@@ -135,7 +135,7 @@
     }
     .enteredExpression {
       font-size: 150%;
-      color: var(--aquamFont);
+      color: #0C645B;
     }
     .preciseResult {
       font-size: 150%;
@@ -183,7 +183,7 @@
     .butnShow {
       display: block;
       margin: .5% !important;
-      background-color: var(--white);
+      background-color: var(--contwhite);
       color: var(--butnTxtclr);
       border-radius: 30%;
       transition: all .5s ease;
@@ -195,7 +195,7 @@
     }
 
     .topKeys {
-      background-color: var(--white);
+      background-color: var(--contwhite);
       border-radius: 60%;
       width: 50% !important;
       height: 50% !important;
@@ -210,10 +210,12 @@
     .shiftLeft {
       grid-area: 2/2/3/3;
       padding-bottom: 10% !important;
+      color: #535557;
     }
     .shiftRight {
       grid-area: 2/3/3/4;
       padding-bottom: 10% !important;
+      color: #535557;
     } 
     .chevDown {
       grid-area: 2/4/3/5;
