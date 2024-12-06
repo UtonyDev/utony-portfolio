@@ -10,11 +10,10 @@ box-sizing: border-box;
   
 :root {
    --menuBar: #ffffff;
-   --aquamFont: #0C645B;
    --grey: #7A7A7A;
    --iconclr: #535557;
    --boxShadowClr: #0000001a;
-   --svgBackClr: #FAFCFF;
+   --svgBackClr: #f0f8ff;
    --topbackclr: #ffffff;
    --white:  #ffffff;
    --TxtFontXClr: #0a0a0a;
@@ -22,17 +21,22 @@ box-sizing: border-box;
 }
 body[data-theme = 'light'] {
    --menuCard: rgba(247, 246, 246, 0.8);
-   --svgBackClr: aliceblue;
+   --cardClr: #E5EDF5;
+   --svgBackClr: #f0f8ff;
    --topbackclr: #ffffff;
    --white:  #ffffff;
+   --aquamFont: #0C645B;
+   --aquamWeight: 500;
    --footBackclr: rgba(229, 229, 229, 0.5);
 }
 body[data-theme = 'dark'] {
    --menuCard: rgba(10, 10, 10, 0.8);
    --menuBar: #080808;
-   --aquamFont: #70FFCF;
+   --cardClr: rgba(22, 27, 34, 0.7);
+   --aquamFont: #2AB79F;
+   --aquamWeight: 100;
    --grey: #C9C9C9;
-   --svgBackClr: #282C34;
+   --svgBackClr: #0A0E14;
    --topbackclr: #080808;
    --white: #292b2c;
    --TxtFontXClr: #C0C0C0;
@@ -64,7 +68,7 @@ body[data-theme = 'dark'] {
 }
 
 #txt {
-   font-size: 1.5rem !important;
+   font-size: 1.25rem !important;
 }
 
 svg {
@@ -138,7 +142,7 @@ svg {
    width: 75px !important; 
    height: 75px !important;
    border-radius: 50% !important;
-   margin: 5px;
+   margin-left: 2%;
    z-index: 100 !important;
  }
 .menurev {
@@ -156,9 +160,6 @@ svg {
    padding-left: 3.5% !important;
    font-size: 1.5em !important;
 }
-.menupc {
-   background-color: var(--white) !important;
-}
 .hide {
    right: -115%;
 }
@@ -172,14 +173,15 @@ svg {
    padding: 0.2em;
 }
 .morecon { 
-   margin-left: 10px !important;
+   margin-left: 2%;
+   padding-left: 3.5% !important;   
    max-height: 0;
    transition: max-height .5s ease-out;
    overflow: hidden;
    padding:0;
 }
 .moreconv { 
-   max-height: fit-content !important;
+   max-height: 500px !important;
    transition: max-height .5s ease-in;
 }
 #chev {
@@ -233,6 +235,7 @@ svg {
 .gtxt {
   color: var(--aquamFont) !important;
   font-size: 3.2em !important;
+  font-weight: var(--aquamWeight) !important;
 }
 .utxt {
    color: var(--aquamFont);
@@ -300,7 +303,7 @@ p {
  .con {
    border-radius: 0.5em;
    box-shadow: 0px 2px 4px rgba(0,0,0,0.5) ;
-   background-color: var(--white);
+   background-color: var(--cardClr);
    color: var(--TxtFontXClr) !important;
  }
  .con:hover {
