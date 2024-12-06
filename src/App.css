@@ -33,7 +33,7 @@ body[data-theme = 'dark'] {
    --menuCard: rgba(10, 10, 10, 0.8);
    --menuBar: #080808;
    --cardClr: rgba(22, 27, 34, 0.7);
-   --aquamFont: #2AB79F;
+   --aquamFont: #3FCABA;
    --aquamWeight: 100;
    --grey: #C9C9C9;
    --svgBackClr: #0A0E14;
@@ -295,12 +295,10 @@ svg {
    padding-top: 30vh;
    padding-bottom: 2vh ;
 }
-p {
-   padding: 0.5em;
-   margin: 0.5em;
-}
 
  .con {
+   padding: 0.5em;
+   margin: 0.5em;
    border-radius: 0.5em;
    box-shadow: 0px 2px 4px rgba(0,0,0,0.5) ;
    background-color: var(--cardClr);

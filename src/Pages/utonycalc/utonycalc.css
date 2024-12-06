@@ -136,10 +136,14 @@
     .enteredExpression {
       font-size: 150%;
       color: #0C645B;
+      padding: 0.5em;
+      margin: 0.5em;
     }
     .preciseResult {
       font-size: 150%;
-      color: #e2e0e0;  
+      color: #e2e0e0;
+      padding: 0.5em;
+      margin: 0.5em;  
     }
 
 
@@ -510,6 +514,9 @@
       height: 85% !important;
       width: 90% !important;
       margin-left: 0% !important;
+      position: relative;
+      top: 18.5% !important;
+      left:9.5%;
     }
 
     .chevUp {
