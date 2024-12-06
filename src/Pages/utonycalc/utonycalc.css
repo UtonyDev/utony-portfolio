@@ -136,14 +136,14 @@
     .enteredExpression {
       font-size: 150%;
       color: #0C645B;
-      padding: 0.5em;
-      margin: 0.5em;
+      padding: 0 0.5em;
+      margin: 0 0.5em;
     }
     .preciseResult {
       font-size: 150%;
       color: #e2e0e0;
-      padding: 0.5em;
-      margin: 0.5em;  
+      padding: 0.5em 0.5em;
+      margin: 0.3em 0.5em;  
     }
 
 
@@ -728,7 +728,7 @@
       font-size: small !important;
     }
     .cont {
-      top: 7.5vh;  
+      top: -4.5vh;  
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
