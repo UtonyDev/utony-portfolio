@@ -124,13 +124,11 @@ function UTonyCalc() {
         const historyItemDiv = document.createElement('div');
         historyItemDiv.classList.add('historyItem'); 
     
-        // Create paragraph for enteredExpression
         const enteredExpressionP = document.createElement('p');
         enteredExpressionP.textContent = item.enteredExpression;
         enteredExpressionP.classList.add('entered-expression');
-        // Add click event listener to enteredExpressionP
         enteredExpressionP.addEventListener('click', () => {
-          let histExpression = item.enteredExpression; // or enteredExpressionP.textContent
+          let histExpression = item.enteredExpression; 
           console.log(histExpression);
           let currentValue = inputVal + histExpression;
           setCursorPos(currentValue.toString().length);
@@ -949,8 +947,8 @@ function UTonyCalc() {
          <div id="history" className='hideHistory'> </div>
         <div className='cont' id='calccon'> 
             <div className="virtualInputField">
-              <p className="enteredExpression">{trackCursor(inputVal )}</p>
-              <p className="preciseResult">{newResult}</p>
+              <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
+              <p className="preciseResultInp">{newResult}</p>
             </div>
              <input type="text" name='calc' value={trackCursor(inputVal )} 
              className='inputField' 

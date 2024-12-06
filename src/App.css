@@ -30,7 +30,7 @@ body[data-theme = 'light'] {
    --footBackclr: rgba(229, 229, 229, 0.5);
 }
 body[data-theme = 'dark'] {
-   --menuCard: rgba(10, 10, 10, 0.8);
+   --menuCard: rgba(10, 10, 10, .9);
    --menuBar: #080808;
    --cardClr: rgba(22, 27, 34, 0.7);
    --aquamFont: #3FCABA;
@@ -230,8 +230,8 @@ svg {
    margin: 0;
 }
 .cent {
-   margin-left: 5px;
-   margin-right: 5px ;
+   margin-left: 5%;
+   margin-right: 5%;
 }
 .gtxt {
   color: var(--aquamFont) !important;
@@ -417,12 +417,12 @@ svg {
       margin-left: -2.5% !important;
    }
    .morecon {
-      margin-left: -10px !important; 
       max-height: 0;
       position: absolute;
       transition:  all .5s ease;
       overflow: hidden !important;
-      padding: 0;
+      margin-left: 0 !important;
+      padding-left: 0 !important;
       border-radius: 5px;
       background-color: var(--menuCard);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Light shadow */
@@ -431,12 +431,11 @@ svg {
       max-height: 1000px !important;
       position: absolute;
       transition: all .5s !important;
-      padding: 10px;
-      margin-left: 0;
-      padding-left:0 !important;
+      padding: 12px;
    }
    .more {
-      padding: 15px !important;
+      padding: 1.25em !important;
+      font-size: .8em ;
    }
 
    hr { 
