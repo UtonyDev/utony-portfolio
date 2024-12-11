@@ -9,6 +9,7 @@ function UTonyCalc() {
   const [cursorPos, setCursorPos] = useState(0);
   const [newResult, setNewResult] = useState(inputVal);
   const [isFirstExecution, setIsFirstExecution] = useState(true);
+  const [activeButton, setActiveButton] = useState(null);
 
   const Buttons = [  
   { label: 'H', value: 'history' },
@@ -101,6 +102,13 @@ function UTonyCalc() {
     
 })
 
+const handleMouseDown = (buttonId) => {
+  setActiveButton(buttonId);
+};
+
+const handleMouseUp = () => {
+  setActiveButton(null);
+};
   const onButtonClick = (e, val) => {
     e.preventDefault();
 
@@ -1058,7 +1066,17 @@ function UTonyCalc() {
 
     `}
     onClick={(e) => onButtonClick(e, buttons.value)}
-  >
+    onMouseDown={() => handleMouseDown(index)}
+    onMouseUp={handleMouseUp}
+    onMouseLeave={handleMouseUp} 
+    onTouchStart={() => handleMouseDown(index)}
+    onTouchEnd={handleMouseUp}
+
+    style={{
+      opacity: activeButton === index ? 0.5 : 1,
+      padding: activeButton === index ? '4px' : '6px',
+      transition: "all 0.2s",
+    }}  >
     {buttons.label}
   </button>
 ))}        </div>

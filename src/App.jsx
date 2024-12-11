@@ -16,7 +16,7 @@ function App() {
         }
     }, 0o0);
 }
-const nmeAnima = () => { 
+const nameLogoAnimation = () => { 
   window.addEventListener("scroll", () => {
   const currentScrl = window.scrollY;
   const targetElement = document.getElementById("target");
@@ -31,13 +31,37 @@ const nmeAnima = () => {
   }
 } 
   );
+}
+
+const cardsAnimation = () => { 
+  window.addEventListener("scroll", () => {
+    const currentScrl = window.scrollY;
+    const targetElement = document.getElementById("scrlTarget");
+    const triggPoint = targetElement.offsetTop;
+    const triggPointX = triggPoint;
+    const cards = document.querySelectorAll(".cardCont");
+    console.log(cards);
+
+    for (let j = 0; j < cards.length; j++) {
+      if (currentScrl >= triggPointX) {
+        cards[j].classList.replace("hideCards", "showCards");
+      } else {
+        cards[j].classList.replace("showCards", "hideCards");
+      }
+    } 
+  });
 } 
+
 
   return (
     <Router>
-      <Header nameAnimation={nameAnimation} nmeAnima={nmeAnima} />
+      <Header nameAnimation={nameAnimation} nameLogoAnimation={nameLogoAnimation} />
       <Routes>
-        <Route path="*" element={<UHomePage nameAnimation={nameAnimation} nmeAnima={nmeAnima} />} />
+        <Route path="*" element={<UHomePage 
+          nameAnimation={nameAnimation} 
+          nameLogoAnimation={nameLogoAnimation} 
+          cardsAnimation={cardsAnimation}
+          />} />
         <Route path="/utonycalc" element={<UTonyCalc />} />
       </Routes>
       <Footer />

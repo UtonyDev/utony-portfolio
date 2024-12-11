@@ -1,18 +1,24 @@
 import React from "react";
 import { useState, useRef, useEffect } from 'react';
-import htmlpic1 from '../assets/htmlpic1.jpg';
+import utonycalcpic from '../assets/utonycalcpic.png';
 import htmlpic2 from '../assets/htmlpic2.png';
 import csspic1 from '../assets/csspic1.png';
 import csspic2 from '../assets/csspic2.png';
 import jssrcpic2 from '../assets/jssrcpic2.png';
 import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
+import { use } from "react";
+import { Link } from "react-router-dom";
 
-function UHomePage( { nameAnimation }) {
+function UHomePage( { nameAnimation, cardsAnimation }) {
 
   useEffect(() => {
     nameAnimation();
-  }, []);  
-  
+  }, []); 
+
+  useEffect(() => {
+    cardsAnimation();
+  }, []); 
+ 
 return (
 <div className='maincon' >
 
@@ -39,10 +45,11 @@ return (
     <div className="cent">
 
       <div id="txt" className="gb"> 
-      I craft user-centric websites optimized for all devices and adhering to modern standards.
+      I craft user-centric websites optimized for all devices
+       and adhering to modern standards.
       </div>
-    <div className="scrl">
-      <a href="#jump">   <i className="fa-solid fa-arrow-down">   </i> Scroll    </a>
+    <div id='scrlTarget' className="scrl">
+      <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll  </a>
     </div>
   </div>
   </section>
@@ -50,45 +57,87 @@ return (
   <section className="sect-3" id="jump"> 
     <div className="cent">  
       <div className="projcon" id="txt">
-      <p className="con cont-1">
-        <img srcSet={htmlpic1} width="100%" height="auto" alt=""/>
-     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-     sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
-      </p>
+      <Link className="cardCont hideCards" to="/utonycalc" >
+        <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
+        <h1 className="projTitle"> Calculator App </h1>
+        <div className="descr">
+        A responsive calculator built with React.
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>
+      </Link>
 
-      <p className="con cont-2">
+      <p className="cardCont hideCards">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
-     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-     sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
+        <span className="descr">
+        <h1 className="projTitle"> Coming Soon </h1>
+        <div className="descr">
+         Project in progress...
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>     
+        </span> 
+
       </p>
 
-      <p className="con cont-3">
+      <p className="cardCont hideCards">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
-     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-     , pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
+        <span className="descr">
+        <h1 className="projTitle"> Coming Soon </h1>
+        <div className="descr">
+         Project in progress...
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>     
+        </span> 
       </p>
 
-      <p className="con cont-4">
+      <p className="cardCont hideCards">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
-     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-     sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
+        <span className="descr">
+        <h1 className="projTitle"> Coming Soon </h1>
+        <div className="descr">
+         Project in progress...
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>     
+        </span> 
       </p>
 
-      <p className="con cont-5">
+      <p className="cardCont hideCards">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-        sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
+        <span className="descr">
+        <h1 className="projTitle"> Coming Soon </h1>
+        <div className="descr">
+         Project in progress...
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>     
+        </span> 
       </p>
 
-      <p className="con cont-6"> 
+      <p className="cardCont hideCards"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste fugit asperiores, 
-        sequi, pariatur quasi fugiat doloribus debitis vero numquam, distinctio reprehenderit. 
+        <span className="descr">
+        <h1 className="projTitle"> Coming Soon </h1>
+        <div className="descr">
+         Project in progress...
+        </div> 
+        <span className="langs"> ∘ HTML </span>
+        <span className="langs"> ∘ CSS </span>
+        <span className="langs"> ∘ React </span>     
+        </span> 
       </p>
 
       </div>
     </div>
   </section>
+
 
   </div>
 )

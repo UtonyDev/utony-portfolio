@@ -45,7 +45,6 @@
     line-height: 10px;
   }
 
-
   #history {
     background-color: #C0C0C0;
     box-shadow: 0px 0px 0px var(--bxShadowblr);
@@ -164,6 +163,10 @@
       font-size: 1.5em;
       color: #0a0a0a;
     }
+    .butnClicked {
+      opacity: 0.5;
+    }
+    
     .butns {
       border-radius: 40%;
       width: 92.5%;
@@ -767,7 +770,7 @@
     .hideHistory {
       transition: all .5s ease ;
       transform-origin: right;
-      transform: scale(1, 1) !important;
+      transform: scale(0, 0) !important;
       position: absolute;
       top: 17.5vh !important;
       left: 10% !important;
@@ -786,9 +789,11 @@
       position: absolute;
       top: 17.5vh !important;
       left: 10% !important;
-      z-index: 100 !important;
-      height: 50% !important;
-      width: 35% !important; 
+      z-index: 100 !important;      
+      width: 30% !important;
+      height: 57% !important;
+      margin: 0 !important;
+      padding: 2.5%;
       overflow-y: scroll !important;
     } 
 

@@ -7,6 +7,7 @@ margin: 0;
 padding: 0;
 box-sizing: border-box;
 }
+
   
 :root {
    --menuBar: #ffffff;
@@ -27,7 +28,7 @@ body[data-theme = 'light'] {
    --white:  #ffffff;
    --aquamFont: #0C645B;
    --aquamWeight: 500;
-   --footBackclr: rgba(229, 229, 229, 0.5);
+   --footBackclr: #d9e6f2;
 }
 body[data-theme = 'dark'] {
    --menuCard: rgba(10, 10, 10, .9);
@@ -40,7 +41,7 @@ body[data-theme = 'dark'] {
    --topbackclr: #080808;
    --white: #292b2c;
    --TxtFontXClr: #C0C0C0;
-   --footBackclr: rgba(64, 64, 64, 0.5);
+   --footBackclr: #001f3f;
 }
 .scrlStatus {
    height: 0.125em;
@@ -297,17 +298,30 @@ svg {
    padding-bottom: 2vh ;
 }
 
- .con {
+ .cardCont {
    padding: 0.5em;
    margin: 0.5em;
    border-radius: 0.5em;
    box-shadow: 0px 2px 4px rgba(0,0,0,0.5) ;
    background-color: var(--cardClr);
    color: var(--TxtFontXClr) !important;
+   text-decoration: none;
  }
  .con:hover {
    transform: scale(1.05);
    transition: transform 0.2s ease;
+ }
+ .projTitle {
+   color: var(--aquamFont);
+   margin-left: 5%;
+ }
+ .descr {
+   margin: 5% !important;
+ }
+ .langs {
+   margin-left: 5%;
+   color: #149489;
+   text-decoration: underline;
  }
 
 .foot {
@@ -449,12 +463,37 @@ svg {
      .blr {
      filter: blur(0) !important;
   }
+
+  .scrl > a {
+   padding-top: 6%;
+  }
+  .maincon {
+   padding-top: 15vh;
+  }
   .projcon {
    color:var(--iconclr) !important;
    display: grid;
-   grid-template-columns: 1fr 1fr;
-   grid-template-rows:  1fr 1fr 1fr ;
-}
+   gap: 30px;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows:  1fr 1fr !important;
+   }
+   .cardCont {
+      padding: 0;
+   }
+   .hideCards {
+      transform: translateY(-25%);
+      backdrop-filter: blur(10px);
+      opacity: 0.5;
+      transition: all .9s ease-out;
+
+   }
+   .showCards {
+      transform: translateY(-40%);
+      backdrop-filter: blur(0);
+      opacity: none;
+      transition: all .9s ease-in;
+   }
+
   .gtxt {
      font-size: 4.5em !important;
      letter-spacing: 0.1em
@@ -468,9 +507,46 @@ svg {
   .lnk {
      cursor: pointer;
   }
+  .foot {
+      top: 0 !important;
+      height: 50%;
+      display: grid;
+      gap: 30px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows:  1fr !important;
+  }
+  .contact-head, .quicklink-head {
+      font-size: 2em !important;
+      color: var(--aquamFont);
+  }
+  .contact-link {
+   width: 35%;
+   margin: 2%;
+  }
+  .contact-links {
+      font-size: 0.9em;
+      display: inline-flex;
+      margin: 3% !important;
+      padding: 3.5%;
+      width: max-content;
+      color: var(--aquamFont);
+      cursor: pointer;
+  }
+  .section-links {
+   padding: 1.2%;
+   font-size: 0.9em;
+   margin: 1% !important;
+   color: var(--aquamFont);
+   cursor: pointer;
+  }
+  svg.foot-icon {
+   margin-right: 1%;
+   color: pink;
+  }
   #leg {
      float: inline-end;
      font-size: large !important;
-     margin: 5px !important;
+     height: fit-content;
+     top: 100%;
   }
 }

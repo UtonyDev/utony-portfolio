@@ -5,7 +5,7 @@ import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard, FaFolder, FaEnvelo
 
 import Togicon from './tog-icon/togicon';
 
-function Header({ nameAnimation, nmeAnima }) {
+function Header({ nameAnimation, nameLogoAnimation }) {
   const [showDropdown1, setShowDropdown1] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const pageLocation = useLocation();
@@ -122,8 +122,8 @@ function Header({ nameAnimation, nmeAnima }) {
   useEffect(() => {calcLogo();}, [calcLogo]);
 
   useEffect(() => {
-    nmeAnima();
-  }, [nmeAnima]);
+    nameLogoAnimation();
+  }, [nameLogoAnimation]);
 
     return (
         <>
@@ -172,10 +172,6 @@ function Header({ nameAnimation, nmeAnima }) {
       </a>
       <a href="https://github.com/UTonyDev" className="more">
         <i className="fa-brands fa-github"></i> Github 
-        <hr />
-      </a>
-      <a href="tel:+2349036318670" className="more" > 
-        <i className="fa-solid fa-phone"></i> Phone: +234 9036 3186 70
         <hr />
       </a>
       <a href="https://utonydev@gmail.com" className="more" target="_blank">  
