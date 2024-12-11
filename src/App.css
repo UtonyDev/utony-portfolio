@@ -344,41 +344,30 @@ svg {
 .foot {
    background-color: var(--footBackclr);
    color: var(--TxtFontXClr) !important;
-   padding: 15% 0 15% 5%;
+   padding: 15%;
    letter-spacing: 0.125em;
    word-spacing: 0.25em;
    position: relative;
    border: none;
+   top: 0;
    bottom: 0;
    width: auto;
+   display: flex;
+   flex-direction: column;
+   justify-content: center; 
+   align-items: center;
 }
-.contact-head, .quicklink-head {
-   font-size: 1.2em !important;
-   color: var(--aquamFont);
+.mobile-foot-icons {
+   margin: 0;
+   padding: 5%;
+   transform: translateX(15%);
 }
-.contact-link {
-width: 35%;
-margin: 0;
-}
-.contact-links {
-   font-size: 0.9em;
-   display: inline-flex;
-   margin: 3% !important;
-   padding: 3.5%;
-   width: max-content;
-   color: var(--aquamFont);
-   cursor: pointer;
-}
-.section-links {
-padding: 1.2%;
-font-size: 0.6em;
-margin: 1% !important;
-color: var(--aquamFont);
-cursor: pointer;
+.contact-head, .quicklink-head, .contact-links, .section-links {
+   display: none;
 }
 
 #leg {
-   font-size: x-small !important;
+   font-size: small !important;
    position: relative;
    top: 5px;
    letter-spacing: 0.125em;

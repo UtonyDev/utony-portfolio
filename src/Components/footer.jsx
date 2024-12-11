@@ -8,6 +8,13 @@ function Footer() {
 <>
     
   <div className="foot">
+
+    <div className="mobile-foot-icons">
+    <FaEnvelope style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2}}/>
+    <FaTwitter style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    <FaLinkedin style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    <FaLinkedin style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    </div>
       
       <div className="contact-link">
         <h1 className="contact-head"> Contacts </h1>
@@ -15,7 +22,7 @@ function Footer() {
         <div className="contact-links">
           <FaEnvelope style={{ 
             marginRight: '2%', height: '1.2em', 
-            width: '1.2em', strokeWidth: 2 }}/>
+            width: '1.2em', strokeWidth: 2, display: 'block'}}/>
           utonydev@gmail.com
         </div>
         <div className="contact-links">
