@@ -295,11 +295,15 @@ svg {
 .projcon {
    color:var(--iconclr) !important;
    padding-top: 30vh;
-   padding-bottom: 2vh ;
+   padding-bottom: 2vh;
+   display: grid;   
+   gap: 30px;
+   grid-template-columns:  1fr;
+   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
  .cardCont {
-   padding: 0.5em;
+   padding: 0;
    margin: 0.5em;
    border-radius: 0.5em;
    box-shadow: 0px 2px 4px rgba(0,0,0,0.5) ;
@@ -315,6 +319,19 @@ svg {
    color: var(--aquamFont);
    margin-left: 5%;
  }
+ .hideCards {
+   transform: translateY(10%);
+   backdrop-filter: blur(10px);
+   opacity: 0.5;
+   transition: all .9s ease-out;
+
+}
+.showCards {
+   transform: translateY(-20%);
+   backdrop-filter: blur(0);
+   opacity: none;
+   transition: all .9s ease-in;
+}
  .descr {
    margin: 5% !important;
  }
@@ -327,13 +344,37 @@ svg {
 .foot {
    background-color: var(--footBackclr);
    color: var(--TxtFontXClr) !important;
-   padding: 50px;
+   padding: 15% 0 15% 5%;
    letter-spacing: 0.125em;
    word-spacing: 0.25em;
    position: relative;
    border: none;
    bottom: 0;
    width: auto;
+}
+.contact-head, .quicklink-head {
+   font-size: 1.2em !important;
+   color: var(--aquamFont);
+}
+.contact-link {
+width: 35%;
+margin: 0;
+}
+.contact-links {
+   font-size: 0.9em;
+   display: inline-flex;
+   margin: 3% !important;
+   padding: 3.5%;
+   width: max-content;
+   color: var(--aquamFont);
+   cursor: pointer;
+}
+.section-links {
+padding: 1.2%;
+font-size: 0.6em;
+margin: 1% !important;
+color: var(--aquamFont);
+cursor: pointer;
 }
 
 #leg {
@@ -342,8 +383,8 @@ svg {
    top: 5px;
    letter-spacing: 0.125em;
 }
-/* Media queries */
 
+/* Media queries */
 /* for medium mobile devices (Tablets) */
 @media screen and (min-width: 600px) {
    .headr {
@@ -372,8 +413,25 @@ svg {
    .projcon {
       color:var(--iconclr) !important;
       display: grid;
+      gap: 30px;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr ;
+      grid-template-rows:  1fr 1fr 1fr!important;
+      }
+   .cardCont {
+      padding: 0;
+   }
+   .hideCards {
+      transform: translateY(-25%);
+      backdrop-filter: blur(10px);
+      opacity: 0.5;
+      transition: all .9s ease-out;
+
+   }
+   .showCards {
+      transform: translateY(-40%);
+      backdrop-filter: blur(0);
+      opacity: none;
+      transition: all .9s ease-in;
    }
 }
 
@@ -476,22 +534,6 @@ svg {
    gap: 30px;
    grid-template-columns: 1fr 1fr 1fr;
    grid-template-rows:  1fr 1fr !important;
-   }
-   .cardCont {
-      padding: 0;
-   }
-   .hideCards {
-      transform: translateY(-25%);
-      backdrop-filter: blur(10px);
-      opacity: 0.5;
-      transition: all .9s ease-out;
-
-   }
-   .showCards {
-      transform: translateY(-40%);
-      backdrop-filter: blur(0);
-      opacity: none;
-      transition: all .9s ease-in;
    }
 
   .gtxt {
