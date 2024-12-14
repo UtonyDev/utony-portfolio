@@ -153,8 +153,7 @@ const handleMouseUp = () => {
           console.log(histResult);
           let currentValue = inputVal + histResult;
           setCursorPos(currentValue.toString().length);
-          setInputVal(currentValue);
-        });
+          setInputVal(currentValue);});
     
         // Create paragraph for horizontal demarcator
         const horizonLine = document.createElement('hr');

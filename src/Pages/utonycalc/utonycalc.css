@@ -464,6 +464,7 @@
   @media screen and (min-width: 768px) {
     .calcparent {
       width: auto ;
+      height: fit-content;
     }
     .calccont {
       display: grid;
@@ -748,7 +749,6 @@
   @media screen and (min-width: 1000px) {
     .calcparent {
       background-color: var(--topbackclr);
-      padding-top: 7vh !important;
     }
     .back {
       z-index: 100;
@@ -757,7 +757,7 @@
       font-size: small !important;
     }
     .cont {
-      top: -4.5vh;  
+      top: -1.5vh;  
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);

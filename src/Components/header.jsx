@@ -5,14 +5,14 @@ import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard, FaFolder, FaEnvelo
 
 import Togicon from './tog-icon/togicon';
 
-function Header({ nameAnimation, nameLogoAnimation }) {
+function Header({ textAnimations, nameLogoAnimation }) {
   const [showDropdown1, setShowDropdown1] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const pageLocation = useLocation();
 
 // Call the anima function when the component mounts
   useEffect(() => {
-    nameAnimation(); 
+    textAnimations(); 
   }, []);  
 
   const dropdwn = () => {
@@ -63,7 +63,6 @@ function Header({ nameAnimation, nameLogoAnimation }) {
     const handleMouseEnter2 = () => {
         setShowDropdown2(true);
     };
-  
     const handleMouseLeave2 = () => {
         setShowDropdown2(false);
     };
@@ -116,8 +115,13 @@ function Header({ nameAnimation, nameLogoAnimation }) {
 
   const calcLogo = () => {
     if (pageLocation.pathname === '/utonycalc') {
-    const nmeDesc = document.getElementById("nme");
-      nmeDesc.classList.replace("nmeHide", "nmeShow");
+    const profNameDesktop = document.getElementById("nme");
+    const menu = document.querySelector("#menu");
+
+    menu.classList.add('menupc-calc');
+    profNameDesktop.classList.replace("nmeHide", "nmeShow");
+  } else {
+    menu.classList.remove('menupc-calc');
   }}
   useEffect(() => {calcLogo();}, [calcLogo]);
 

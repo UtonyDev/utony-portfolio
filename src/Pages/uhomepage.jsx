@@ -6,20 +6,42 @@ import csspic1 from '../assets/csspic1.png';
 import csspic2 from '../assets/csspic2.png';
 import jssrcpic2 from '../assets/jssrcpic2.png';
 import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
-import { use } from "react";
+import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
-function UHomePage( { nameAnimation, cardsAnimation }) {
+function UHomePage( { textAnimations }) {
+  const pageLocation = useLocation();
 
   useEffect(() => {
-    nameAnimation();
+    textAnimations();
   }, []); 
 
+  const cardsAnimation = () => { 
+    if (pageLocation.pathname === '/uhomepage') {
+    window.addEventListener("scroll", () => {
+      const currentScrl = window.scrollY;
+        const targetElement = document.getElementById("scrlTarget");
+        const triggPoint = targetElement.offsetTop;
+        const triggPointX = triggPoint;
+        const cards = document.querySelectorAll(".cardCont");
+        console.log(cards);
+
+        for (let j = 0; j < cards.length; j++) {
+          if (currentScrl >= triggPointX) {
+            cards[j].classList.replace("hideCards", "showCards");
+          } else {
+            cards[j].classList.replace("showCards", "hideCards");
+          }
+    }
+    });
+  } 
+}
   useEffect(() => {
     cardsAnimation();
   }, []); 
  
 return (
+  <>
 <div className='maincon' >
 
   <section className="sect-1">
@@ -44,10 +66,11 @@ return (
   <section className="sect-2">
     <div className="cent">
 
-      <div id="txt" className="gb"> 
+      <div id="txt" className="hide-txt gb"> 
       I craft user-centric websites optimized for all devices
        and adhering to modern standards.
       </div>
+
     <div id='scrlTarget' className="scrl">
       <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll  </a>
     </div>
@@ -60,9 +83,9 @@ return (
       <Link className="cardCont hideCards" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
         <h1 className="projTitle"> Calculator App </h1>
-        <div className="descr">
+        <span className="descr">
         A responsive calculator built with React.
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>
@@ -71,24 +94,23 @@ return (
       <p className="cardCont hideCards">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
-        <h1 className="projTitle"> Coming Soon </h1>
-        <div className="descr">
+        <span className="projTitle"> Coming Soon </span>
+        <span className="descr">
          Project in progress...
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>     
         </span> 
-
       </p>
 
       <p className="cardCont hideCards">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
         <span className="descr">
-        <h1 className="projTitle"> Coming Soon </h1>
-        <div className="descr">
+        <span className="projTitle"> Coming Soon </span>
+        <span className="descr">
          Project in progress...
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>     
@@ -98,10 +120,10 @@ return (
       <p className="cardCont hideCards">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
         <span className="descr">
-        <h1 className="projTitle"> Coming Soon </h1>
-        <div className="descr">
+        <span className="projTitle"> Coming Soon </span>
+        <span className="descr">
          Project in progress...
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>     
@@ -111,10 +133,10 @@ return (
       <p className="cardCont hideCards">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
-        <h1 className="projTitle"> Coming Soon </h1>
-        <div className="descr">
+        <span className="projTitle"> Coming Soon </span>
+        <span className="descr">
          Project in progress...
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>     
@@ -124,10 +146,10 @@ return (
       <p className="cardCont hideCards"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
-        <h1 className="projTitle"> Coming Soon </h1>
-        <div className="descr">
+        <span className="projTitle"> Coming Soon </span>
+        <span className="descr">
          Project in progress...
-        </div> 
+        </span> 
         <span className="langs"> ∘ HTML </span>
         <span className="langs"> ∘ CSS </span>
         <span className="langs"> ∘ React </span>     
@@ -136,10 +158,17 @@ return (
 
       </div>
     </div>
+
+    <div className="custom-shape-divider-bottom-1734204738">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
+    </svg>
+</div>
   </section>
 
 
   </div>
+  </>
 )
   }
 
