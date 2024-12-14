@@ -10,32 +10,34 @@ import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
 function UHomePage( { textAnimations }) {
-  const pageLocation = useLocation();
 
   useEffect(() => {
     textAnimations();
   }, []); 
 
-  document.addEventListener('DOMContentLoaded', () => {
+  const contentAnimations = () => { 
+    window.addEventListener("scroll", () => {
+    const currentScrl = window.scrollY;
+    const targetElement = document.getElementById("scrlTarget");
+    const triggPoint = targetElement.offsetTop;
+    const triggPointX = triggPoint * 1;
     const contents = document.querySelectorAll('.elements');
-  
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-content');
-          } else {
-            entry.target.classList.remove('reveal-content');
-          }
-        });
-      },
-      {
-        threshold: 0.5, // Trigger when 50% of the section is visible
-      }
+
+    for (let i = 0; i < contents.length; i++) {
+      if (currentScrl >= triggPointX) {
+        contents[i].classList.replace("elements", "reveal-contents");
+    } else {
+        contents[i].classList.replace("reveal-contents", "elements");
+    }
+  }
+
+  } 
     );
-  
-    contents.forEach((elements) => observer.observe(elements));
-  });
+  }
+
+  useEffect(() => {
+    contentAnimations();
+  }, []); 
   
 
 return (
