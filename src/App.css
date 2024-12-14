@@ -75,7 +75,6 @@ body[data-theme = 'dark'] {
 .hide-txt {
    opacity: 0.5;
    backdrop-filter: blur(5px);
-   position: absolute;
    top: 50%;
    transition: all 1s ease ;
 }
@@ -83,7 +82,6 @@ body[data-theme = 'dark'] {
 .reveal-txt {
    opacity: 1;
    backdrop-filter: blur(0);
-   position: absolute;
    top: 25% !important;
    transition: all 1s ease ;
 }
@@ -263,7 +261,6 @@ svg {
 /* svg section*/
 .sect-1 {
    position: relative;
-   bottom: -5px;
  }
  .sect-2 {
    position: relative;
@@ -271,11 +268,40 @@ svg {
    background-color: var(--svgBackClr);
    min-height: 50px;
    padding-top: 4vh;
+   padding-bottom: 4vh;
+ }
+ .skills-section {
+   background-color: var(--svgBackClr);
+   position: relative;
+   top: 0 !important;
+   padding: 5%;
+ }
+
+ .tech-stacks {
+   display: flexbox;
+ }
+
+.stack-imgs {
+   width: 60px ;
+   height: auto;
+}
+ .stacks {
+   display: inline-block;
+   border: solid 1.5px #ccc;
+   border-radius: 15px;
+   box-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+   color: var(--grey);
+   background-color: var(--cardClr);
+   width: fit-content;
+   height:auto;
+   padding: 5%;
+   margin: 2.5%;
  }
  .sect-3 {
    position: relative;
-   top: -2.5px;
+   padding-top: 2%;
    background-color: var(--svgBackClr);
+   z-index: 10;
  }
 
  .custom-shape-divider-bottom-1713287430 {
@@ -304,14 +330,14 @@ svg {
    display: block;
    color:var(--iconclr);
    text-decoration: none;
-   transform: translateY(2.5%);
+   padding-top: 35vh;
    width: max-content;
 }
 
 /* projects */
 .projcon {
+   position: relative;
    color:var(--iconclr) !important;
-   padding-top: 30vh;
    padding-bottom: 2vh;
    display: grid;   
    gap: 30px;
@@ -358,31 +384,6 @@ svg {
    color: #149489;
    text-decoration: underline;
  }
- .sect-3 {
-   position: relative;
-   top: 0 !important;
- }
- .custom-shape-divider-bottom-1734204738 {
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   width: 100%;
-   overflow: hidden;
-   line-height: 0;
-   transform: rotate(180deg);
-}
-
-.custom-shape-divider-bottom-1734204738 svg {
-   position: relative;
-   display: block;
-   width: calc(104% + 1.3px);
-   height: 50px;
-   transform: rotateY(180deg);
-}
-
-.custom-shape-divider-bottom-1734204738 .shape-fill {
-   fill:var(--footBackclr);
-}
 
 .foot {
    background-color: var(--footBackclr);
@@ -442,6 +443,7 @@ svg {
       right: 0 !important;
       top: 2.8em !important;
    }
+   
    .projcon {
       color:var(--iconclr) !important;
       display: grid;
@@ -604,9 +606,6 @@ svg {
      filter: blur(0) !important;
   }
 
-  .scrl > a {
-   padding-top: 6%;
-  }
   .maincon {
    padding-top: 15vh;
   }

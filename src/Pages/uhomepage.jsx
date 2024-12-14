@@ -17,9 +17,9 @@ function UHomePage( { textAnimations }) {
   }, []); 
 
   const cardsAnimation = () => { 
-    if (pageLocation.pathname === '/uhomepage') {
     window.addEventListener("scroll", () => {
-      const currentScrl = window.scrollY;
+      if (pageLocation.pathname === "*") {
+        const currentScrl = window.scrollY;
         const targetElement = document.getElementById("scrlTarget");
         const triggPoint = targetElement.offsetTop;
         const triggPointX = triggPoint;
@@ -32,10 +32,11 @@ function UHomePage( { textAnimations }) {
           } else {
             cards[j].classList.replace("showCards", "hideCards");
           }
-    }
+        } 
+    } else { console.log('no!?')}
     });
   } 
-}
+
   useEffect(() => {
     cardsAnimation();
   }, []); 
@@ -44,7 +45,7 @@ return (
   <>
 <div className='maincon' >
 
-  <section className="sect-1">
+  <section className="sect-1 hero-sect">
     <div className="custom-shape-divider-bottom-1713287430">
       <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
         <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill">   </path>
@@ -77,8 +78,29 @@ return (
   </div>
   </section>
 
+  <section className="skills-section">
+    <div className="cent">
+      <h1 className="skills-title gtxt"> Skills </h1>
+
+      <div className="tech-stacks"> 
+        <div className="stacks"> <img className="stack-imgs" src="htmllogo.webp" alt="" srcset="" /> HTML </div>
+        <div className="stacks"> 
+          <img className="stack-imgs" src="csslogo.webp" alt="" srcset="" /> CSS </div>
+        <div className="stacks"> 
+          <img className="stack-imgs" src="javascriptlogo.webp" alt="" srcset="" /> JavaScript </div>
+        <div className="stacks"> 
+          <img className="stack-imgs" src="reactlogo.webp" alt="" srcset="" /> React </div>
+        <div className="stacks"> 
+          <img className="stack-imgs" src="tailwindlogo.webp" alt="" srcset="" /> TailWind </div>
+        <div className="stacks"> 
+          <img className="stack-imgs" src="npmlogo.webp" alt="" srcset="" /> npm </div>
+      </div>
+    </div>
+  </section>
+
   <section className="sect-3" id="jump"> 
     <div className="cent">  
+      <h1 className="projt gtxt"> Projects </h1>
       <div className="projcon" id="txt">
       <Link className="cardCont hideCards" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
@@ -159,14 +181,7 @@ return (
       </div>
     </div>
 
-    <div className="custom-shape-divider-bottom-1734204738">
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
-    </svg>
-</div>
   </section>
-
-
   </div>
   </>
 )

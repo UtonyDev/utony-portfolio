@@ -11,7 +11,7 @@ function App() {
   const textAnimations = () => {
       setTimeout( () => {
           const open = window.document.querySelectorAll(".hid");
-          const someTxt = window.document.querySelector('#txt');
+          const someTxt = document.querySelector('#txt');
 
           someTxt.classList.replace('hide-txt', 'reveal-txt');
           for (let i = 0; i < open.length; i++) {
@@ -36,14 +36,14 @@ function App() {
   } 
     );
   }
-
+  
   return (
     <Router>
       <Header textAnimations={textAnimations} nameLogoAnimation={nameLogoAnimation} />
       <Routes>
         <Route path="*" element={<UHomePage 
           textAnimations={textAnimations} 
-          nameLogoAnimation={nameLogoAnimation} 
+          nameLogoAnimation={nameLogoAnimation}
           />} />
         <Route path="/utonycalc" element={<UTonyCalc />} />
       </Routes>
