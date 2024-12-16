@@ -63,7 +63,7 @@ return (
   <section className="sect-2">
     <div className="cent">
 
-      <div id="txt" className="hide-txt gb"> 
+      <div id="txt" className="elements hide-contents gb"> 
       I craft user-centric websites optimized for all devices
        and adhering to modern standards.
       </div>
