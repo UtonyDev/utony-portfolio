@@ -15,30 +15,27 @@ function UHomePage( { textAnimations }) {
     textAnimations();
   }, []); 
 
-  const contentAnimations = () => { 
-    window.addEventListener("scroll", () => {
-    const currentScrl = window.scrollY;
-    const targetElement = document.getElementById("scrlTarget");
-    const triggPoint = targetElement.offsetTop;
-    const triggPointX = triggPoint * 1;
-    const contents = document.querySelectorAll('.elements');
+// Select all sections
+const contents = document.querySelectorAll('.elements');
+console.log(contents);
 
-    for (let i = 0; i < contents.length; i++) {
-      if (currentScrl >= triggPointX) {
-        contents[i].classList.replace("elements", "reveal-contents");
+// Create an observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      // Add the 'reveal' class and remove the 'hide' class when in view
+      entry.target.classList.add('reveal-contents');
+      entry.target.classList.remove('hide-contents');
     } else {
-        contents[i].classList.replace("reveal-contents", "elements");
+      // Add the 'hide' class and remove the 'reveal' class when out of view
+      entry.target.classList.add('hide-contents');
+      entry.target.classList.remove('reveal-contents');
     }
-  }
+  });
+});
 
-  } 
-    );
-  }
-
-  useEffect(() => {
-    contentAnimations();
-  }, []); 
-  
+// Observe each section
+contents.forEach((element) => observer.observe(element));
 
 return (
   <>
@@ -79,19 +76,19 @@ return (
 
   <section className="skills-section">
     <div className="cent">
-      <h1 className="skills-title gtxt elements"> Skills </h1>
+      <h1 className="skills-title gtxt elements hide-contents"> Skills </h1>
 
       <div className="tech-stacks"> 
-        <div className="stacks elements"> <img className="stack-imgs" src="htmllogo.webp" alt="" srcSet="" /> HTML </div>
-        <div className="stacks elements"> 
+        <div className="stacks elements hide-contents"> <img className="stack-imgs" src="htmllogo.webp" alt="" srcSet="" /> HTML </div>
+        <div className="stacks elements hide-contents"> 
           <img className="stack-imgs" src="csslogo.webp" alt="" srcSet="" /> CSS </div>
-        <div className="stacks elements"> 
+        <div className="stacks elements hide-contents"> 
           <img className="stack-imgs" src="javascriptlogo.webp" alt="" srcSet="" /> JavaScript </div>
-        <div className="stacks elements"> 
+        <div className="stacks elements hide-contents"> 
           <img className="stack-imgs" src="reactlogo.webp" alt="" srcSet="" /> React </div>
-        <div className="stacks elements"> 
+        <div className="stacks elements hide-contents"> 
           <img className="stack-imgs" src="tailwindlogo.webp" alt="" srcSet="" /> TailWind </div>
-        <div className="stacks elements"> 
+        <div className="stacks elements hide-contents"> 
           <img className="stack-imgs" src="npmlogo.webp" alt="" srcSet="" /> npm </div>
       </div>
     </div>
@@ -99,10 +96,10 @@ return (
 
   <section className="sect-3" id="jump"> 
     <div className="cent">  
-      <h1 className="projt gtxt elements"> Projects </h1>
+      <h1 className="projt gtxt elements hide-contents"> Projects </h1>
 
       <div className="projcon" id="txt">
-      <Link className="cardCont elements" to="/utonycalc" >
+      <Link className="cardCont elements hide-contents" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
         <h1 className="projTitle"> Calculator App </h1>
         <span className="descr">
@@ -113,7 +110,7 @@ return (
         <span className="langs"> ∘ React </span>
       </Link>
 
-      <p className="cardCont elements">
+      <p className="cardCont elements hide-contents">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
         <span className="projTitle"> Coming Soon </span>
@@ -126,7 +123,7 @@ return (
         </span> 
       </p>
 
-      <p className="cardCont elements">
+      <p className="cardCont elements hide-contents">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
         <span className="descr">
         <span className="projTitle"> Coming Soon </span>
@@ -139,7 +136,7 @@ return (
         </span> 
       </p>
 
-      <p className="cardCont elements">
+      <p className="cardCont elements hide-contents">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
         <span className="descr">
         <span className="projTitle"> Coming Soon </span>
@@ -152,7 +149,7 @@ return (
         </span> 
       </p>
 
-      <p className="cardCont elements">
+      <p className="cardCont elements hide-contents">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
         <span className="projTitle"> Coming Soon </span>
@@ -165,7 +162,7 @@ return (
         </span> 
       </p>
 
-      <p className="cardCont elements"> 
+      <p className="cardCont elements hide-contents"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
         <span className="descr">
         <span className="projTitle"> Coming Soon </span>
