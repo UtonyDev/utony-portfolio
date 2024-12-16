@@ -74,6 +74,7 @@ body[data-theme = 'dark'] {
 
 .hide-contents {
    opacity: 0; 
+   transform: scale(.75, .75);
    backdrop-filter: blur(2.5px);
   transform: translateY(100px);
   transition: all 0.6s ease; 
@@ -81,6 +82,7 @@ body[data-theme = 'dark'] {
 
 .reveal-contents {
    opacity: 1 !important;
+   transform: scale(1.2, 1.2);
    backdrop-filter: blur(0) !important;
    transform: translateY(0) !important;   
    transition: all 0.7s ease;
@@ -300,6 +302,22 @@ svg {
    height:auto;
    padding: 5%;
    margin: 2.5%;
+   animation: bounce 2s 2;
+ }
+
+ @keyframes bounce {
+   0%, 100% {
+     transform: translateY(0);
+     animation-timing-function: ease-in;
+   }
+   25% {
+     transform: translateY(-5px); 
+     animation-timing-function: ease-out;
+   }
+   50% {
+      transform: translateY(-10px);
+      animation-timing-function: ease-out;
+   }
  }
 
  .stacks:nth-child(3n) {
