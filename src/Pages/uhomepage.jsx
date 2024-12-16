@@ -6,8 +6,8 @@ import csspic1 from '../assets/csspic1.png';
 import csspic2 from '../assets/csspic2.png';
 import jssrcpic2 from '../assets/jssrcpic2.png';
 import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
-import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import 'intersection-observer';
 
 function UHomePage( { textAnimations }) {
 
@@ -16,26 +16,26 @@ function UHomePage( { textAnimations }) {
   }, []); 
 
 // Select all sections
-const contents = document.querySelectorAll('.elements');
-console.log(contents);
-
-// Create an observer
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      // Add the 'reveal' class and remove the 'hide' class when in view
-      entry.target.classList.add('reveal-contents');
-      entry.target.classList.remove('hide-contents');
-    } else {
-      // Add the 'hide' class and remove the 'reveal' class when out of view
-      entry.target.classList.add('hide-contents');
-      entry.target.classList.remove('reveal-contents');
-    }
+useEffect(() => {
+  const contents = document.querySelectorAll('.elements');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal-contents');
+        entry.target.classList.remove('hide-contents');
+      } else {
+        entry.target.classList.add('hide-contents');
+        entry.target.classList.remove('reveal-contents');
+      }
+    });
   });
-});
 
-// Observe each section
-contents.forEach((element) => observer.observe(element));
+  contents.forEach((element) => observer.observe(element));
+
+  // Cleanup to avoid memory leaks
+  return () => observer.disconnect();
+}, []);
+
 
 return (
   <>
