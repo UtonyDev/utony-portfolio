@@ -170,7 +170,7 @@ const handleMouseUp = () => {
     }
     
     function showFunctKeys() {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1000) {
         
         if (showAllButn.classList.contains('cont')) {
           chevUp.classList.add('overlayChev');
