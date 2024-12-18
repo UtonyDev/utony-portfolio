@@ -13,7 +13,6 @@ function App() {
           const open = window.document.querySelectorAll(".hid");
           const someTxt = document.querySelector('#txt');
 
-          someTxt.classList.replace('hide-txt', 'reveal-txt');
           for (let i = 0; i < open.length; i++) {
               open[i].classList.replace("hid", "rev");
           }

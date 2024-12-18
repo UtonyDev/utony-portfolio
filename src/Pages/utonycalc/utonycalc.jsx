@@ -10,6 +10,7 @@ function UTonyCalc() {
   const [newResult, setNewResult] = useState(inputVal);
   const [isFirstExecution, setIsFirstExecution] = useState(true);
   const [activeButton, setActiveButton] = useState(null);
+  const historyTabRef = useRef(null);
 
   const Buttons = [  
   { label: 'H', value: 'history' },
@@ -109,7 +110,19 @@ const handleMouseDown = (buttonId) => {
 const handleMouseUp = () => {
   setActiveButton(null);
 };
-  const onButtonClick = (e, val) => {
+
+function hideHistoryTab() {
+if (historyTabRef.current) {
+  // Access the class list of the element
+  const classList = historyTabRef.current.classList;
+  if (classList.contains('showHistory')) {
+      console.log('Element has the class "showHistory"');
+      classList.replace('showHistory', 'hideHistory');
+  }
+}
+}
+
+const onButtonClick = (e, val) => {
     e.preventDefault();
 
     const err = "math error";
@@ -126,6 +139,7 @@ const handleMouseUp = () => {
         console.error('History container element not found.');
         return;
       }
+      
       historyContainer.innerHTML = '';
     
       calculationHistory.forEach(item => {
@@ -135,6 +149,7 @@ const handleMouseUp = () => {
         const enteredExpressionP = document.createElement('p');
         enteredExpressionP.textContent = item.enteredExpression;
         enteredExpressionP.classList.add('entered-expression');
+
         enteredExpressionP.addEventListener('click', () => {
           let histExpression = item.enteredExpression; 
           console.log(histExpression);
@@ -155,16 +170,13 @@ const handleMouseUp = () => {
           setCursorPos(currentValue.toString().length);
           setInputVal(currentValue);});
     
-        // Create paragraph for horizontal demarcator
         const horizonLine = document.createElement('hr');
         horizonLine.classList.add('horizontal-Line'); 
     
-        // Append the paragraphs to the history item div
         historyItemDiv.appendChild(enteredExpressionP);
         historyItemDiv.appendChild(preciseResultP);
         historyItemDiv.appendChild(horizonLine);
     
-        // Append the history item div to the container
         historyContainer.appendChild(historyItemDiv);
       });
     }
@@ -245,25 +257,38 @@ const handleMouseUp = () => {
           }
           return parseFloat(result.toFixed(precision));        
         }
-        let calculationHistory = JSON.parse(localStorage.getItem('calculationHistory'))
+      let calculationHistory = JSON.parse(localStorage.getItem('calculationHistory'))
         || [];
-
       // Logs the expression and result into the array.
-        function logHistory(enteredExpression, preciseResult) {
-          const historyItem = { enteredExpression, preciseResult };
-          calculationHistory.unshift(historyItem);
+      function logHistory(enteredExpression, preciseResult) {
+        const historyItem = { enteredExpression, preciseResult };
+    
+        function addUnique(newItem) {
+            const isDuplicateOfFirstItem = 
+                calculationHistory.length > 0 && 
+                calculationHistory[0].enteredExpression === newItem.enteredExpression &&
+                calculationHistory[0].preciseResult === newItem.preciseResult;
+    
+            if (!isDuplicateOfFirstItem) {
+                calculationHistory.unshift(newItem); // Add the item to the beginning
+            }
+        }
+    
+        addUnique(historyItem);
+    
+        if (calculationHistory.length > 30) {
+            console.log('That\'s enough');
+            calculationHistory.pop(); // Remove the oldest item if history exceeds 30 items
+        }
+    
+        localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
+        console.log('Calculation History:', calculationHistory);
+      }
 
-          if (calculationHistory.length > 30 ) {
-            console.log('thats enough');
-            calculationHistory.pop();
-          }
-    
-          // Save updated history to localStorage
-          localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
-          // Debugging: Check history in the console
-          console.log('Calculation History:', calculationHistory);
-        }        
-    
+      const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+      renderHistory(storedHistory);
+
+            
         if (
         inputVal.includes('sin(') || 
         inputVal.includes('cos(') || 
@@ -898,9 +923,10 @@ const handleMouseUp = () => {
         } else {
           historyElement.classList.replace('showHistory', 'hideHistory');
         }
+
         const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
-        console.log(storedHistory);
         renderHistory(storedHistory);
+
         
     } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
@@ -951,9 +977,9 @@ const handleMouseUp = () => {
     <form> 
       <label> 
       <div className="calccont">
-         <div id="history" className='hideHistory'> </div>
-        <div className='cont' id='calccon'> 
-            <div className="virtualInputField">
+         <div id="history" className='hideHistory' ref={historyTabRef}> </div>
+        <div className='cont' id='calccon' > 
+            <div className="virtualInputField" onClick={hideHistoryTab}>
               <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
               <p className="preciseResultInp">{newResult}</p>
             </div>
