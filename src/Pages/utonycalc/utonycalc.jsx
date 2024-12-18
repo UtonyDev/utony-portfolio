@@ -1072,7 +1072,7 @@ const handleMouseUp = () => {
     onTouchEnd={handleMouseUp}
 
     style={{
-      opacity: activeButton === index ? 0.5 : 1,
+      transform: activeButton === index ? 'scale(1.05)' : 'scale(1)',
       padding: activeButton === index ? '4px' : '6px',
       transition: "all 0.2s",
     }}  >

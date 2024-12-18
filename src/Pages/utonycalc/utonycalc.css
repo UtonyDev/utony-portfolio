@@ -465,6 +465,8 @@
         top: 20% !important;
         left: 3%;
       }
+    
+    }
   @media screen and (min-width: 1000px) {
     .calcparent {
       width: 100%;
@@ -492,6 +494,12 @@
     .inputField {
       grid-area: 1/1/2/10;
     }
+
+    #history {
+      margin: 1% 0 0 5%;
+      height: 45% !important;
+    }
+  
 
     .hideHistory {
       transition: all .5s ease ;
@@ -534,6 +542,7 @@
       margin-top:  15%;
       margin-left: 2%;
     }
+
 
     .butnHid {
       display: block;
@@ -750,6 +759,10 @@
 
     .butnHyp {
       grid-area: 6/4/7/5;
+    }
+
+    .tech-stacks {
+      margin: 0 25% 0 25% ;
     }
   }
 
