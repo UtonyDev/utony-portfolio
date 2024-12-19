@@ -49,9 +49,11 @@
     background-color: #C0C0C0;
     box-shadow: 0px 0px 0px var(--bxShadowblr);
     padding: 0;
-    margin: 5%;
-    height: auto;
+    margin: 0 0 0 5% ;
+    height: 55vh !important;
   }
+
+  
   .hideHistory {
     transition: all .5s ease;
     position: absolute;
@@ -458,20 +460,6 @@
       transition: left 1s;
     }
 
-    @media screen and (max-width: 1024px) and (min-height: 768px) {
-      .cont {
-        max-height: 85.5vh !important;
-      }
-      #history {
-        margin: 7.5% 0 0 5% !important;
-        height: 42.5vh !important;
-      }
-      .topKeys {
-        top: 20% !important;
-        left: 3%;
-      }
-    }
-
   @media screen and (min-width: 1024px) {
     .calcparent {
       width: 100%;
@@ -771,4 +759,9 @@
       margin: 0 25% 0 25% ;
     }
   }
+
+  @media screen and (max-width: 1024px) and (min-height: 768px) {
+    
+  }
+
 

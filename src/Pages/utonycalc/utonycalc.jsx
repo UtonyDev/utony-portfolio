@@ -214,8 +214,12 @@ const onButtonClick = (e, val) => {
       try {
       // converts the argument between radian and degree
         function getArgument(expression) {
+          
+          const trigRegex = /Math\.(sin|cos|tan|sinh|cosh|tanh)\(/;
+
+          if (trigRegex.test(expression)) {
           const regex = /\((\d*\.?\d+)\)/;
-          const regexE = /\(\be\b\)/;
+          const regexE = /\(\be\b\(/;
           const match1 = expression.match(regex);
           const match2 = expression.match(regexE); 
           const DegButn = document.querySelector('.butnDEG');
@@ -229,7 +233,11 @@ const onButtonClick = (e, val) => {
             return expression.replace(regexE, `(${radianE})`);
           } 
           return expression;
+        } else {
+          console.log('no trig expression');
+          return expression;
         }
+      }
       // Adds the symbol (*) between a number preceding a Math. function.
         function pushTimesSign(expression) {
         // Regex to match a number followed by a Math expression
@@ -256,6 +264,32 @@ const onButtonClick = (e, val) => {
             return roundedResult; // Return rounded value
           }
           return parseFloat(result.toFixed(precision));        
+        }
+
+        function evaluateExpression(expression) {
+          const DegButn = document.querySelector('.butnDEG');
+
+          const arcTrigRegex = /Math\.(asin|acos|atan|asinh|acosh|atanh)\(/;
+          const powerRegex = /Math\.(sqrt|cbrt)\(/;
+
+          if (arcTrigRegex.test(expression)) {
+            const degrees = eval(expression);
+            const value = DegButn.classList.contains('DegHide') 
+            ? degrees : degrees *  180 / Math.PI;
+            const result = adjustPrecision(value);
+            console.log(value);
+            console.log(result);
+            return result;
+          } else if (powerRegex.test(expression)) {
+            const closeExpr = expression + ')';
+            const result = eval(closeExpr);
+            console.log(result);
+            return result;
+          } else {
+            const result = math.evaluate(expression);
+            console.log(result);
+            return result;
+          }
         }
       let calculationHistory = JSON.parse(localStorage.getItem('calculationHistory'))
         || [];
@@ -288,532 +322,93 @@ const onButtonClick = (e, val) => {
       const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
       renderHistory(storedHistory);
 
-            
-        if (
-        inputVal.includes('sin(') || 
-        inputVal.includes('cos(') || 
-        inputVal.includes('tan(')
-        ) {
-        // Converts the expression to its valid format and evaluates it.
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/sin\((\d*\.?\d+)/g, 'Math.sin($1')
-              .replace(/cos\((\d*\.?\d+)/g, 'Math.cos($1')
-              .replace(/tan\((\d*\.?\d+)/g, 'Math.tan($1')
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/');
+      const mathOperations = {
+        trig: {
+          'sin(': 'Math.sin(',
+          'cos(': 'Math.cos(',
+          'tan(': 'Math.tan(',
+        },
+        inverseTrig: {
+          'sin⁻¹(': 'Math.asin(',
+          'cos⁻¹(': 'Math.acos(',
+          'tan⁻¹(': 'Math.atan(',
+        },
+        hyperbolic: {
+          'sinh(': 'Math.sinh(',
+          'cosh(': 'Math.cosh(',
+          'tanh(': 'Math.tanh(',
+        },
+        log: {
+          'log(': 'Math.log10(',
+          'ln(': 'Math.log(',
+        },
+        constants: {
+          'π': 'Math.PI',
+          'e': 'Math.E',
+        },
+        misc: {
+          '√': 'Math.sqrt(',
+          '∛': 'Math.cbrt(',
+          '×' : '*',
+          '÷' : '/',
+        },
+      };
 
-              console.log('moded Expression:' + modifiedExpression);
-              const newModExpression =pushTimesSign(modifiedExpression);
+      function replaceSymbols(input) {
+        let modifiedInput = input;
+      
+        // Iterate over each operation group
+        Object.values(mathOperations).forEach((operationGroup) => {
+          Object.entries(operationGroup).forEach(([symbol, func]) => {
+            const regex = new RegExp(symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'); // Escape special characters in symbols
+            modifiedInput = modifiedInput.replace(regex, func);
+          });
+        });
+      
+        return modifiedInput;
+      }
 
-              console.log(newModExpression);
+      const closedInputVal = addClosingParentheses(inputVal);
+      console.log(closedInputVal);
+      const processedInput = replaceSymbols(closedInputVal);
+      console.log(processedInput);
 
-            const result = eval(newModExpression);
-            return result.toFixed(4);
-          }
+      let convertExprArg = pushTimesSign(getArgument(processedInput));
+          // converts argument to either degree or radians     
+      console.log(convertExprArg);
+      const result = evaluateExpression(convertExprArg);
+      const preciseResult = adjustPrecision(result);
+      console.log(preciseResult);
+      localStorage.setItem('question', closedInputVal);
+      localStorage.setItem('answer', preciseResult);
+      logHistory(closedInputVal, preciseResult);
 
-          const closedInputVal = addClosingParentheses(inputVal);
-          const radExpression = getArgument(closedInputVal);
-          const result = evaluateExpression(radExpression);
-          preciseResult = adjustPrecision(result);      
-          enteredExpression = closedInputVal;
-          localStorage.setItem('question', enteredExpression);
-          localStorage.setItem('answer', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-        // Add value input to field.
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-              if (isFirstExecution) {
-                await setInputValue(); // Wait for setInputValue to complete
-                setIsFirstExecution(false); // Mark as completed
-              } else {
-                newInputValue(); // Execute newInputValue.
-                setIsFirstExecution(true); // Reset for next cycle
-              }
-          }
-          handleInputDisplay();
-
-        } else if (
-          inputVal.includes('csc(') ||
-          inputVal.includes('sec(') ||
-          inputVal.includes('cot(')
-        ) {
-        // Converts the expression to its valid format, resolve its inverse and evaluates it.
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/csc\((\d*\.?\d+)/g, 'Math.sin($1')
-              .replace(/sec\((\d*\.?\d+)/g, 'Math.cos($1')
-              .replace(/cot\((\d*\.?\d+)/g, 'Math.tan($1')
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/');
-              console.log('moded Expression:' + modifiedExpression);
-              const newModExpression = pushTimesSign(modifiedExpression);
-              console.log(newModExpression);
-          
-            const result = 1 / eval(newModExpression);
-            return result.toFixed(4);
-          }
-          const closedInputVal = addClosingParentheses(inputVal);
-          const radExpression = getArgument(closedInputVal);        
-          const result = evaluateExpression(radExpression);
-          const preciseResult = adjustPrecision(result);
-          const enteredExpression = closedInputVal;      
-          localStorage.setItem('question', enteredExpression);        
-          localStorage.setItem('answer', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-        // Add value input to field.
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-            if (isFirstExecution) {
-              await setInputValue(); // Wait for setInputValue to complete
-              setIsFirstExecution(false); // Mark as completed
-            } else {
-              newInputValue(); // Execute newInputValue.
-              setIsFirstExecution(true); // Reset for next cycle
-            }
-          }
-          handleInputDisplay();
-
-        } else if (
-          inputVal.includes('sin⁻¹(') || 
-          inputVal.includes('cos⁻¹(') || 
-          inputVal.includes('tan⁻¹(')) {
-
-            function evaluateInverseTrig(expression) {
-              const modifiedExpression = expression
-                .replace(/sin⁻¹\((\d*\.?\d+)/g, 'Math.asin($1')
-                .replace(/cos⁻¹\((\d*\.?\d+)/g, 'Math.acos($1')
-                .replace(/tan⁻¹\((\d*\.?\d+)/g, 'Math.atan($1');
-                console.log('moded Expression:' + modifiedExpression);
-            const newModExpression = addClosingParentheses(pushTimesSign(modifiedExpression));
-            console.log(newModExpression);
-                
-              const DegButn = document.querySelector('.butnDEG');
-              const result = eval(newModExpression);
-              return DegButn.classList.contains('DegHide') ? result : result * 180 / Math.PI;
-            }
-            const result = evaluateInverseTrig(inputVal);
-            const preciseResult = adjustPrecision(result);
-          // Store preciseResult in localStorage
-            const enteredExpression = addClosingParentheses(inputVal);    
-            console.log(enteredExpression);
-            localStorage.setItem('question', enteredExpression);        
-            localStorage.setItem('answer', preciseResult);
-            logHistory(enteredExpression, preciseResult);
-// Add value input to field.
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-            if (isFirstExecution) {
-              await setInputValue(); // Wait for setInputValue to complete
-              setIsFirstExecution(false); // Mark as completed
-            } else {
-              newInputValue(); // Execute newInputValue.
-              setIsFirstExecution(true); // Reset for next cycle
-            }
-          }
-          handleInputDisplay();
-          
-        } else if (
-          inputVal.includes('csc⁻¹(') || 
-          inputVal.includes('sec⁻¹(') || 
-          inputVal.includes('cot⁻¹(')) {
-
-          const DegButn = document.querySelector('.butnDEG');
-           function getsArgument(expression) {
-             const regex = /\((\d*\.?\d+)\)/ ; 
-             const regexE = /\(\be\b\)/;
-             const match1 = expression.match(regex);
-             const match2 = expression.match(regexE);
-
-             if (match1) {
-               const degrees = parseFloat(match1[match1.length - 1]);
-               const arg = degrees ;
-               const invArg = 1 / arg;
-               console.log(arg);
-               console.log(invArg);
-               const replacedExpression = expression.replace(regex, `(${invArg})`);
-               const modifiedExpression = replacedExpression
-               .replace(/csc⁻¹\((\d*\.?\d+)/g, 'Math.asin($1')
-               .replace(/sec⁻¹\((\d*\.?\d+)/g, 'Math.acos($1')
-               .replace(/cot⁻¹\((\d*\.?\d+)/g, 'Math.atan($1');
-               console.log('moded Expression:' + modifiedExpression);
-            const newModExpression = addClosingParentheses(pushTimesSign(modifiedExpression));
-            console.log(newModExpression);
-               return newModExpression;             
-              } 
-               else if (match2) {
-               const argE = Math.E;
-               const invArgE = 1 / argE;
-               console.log(invArgE);
-               const eulerExp = expression.replace(regexE, `(${invRadianE})`);
-               return eulerExp;
-             }
-           }
-
-           const closedInputVal = addClosingParentheses(inputVal);
-           const Expression = getsArgument(closedInputVal);
-           const solvedExp = eval(Expression);
-           const result = DegButn.classList.contains('DegHide') ?  solvedExp : 
-            solvedExp * (180 / Math.PI);
-            const preciseResult = adjustPrecision(result);
-          // Store preciseResult in localStorage
-            const enteredExpression = closedInputVal;      
-            console.log(enteredExpression);
-            localStorage.setItem('question', enteredExpression);          
-            localStorage.setItem('answer', preciseResult);
-            console.log('Stored Result:', preciseResult);
-            logHistory(enteredExpression, preciseResult);
-            function setInputValue() {
-              return new Promise(resolve => {
-                setInputVal(enteredExpression.toString());
-                setNewResult(preciseResult.toString());
-                setCursorPos(enteredExpression.toString().length);
-                resolve();
-              });
-            }
-          // Moves answer to the top after second click of equals to.
-            function newInputValue() {
-              setInputVal(preciseResult.toString());
-              setNewResult("");
-              setCursorPos(preciseResult.toString().length);
-            }
-          // displays result and expression
-            async function handleInputDisplay() {
-              if (isFirstExecution) {
-                await setInputValue(); // Wait for setInputValue to complete
-                setIsFirstExecution(false); // Mark as completed
-              } else {
-                newInputValue(); // Execute newInputValue.
-                setIsFirstExecution(true); // Reset for next cycle
-              }
-            }
-            handleInputDisplay();
-  
-        } else if (
-          inputVal.includes('sinh(') || 
-          inputVal.includes('cosh(') || 
-          inputVal.includes('tanh(')
-        )  {
-          //for evaluation when argument is in degree and radian since its hyperbolic
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/sinh\((\d*\.?\d+)/g, 'Math.sinh($1')
-              .replace(/cosh\((\d*\.?\d+)/g, 'Math.cosh($1')
-              .replace(/tanh\((\d*\.?\d+)/g, 'Math.tanh($1')
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/');
-              console.log('moded Expression:' + modifiedExpression);
-            const newModExpression = pushTimesSign(modifiedExpression);
-            console.log(newModExpression);
-          
-            const result = eval(newModExpression);
-            return result.toFixed(4);
-          }  
-          const closedInputVal = addClosingParentheses(inputVal);
-          const result = evaluateExpression(closedInputVal);
-          const preciseResult = adjustPrecision(result);
-        // Store preciseResult in localStorage
-          const enteredExpression = closedInputVal;      
-          console.log(enteredExpression);
-          localStorage.setItem('question', enteredExpression);        
-          localStorage.setItem('answer', preciseResult);
-          console.log('Stored Result:', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-            if (isFirstExecution) {
-              await setInputValue(); // Wait for setInputValue to complete
-              setIsFirstExecution(false); // Mark as completed
-            } else {
-              newInputValue(); // Execute newInputValue.
-              setIsFirstExecution(true); // Reset for next cycle
-            }
-          }
-          handleInputDisplay();
+      const handleInputDisplay = async (expression, result) => {
+        const setInputValue = () => {
+          return new Promise(resolve => {
+            setInputVal(expression.toString());
+            setNewResult(result.toString());
+            setCursorPos(expression.toString().length);
+            resolve();
+          });
+        };
     
-        } else if (
-          inputVal.includes('csch(') || 
-          inputVal.includes('sech(') || 
-          inputVal.includes('coth(')
-        )  {
-            function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/csch\((\d*\.?\d+)/g, 'Math.sinh($1')
-              .replace(/sech\((\d*\.?\d+)/g, 'Math.cosh($1')
-              .replace(/coth\((\d*\.?\d+)/g, 'Math.tanh($1')
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/');
-              console.log('moded Expression:' + modifiedExpression);
-            const newModExpression = pushTimesSign(modifiedExpression);
-            console.log(newModExpression);
-          
-            const result = eval(newModExpression);
-            return result.toFixed(4);
-          }  
-          const closedInputVal = addClosingParentheses(inputVal);
-          const result = 1 / evaluateExpression(closedInputVal);
-          const preciseResult = adjustPrecision(result);
-        // Store preciseResult in localStorage
-          const enteredExpression = closedInputVal;      
-          console.log(enteredExpression);
-          localStorage.setItem('question', enteredExpression);        
-          localStorage.setItem('answer', preciseResult);
-          console.log('Stored Result:', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-          setInputVal(enteredExpression);
-          setNewResult(preciseResult);
-          setCursorPos(enteredExpression.toString().length);
-                           
-        } else if (
-          inputVal.includes('ln(') ||
-          inputVal.includes('log(')
-        ) {
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-            .replace(/log\((\d*\.?\d+|e|π)/g, (match, group) => 
-              `Math.log10(${group === 'e' ? 'Math.E' : group === 'π' ? 
-                'Math.PI' : group})`)
-            .replace(/ln\((\d*\.?\d+|e|π)/g, (match, group) => 
-              `Math.log(${group === 'e' ? 'Math.E' : group === 'π' ? 
-                'Math.PI' : group})`);
-            console.log('moded Expression:' + modifiedExpression);
-              
-            const newModExpression = 
-              pushTimesSign(modifiedExpression);
-
-            return newModExpression;
-          };
-
-
-          const symbolExp = evaluateExpression(inputVal);
-          console.log(symbolExp);
-          const result = eval(symbolExp);
-          const preciseResult = adjustPrecision(result);
-          // Store preciseResult in localStorage
-          const enteredExpression = inputVal;      
-          console.log(enteredExpression);
-          localStorage.setItem('question', enteredExpression);          
-          localStorage.setItem('answer', preciseResult);
-          console.log('Stored Result:', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-            if (isFirstExecution) {
-              await setInputValue(); // Wait for setInputValue to complete
-              setIsFirstExecution(false); // Mark as completed
-            } else {
-              newInputValue(); // Execute newInputValue.
-              setIsFirstExecution(true); // Reset for next cycle
-            }
-          }
-          handleInputDisplay();
-
-        } else if (
-          inputVal.includes('π') ||
-          inputVal.includes('×') || 
-          inputVal.includes('÷') || 
-          inputVal.includes('√') ||
-          inputVal.includes('∛')
-        ) {
-          function evaluateExpression(expression) {
-            const modifiedExpression = expression
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/')  
-              .replace(/\^/g, '**')             
-              .replace(/√(\d*\.?\d+)/g, 'Math.sqrt($1)')
-              .replace(/∛(\d*\.?\d+)/g, 'Math.cbrt($1)')             
-              .replace(/\be\b/g, 'Math.E')
-              .replace(/π/g, 'Math.PI');
-              console.log('moded Expression:' + modifiedExpression);
-            const newModExpression = pushTimesSign(modifiedExpression);
-            console.log(newModExpression);
-
-            return newModExpression;
-          };
-
-          const symbolExp = evaluateExpression(inputVal);
-          const result = eval(symbolExp);
-          const preciseResult = adjustPrecision(result);
-          // Store preciseResult in localStorage
-          const enteredExpression = inputVal;      
-          console.log(enteredExpression);
-          localStorage.setItem('question', enteredExpression);          
-          localStorage.setItem('answer', preciseResult);
-          console.log('Stored Result:', preciseResult);
-          logHistory(enteredExpression, preciseResult);
-          function setInputValue() {
-            return new Promise(resolve => {
-              setInputVal(enteredExpression.toString());
-              setNewResult(preciseResult.toString());
-              setCursorPos(enteredExpression.toString().length);
-              resolve();
-            });
-          }
-        // Moves answer to the top after second click of equals to.
-          function newInputValue() {
-            setInputVal(preciseResult.toString());
-            setNewResult("");
-            setCursorPos(preciseResult.toString().length);
-          }
-        // displays result and expression
-          async function handleInputDisplay() {
-            if (isFirstExecution) {
-              await setInputValue(); // Wait for setInputValue to complete
-              setIsFirstExecution(false); // Mark as completed
-            } else {
-              newInputValue(); // Execute newInputValue.
-              setIsFirstExecution(true); // Reset for next cycle
-            }
-          }
-          handleInputDisplay();
-
-        } else if (
-          inputVal.includes('²')){
-            function sqr(Expression) {
-              const modifiedExpression = Expression
-              .replace(/\u00B2/g, '');
-
-              return modifiedExpression;
-            } 
-
-            const num = sqr(inputVal);
-            const result = num * num;
-            const preciseResult = adjustPrecision(result);
-            const enteredExpression = inputVal;      
-            localStorage.setItem('question', enteredExpression);          
-            localStorage.setItem('answer', preciseResult);
-            logHistory(enteredExpression, preciseResult);
-            function setInputValue() {
-              return new Promise(resolve => {
-                setInputVal(enteredExpression.toString());
-                setNewResult(preciseResult.toString());
-                setCursorPos(enteredExpression.toString().length);
-                resolve();
-              });
-            }
-          // Moves answer to the top after second click of equals to.
-            function newInputValue() {
-              setInputVal(preciseResult.toString());
-              setNewResult("");
-              setCursorPos(preciseResult.toString().length);
-            }
-          // displays result and expression
-            async function handleInputDisplay() {
-              if (isFirstExecution) {
-                await setInputValue(); // Wait for setInputValue to complete
-                setIsFirstExecution(false); // Mark as completed
-              } else {
-                newInputValue(); // Execute newInputValue.
-                setIsFirstExecution(true); // Reset for next cycle
-              }
-            }
-            handleInputDisplay();
-  
+        const newInputValue = () => {
+          setInputVal(result.toString());
+          setNewResult("");
+          setCursorPos(result.toString().length);
+        };
+    
+        if (isFirstExecution) {
+          await setInputValue();
+          setIsFirstExecution(false);
         } else {
-            const result = math.evaluate(inputVal);
-            const preciseResult = adjustPrecision(result);          
-            const enteredExpression = inputVal;      
-            console.log(enteredExpression);
-            localStorage.setItem('question', enteredExpression);          
-            localStorage.setItem('answer', preciseResult);
-            console.log('Stored Result:', preciseResult);
-            logHistory(enteredExpression, preciseResult);           
-            function setInputValue() {
-              return new Promise(resolve => {
-                setInputVal(enteredExpression.toString());
-                setNewResult(preciseResult.toString());
-                setCursorPos(enteredExpression.toString().length);
-                resolve();
-              });
-            }
-          // Moves answer to the top after second click of equals to.
-            function newInputValue() {
-              setInputVal(preciseResult.toString());
-              setNewResult("");
-              setCursorPos(preciseResult.toString().length);
-            }
-          // displays result and expression
-            async function handleInputDisplay() {
-              if (isFirstExecution) {
-                await setInputValue(); // Wait for setInputValue to complete
-                setIsFirstExecution(false); // Mark as completed
-              } else {
-                newInputValue(); // Execute newInputValue.
-                setIsFirstExecution(true); // Reset for next cycle
-              }
-            }
-            handleInputDisplay();
-            }
+          newInputValue();
+          setIsFirstExecution(true);
+        }
+      };
+      handleInputDisplay(closedInputVal, preciseResult);
+
       } catch {
         setInputVal(err);
         setCursorPos(cursorPos + 9);
@@ -923,10 +518,8 @@ const onButtonClick = (e, val) => {
         } else {
           historyElement.classList.replace('showHistory', 'hideHistory');
         }
-
         const storedHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
         renderHistory(storedHistory);
-
         
     } else  {
       const newInput = inputVal.slice(0, cursorPos) + val + inputVal.slice(cursorPos);
