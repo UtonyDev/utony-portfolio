@@ -68,7 +68,7 @@ return (
        and adhering to modern standards.
       </div>
 
-    <div id='scrlTarget' className="scrl">
+    <div id='scrlTarget' className="scrl"> 
       <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll  </a>
     </div>
   </div>
