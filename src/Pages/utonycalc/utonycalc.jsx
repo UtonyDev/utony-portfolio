@@ -257,11 +257,10 @@ const onButtonClick = (e, val) => {
           console.log('factorial and bracket expression clicked');
           return expression;
         } else if (parenthesisRegex.test(expression)) {
-          expression = expression.replace(/(\d|\w+\([^)]*\))\(/g, '$1*(');
-          expression = expression.replace(/\)(?=\()/g, ')*(');
-
+          const modexpression = parseTimesSign(expression);
           console.log('bracket expression');
-          return expression;
+          console.log(modexpression);
+          return modexpression;
         } else {
           console.log('no trig expression');
           return expression;
@@ -273,8 +272,19 @@ const onButtonClick = (e, val) => {
         const regex = /(\d)(Math\.\w+)/g;
         // Replace matches with the number followed by * and the Math expression
         const correctedExpression = expression.replace(regex, '$1*$2');
+        console.log(correctedExpression);
       
         return correctedExpression;
+        }
+        function parseTimesSign(expression) {
+          // First add multiplication between numbers/functions and opening parentheses
+          expression = expression.replace(/(\d|\w+\([^)]*\))\(/g, '$1*(');
+
+          // Then add multiplication between consecutive parentheses
+          expression = expression.replace(/\)(?=\()/g, ')*');
+          console.log(expression);
+
+          return expression;
         }
       // Adds closing parenthesis
         function addClosingParentheses(expression) {
