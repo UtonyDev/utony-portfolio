@@ -216,24 +216,41 @@ const onButtonClick = (e, val) => {
         function getArgument(expression) {
           
           const trigRegex = /Math\.(sin|cos|tan|csc|sec|cot|sinh|cosh|tanh)\(/;
+          const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
 
           if (trigRegex.test(expression)) {
+            const regex = /\((\d*\.?\d+)\)/;
+            const regexE = /\(\be\b\(/;
+            const match1 = expression.match(regex);
+            const match2 = expression.match(regexE); 
+            const DegButn = document.querySelector('.butnDEG');
+            console.log('trig expression');
+
+            if (match1) {
+              const degrees = parseFloat(match1[1]);
+              const radians = DegButn.classList.contains('DegHide') ? degrees : degrees * Math.PI / 180;
+              return expression.replace(regex, `(${radians})`);
+            } else if (match2) {
+              const radianE = DegButn.classList.contains('DegHide') ? Math.E : Math.E * Math.PI / 180;
+              return expression.replace(regexE, `(${radianE})`);
+            } 
+
+            return expression;
+        } else if (invrtInverseTrigRegex.test(expression)) {
           const regex = /\((\d*\.?\d+)\)/;
           const regexE = /\(\be\b\(/;
           const match1 = expression.match(regex);
           const match2 = expression.match(regexE); 
-          const DegButn = document.querySelector('.butnDEG');
+          console.log('inverted inverse trig expression');
 
           if (match1) {
             const degrees = parseFloat(match1[1]);
-            const radians = DegButn.classList.contains('DegHide') ? degrees : degrees * Math.PI / 180;
-            return expression.replace(regex, `(${radians})`);
+            const invrtDegree = 1 / degrees;
+            return expression.replace(regex, `(${invrtDegree})`);
           } else if (match2) {
-            const radianE = DegButn.classList.contains('DegHide') ? Math.E : Math.E * Math.PI / 180;
-            return expression.replace(regexE, `(${radianE})`);
+            const invrtDegE = 1 / Math.E;
+            return expression.replace(regexE, `(${invrtDegE})`);
           } 
-
-          return expression;
         } else {
           console.log('no trig expression');
           return expression;
@@ -272,6 +289,7 @@ const onButtonClick = (e, val) => {
 
           const arcTrigRegex = /Math\.(asin|acos|atan|asinh|acosh|atanh)\(/;
           const invrTrigRegex = /Math\.(csc|sec|cot)\(/;
+          const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
           const powerRegex = /Math\.(sqrt|cbrt)\(/;
           const eulerRegex = /\be\b/;
 
@@ -296,6 +314,18 @@ const onButtonClick = (e, val) => {
             const result = inversedResult
             console.log(value);
             return result;
+
+          } else if (invrtInverseTrigRegex.test(expression)) {
+            const modExpr = expression
+              .replace(/\bacsc\b/g, 'asin')
+              .replace(/\basec\b/g, 'acos') 
+              .replace(/\bacot\b/g, 'atan'); 
+
+              const degrees = eval(modExpr);
+              const result = DegButn.classList.contains('DegHide') 
+              ? degrees : degrees *  180 / Math.PI;;
+              console.log(result);
+              return result;
 
           } else if (powerRegex.test(expression)) {
             const closeExpr = expression + ')';
@@ -359,7 +389,12 @@ const onButtonClick = (e, val) => {
           'csc(' : 'Math.csc(',
           'sec(' : 'Math.sec(',
           'cot(' : 'Math.cot(',
-        }, 
+        },
+        invertedInverseTrig: {
+          'csc⁻¹(': 'Math.acsc(',
+          'sec⁻¹(': 'Math.asec(',
+          'cot⁻¹(': 'Math.acot(',
+        },
         hyperbolic: {
           'sinh(': 'Math.sinh(',
           'cosh(': 'Math.cosh(',
