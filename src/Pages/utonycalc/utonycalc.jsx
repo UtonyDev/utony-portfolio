@@ -213,59 +213,65 @@ const onButtonClick = (e, val) => {
 
       try {
       // converts the argument between radian and degree
-        function getArgument(expression) {
-          
-          const trigRegex = /Math\.(sin|cos|tan|csc|sec|cot)\(/;
-          const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
-          const factorialRegex = /!/;
-          const parenthesisRegex = /\(.*\)/;
-          
-          if (trigRegex.test(expression)) {
-            const regex = /\((\d*\.?\d+)\)/;
-            const regexE = /\(\be\b\(/;
-            const match1 = expression.match(regex);
-            const match2 = expression.match(regexE); 
-            const DegButn = document.querySelector('.butnDEG');
-            console.log('trig expression');
-
-            if (match1) {
-              const degrees = parseFloat(match1[1]);
-              const radians = DegButn.classList.contains('DegHide') ? degrees : degrees * Math.PI / 180;
-              return expression.replace(regex, `(${radians})`);
-            } else if (match2) {
-              const radianE = DegButn.classList.contains('DegHide') ? Math.E : Math.E * Math.PI / 180;
-              return expression.replace(regexE, `(${radianE})`);
-            } 
-
-            return expression;
-        } else if (invrtInverseTrigRegex.test(expression)) {
-          const regex = /\((\d*\.?\d+)\)/;
-          const regexE = /\(\be\b\(/;
-          const match1 = expression.match(regex);
-          const match2 = expression.match(regexE); 
-          console.log('inverted inverse trig expression');
-
-          if (match1) {
-            const degrees = parseFloat(match1[1]);
-            const invrtDegree = 1 / degrees;
-            return expression.replace(regex, `(${invrtDegree})`);
-          } else if (match2) {
-            const invrtDegE = 1 / Math.E;
-            return expression.replace(regexE, `(${invrtDegE})`);
-          } 
-        } else if (factorialRegex.test(expression)) {
+      function parseExpression(expression) {
+        const trigRegex = /(Math\.(sin|cos|tan|csc|sec|cot))\((\d*\.?\d+)\)/g; // Global match for trig functions
+        const invrtInverseTrigRegex = /(Math\.(acsc|asec|acot))\((\d*\.?\d+)\)/g; // Global match for inverse trig functions
+        const factorialRegex = /!/; // Factorial regex remains unchanged
+        const parenthesisRegex = /\(.*\)/; // Parentheses regex remains unchanged
+        const exponentRegex = /(\d*\.?\d+)\^(\d*\.?\d+)/g;
+        const sqrExponentRegex = /(\w+)\²/g;
+      
+        const DegButn = document.querySelector('.butnDEG'); // Button to toggle DEG/RAD
+        
+        // Handle trigonometric functions (sin, cos, tan, etc.)
+        expression = expression.replace(trigRegex, (match, func, trigFunc, degrees) => {
+          const radians = DegButn.classList.contains('DegHide') 
+            ? parseFloat(degrees) 
+            : parseFloat(degrees) * Math.PI / 180;
+          return `${func}(${radians})`;
+        });
+      
+        // Handle inverse trigonometric functions (acsc, asec, acot)
+        expression = expression.replace(invrtInverseTrigRegex, (match, func, invTrigFunc, degrees) => {
+          const radians = DegButn.classList.contains('DegHide') 
+            ? parseFloat(degrees) 
+            : parseFloat(degrees) * Math.PI / 180;
+          return `${func}(${radians})`;
+        });
+      
+        // Handle factorials (currently just logs)
+        if (factorialRegex.test(expression)) {
           console.log('factorial and bracket expression clicked');
-          return expression;
-        } else if (parenthesisRegex.test(expression)) {
-          const modexpression = parseTimesSign(expression);
+        }
+      
+        // Handle general parentheses expressions (like (2+3) or (5*6))
+        if (parenthesisRegex.test(expression)) {
+          const modexpression = parseTimesSign(expression); // Call to handle multiplication signs (if needed)
           console.log('bracket expression');
           console.log(modexpression);
-          return modexpression;
-        } else {
-          console.log('no trig expression');
-          return expression;
+          expression = modexpression;
         }
+
+        const tenExponentRegex = /10\^(\w+)/g; // Matches "10^" followed by any variable (e.g., x)
+        expression = expression.replace(tenExponentRegex, (match, variable) => {
+          return `10^${variable}`; // Replace 10^x with 10*x
+        });
+
+        expression = expression.replace(sqrExponentRegex, (match, variable) => {
+          return `${variable}**2`; // Replace x² with x**2
+        });
+        // Handle exponentiation (x^y)
+        expression = expression.replace(exponentRegex, (match, base, exponent) => {
+        const result = Math.pow(parseFloat(base), parseFloat(exponent)); // Evaluate x^y
+        return result;
+
+        
+  });
+      
+        // Return the processed expression
+        return expression;
       }
+            
       // Adds the symbol (*) between a number preceding a Math. function.
         function pushTimesSign(expression) {
         // Regex to match a number followed by a Math expression
@@ -312,7 +318,7 @@ const onButtonClick = (e, val) => {
           const invrTrigRegex = /Math\.(csc|sec|cot)\(/;
           const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
           const invrtHypbolic = /Math\.(csch|sech|coth)\(/;
-          const powerRegex = /Math\.(sqrt|cbrt)\(/;
+          const rootRegex = /Math\.(sqrt|cbrt)\(/;
           const eulerRegex = /\be\b/;
           const factorialRegex = /!/;
 
@@ -361,7 +367,7 @@ const onButtonClick = (e, val) => {
             console.log(result);
             return result;
 
-          } else if (powerRegex.test(expression)) {
+          } else if (rootRegex.test(expression)) {
             const closeExpr = expression + ')';
             const result = eval(closeExpr);
             console.log(result);
@@ -456,6 +462,7 @@ const onButtonClick = (e, val) => {
           '∛': 'Math.cbrt(',
           '×' : '*',
           '÷' : '/',
+          'x²': '^2',
         },
       };
 
@@ -478,7 +485,7 @@ const onButtonClick = (e, val) => {
       const processedInput = replaceSymbols(closedInputVal);
       console.log(processedInput);
 
-      let convertExprArg = pushTimesSign(getArgument(processedInput));
+      let convertExprArg = pushTimesSign(parseExpression(processedInput));
           // converts argument to either degree or radians     
       console.log(convertExprArg);
       const result = evaluateExpression(convertExprArg);
