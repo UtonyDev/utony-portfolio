@@ -215,7 +215,7 @@ const onButtonClick = (e, val) => {
       // converts the argument between radian and degree
         function getArgument(expression) {
           
-          const trigRegex = /Math\.(sin|cos|tan|sinh|cosh|tanh)\(/;
+          const trigRegex = /Math\.(sin|cos|tan|csc|sec|cot|sinh|cosh|tanh)\(/;
 
           if (trigRegex.test(expression)) {
           const regex = /\((\d*\.?\d+)\)/;
@@ -232,6 +232,7 @@ const onButtonClick = (e, val) => {
             const radianE = DegButn.classList.contains('DegHide') ? Math.E : Math.E * Math.PI / 180;
             return expression.replace(regexE, `(${radianE})`);
           } 
+
           return expression;
         } else {
           console.log('no trig expression');
@@ -270,7 +271,9 @@ const onButtonClick = (e, val) => {
           const DegButn = document.querySelector('.butnDEG');
 
           const arcTrigRegex = /Math\.(asin|acos|atan|asinh|acosh|atanh)\(/;
+          const invrTrigRegex = /Math\.(csc|sec|cot)\(/;
           const powerRegex = /Math\.(sqrt|cbrt)\(/;
+          const eulerRegex = /\be\b/;
 
           if (arcTrigRegex.test(expression)) {
             const degrees = eval(expression);
@@ -280,13 +283,32 @@ const onButtonClick = (e, val) => {
             console.log(value);
             console.log(result);
             return result;
+
+          } else if (invrTrigRegex.test(expression)) {
+            console.log('inverse of trig');
+            const modExpr = expression
+              .replace(/\bcsc\b/g, 'sin')
+              .replace(/\bsec\b/g, 'cos') 
+              .replace(/\bcot\b/g, 'tan'); 
+
+            const value = eval(modExpr);
+            const inversedResult = 1 / value;
+            const result = inversedResult
+            console.log(value);
+            return result;
+
           } else if (powerRegex.test(expression)) {
             const closeExpr = expression + ')';
             const result = eval(closeExpr);
             console.log(result);
             return result;
+          } else if (eulerRegex.test(expression)) {
+            const modExpr = expression
+              .replace(/\be\b/g, 'Math.E');
+            const result = eval(modExpr);
+            return result;
           } else {
-            const result = math.evaluate(expression);
+            const result = eval(expression);
             console.log(result);
             return result;
           }
@@ -333,6 +355,11 @@ const onButtonClick = (e, val) => {
           'cos⁻¹(': 'Math.acos(',
           'tan⁻¹(': 'Math.atan(',
         },
+        invertedTrig : {
+          'csc(' : 'Math.csc(',
+          'sec(' : 'Math.sec(',
+          'cot(' : 'Math.cot(',
+        }, 
         hyperbolic: {
           'sinh(': 'Math.sinh(',
           'cosh(': 'Math.cosh(',
@@ -344,7 +371,6 @@ const onButtonClick = (e, val) => {
         },
         constants: {
           'π': 'Math.PI',
-          'e': 'Math.E',
         },
         misc: {
           '√': 'Math.sqrt(',
