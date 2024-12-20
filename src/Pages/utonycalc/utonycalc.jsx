@@ -215,9 +215,11 @@ const onButtonClick = (e, val) => {
       // converts the argument between radian and degree
         function getArgument(expression) {
           
-          const trigRegex = /Math\.(sin|cos|tan|csc|sec|cot|sinh|cosh|tanh)\(/;
+          const trigRegex = /Math\.(sin|cos|tan|csc|sec|cot)\(/;
           const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
-
+          const factorialRegex = /!/;
+          const parenthesisRegex = /\(.*\)/;
+          
           if (trigRegex.test(expression)) {
             const regex = /\((\d*\.?\d+)\)/;
             const regexE = /\(\be\b\(/;
@@ -251,6 +253,15 @@ const onButtonClick = (e, val) => {
             const invrtDegE = 1 / Math.E;
             return expression.replace(regexE, `(${invrtDegE})`);
           } 
+        } else if (factorialRegex.test(expression)) {
+          console.log('factorial and bracket expression clicked');
+          return expression;
+        } else if (parenthesisRegex.test(expression)) {
+          expression = expression.replace(/(\d|\w+\([^)]*\))\(/g, '$1*(');
+          expression = expression.replace(/\)(?=\()/g, ')*(');
+
+          console.log('bracket expression');
+          return expression;
         } else {
           console.log('no trig expression');
           return expression;
@@ -290,8 +301,10 @@ const onButtonClick = (e, val) => {
           const arcTrigRegex = /Math\.(asin|acos|atan|asinh|acosh|atanh)\(/;
           const invrTrigRegex = /Math\.(csc|sec|cot)\(/;
           const invrtInverseTrigRegex = /Math\.(acsc|asec|acot)\(/;
+          const invrtHypbolic = /Math\.(csch|sech|coth)\(/;
           const powerRegex = /Math\.(sqrt|cbrt)\(/;
           const eulerRegex = /\be\b/;
+          const factorialRegex = /!/;
 
           if (arcTrigRegex.test(expression)) {
             const degrees = eval(expression);
@@ -327,6 +340,17 @@ const onButtonClick = (e, val) => {
               console.log(result);
               return result;
 
+          } else if (invrtHypbolic.test(expression)) {
+            const modExpr = expression
+            .replace(/\bcsch\b/g, 'sinh')
+            .replace(/\bsech\b/g, 'cosh') 
+            .replace(/\bcoth\b/g, 'tanh'); 
+
+            const value = eval(modExpr); 
+            const result = 1 / value;
+            console.log(result);
+            return result;
+
           } else if (powerRegex.test(expression)) {
             const closeExpr = expression + ')';
             const result = eval(closeExpr);
@@ -337,7 +361,12 @@ const onButtonClick = (e, val) => {
               .replace(/\be\b/g, 'Math.E');
             const result = eval(modExpr);
             return result;
-          } else {
+
+          } else if (factorialRegex.test(expression)) {
+            const result = math.evaluate(expression);
+            console.log(result);
+            return result;
+          }  else {
             const result = eval(expression);
             console.log(result);
             return result;
@@ -399,6 +428,11 @@ const onButtonClick = (e, val) => {
           'sinh(': 'Math.sinh(',
           'cosh(': 'Math.cosh(',
           'tanh(': 'Math.tanh(',
+        },
+        invertedHyp: {
+          'csch(': 'Math.csch(',
+          'sech(': 'Math.sech(',
+          'cot(': 'Math.coth(',
         },
         log: {
           'log(': 'Math.log10(',

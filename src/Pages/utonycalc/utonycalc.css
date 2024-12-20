@@ -127,7 +127,7 @@
     position: absolute;
     top: 0 !important;
     width: 100% !important;
-    height: 17vh;
+    height: 16vh;
     padding: 0;
     background-color: #C0C0C0;
     border-radius: 5px;
@@ -210,8 +210,8 @@
       padding: 0 !important;
       box-shadow: none !important;
       position: relative;
-      top: 30% !important;
-      left: 20%;
+      place-self: center;
+      margin-top: 10% !important;
     }
   
     .shiftLeft {
@@ -556,8 +556,7 @@
       width: 90% !important;
       margin-left: 0% !important;
       position: relative;
-      top: 25%;
-      left: 3%;
+      margin-top: 15% !important;
     }
 
     .chevUp {
@@ -571,7 +570,7 @@
     }
 
     .butnPie {
-      grid-area: 2/9/3/10 !important;
+      grid-area: 3/9/4/10 !important;
       display: block !important;
       color: rgb(1, 66, 1) !important;
     }
@@ -590,7 +589,7 @@
       grid-area: 2/5/3/6;
     }
     .butnAC {
-      grid-area: 3 /9/4/10 ;
+      grid-area: 2 /9/3/10 ;
       background-color: rgb(254,8,10);
     }
     .butnPercent {
