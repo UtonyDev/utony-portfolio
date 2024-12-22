@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import LocationForm from '../../Components/LocationForm';
+import LocationForm from './locationForm';
 import './uweather.css';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [city, setCity] = useState('Abuja');
-    const [country, setCountry] = useState('NG');
 
  // Function to fetch weather data
  const fetchData = async (city, country) => {
