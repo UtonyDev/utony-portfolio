@@ -7,8 +7,15 @@ function LocationForm({ fetchData }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetchData(city, country);  // Call the fetchData function passed from the parent
-    };    
+        
+        // Check if city and country are not empty
+        if (!city || !country) {
+            alert("Please enter both city and country");
+            return;
+        }
+
+        fetchData(city, country);
+    }
 
     return (
         <div>
