@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LocationForm from "/src/Components/LocationForm";
+import LocationForm from '../../Components/LocationForm';
 import './uweather.css';
 
 const UWeather = () => {
