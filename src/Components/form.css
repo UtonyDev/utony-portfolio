@@ -1,0 +1,8 @@
+.cityInput, .countryInput {
+    background-color: pink;
+    border: solid 12px green;
+}
+
+.input {
+    visibility: visible !important;
+}

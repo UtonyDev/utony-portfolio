@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard, FaFolder, FaEnvelope, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
-
 import Togicon from './tog-icon/togicon';
 
 function Header({ textAnimations, nameLogoAnimation }) {
@@ -153,8 +152,8 @@ function Header({ textAnimations, nameLogoAnimation }) {
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
       } >
-      <Link to="/utonycalc" className="more"onClick={resetMenu} >UTony Calc <hr /></Link> 
-      <Link to="/work2" className="more">Work 2  <hr /></Link>
+      <Link to="/utonycalc" className="more" onClick={resetMenu} > UTony Calc <hr /></Link> 
+      <Link to="/uweather" className="more" onClick={resetMenu}> Weather App <hr /></Link>
       {/* ... other links ... */}
     </div>
   </div>
