@@ -11,7 +11,7 @@ const UWeather = () => {
     const fetchData = async (city, country) => {
         try {
             setLoading(true); // Set loading state to true before fetching
-            const response = await fetch(`https://weather-api-server-lijsxz23x-tonys-projects.vercel.app/api/weather?city=${city}&country=${country}`);
+            const response = await fetch(`https://weather-api-server.onrender.com/api/weather?city=${city}&country=${country}`);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
