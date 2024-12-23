@@ -7,14 +7,4 @@
     padding-top: 30vh;
     background-color: aliceblue;
     display: grid;
-    margin: 5%;
-}
-
-.loading {
-    position: absolute;
-    top: 40vh;
-    border-radius: 5px;
-    padding: 50px;
-    place-self: center;
-    filter: blur;
 }
