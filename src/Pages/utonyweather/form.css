@@ -1,7 +1,6 @@
-.cityInput, .countryInput {
-    background-color: pink;
-    border: solid 12px green;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .input {
     visibility: visible !important;

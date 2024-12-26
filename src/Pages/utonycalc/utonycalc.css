@@ -145,16 +145,6 @@
       margin: 0.3em 0.5em;  
     }
 
-
-    input {
-      height: 15vh;
-      width: auto;
-      margin: 0;
-      border: solid 0px grey;
-      border-radius: 5px;
-      font-size: 250%;
-      color: rgba(127, 255, 212, 0.8);
-    }
     button { 
       border: none;
       box-shadow: 1px 0px 1px rgba(0, 0, 1, 0.2);
@@ -197,7 +187,14 @@
     }
 
     .inputField {
-      grid-area: 1/1/2/5;    
+      grid-area: 1/1/2/5;
+      height: 15vh;
+      width: auto;
+      margin: 0;
+      border: solid 0px grey;
+      border-radius: 5px;
+      font-size: 250%;
+      color: rgba(127, 255, 212, 0.8);   
     }
 
     .topKeys {
