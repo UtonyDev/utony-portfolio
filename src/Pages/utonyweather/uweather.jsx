@@ -7,19 +7,18 @@ const UWeather = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    let jsonData;
 
     // Function to fetch weather data
     const fetchData = async (city, country) => {
         try {
             setLoading(true); // Set loading state to true before fetching
-            const response = await fetch(`https://weather-api-server.onrender.com/api/weather?city=${city}&country=${country}`);
+            const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             } else {console.log('Network response was okay');}
 
-            jsonData = await response.json();
+            const jsonData = await response.json();
             setData(jsonData); // Store the fetched data in the state
             console.log(jsonData);
             console.log(jsonData.address);
