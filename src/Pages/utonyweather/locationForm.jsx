@@ -18,7 +18,7 @@ function LocationForm({ fetchData }) {
     }
 
     return (
-        <div className=' place-content-center gridborder-2 border-indigo-500 rounded'>
+        <div className='w-auto place-content-center grid border-2 border-indigo-500 rounded'>
             <h1><span className="gb gtxt p-5"> Enter Location </span></h1>
             <form onSubmit={handleSubmit} className='grid grid-rows-4 gap-2'>
                 <input className='mx-3 p-2' type="text" placeholder="City" value={city} 
