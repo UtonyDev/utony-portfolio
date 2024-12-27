@@ -1,6 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+font-family: "Roboto", sans-serif;
+font-weight: 300;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
 .input {
     visibility: visible !important;

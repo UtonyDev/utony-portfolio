@@ -11,7 +11,7 @@ const UWeather = () => {
     const fetchData = async (city, country) => {
         try {
             setLoading(true); // Set loading state to true before fetching
-            const response = await fetch(`https://weather-api-server.onrender.com/api/weather?city=${city}&country=${country}`);
+            const response = await fetch(`http://localhost:3000/api/weather?city=${city}&country=${country}`);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -46,7 +46,7 @@ const UWeather = () => {
     }
 
     return (
-        <div className='weather-app h-screen'>
+        <div className='weather-app h-screen '>
             {data && (
                 <div>
                     <h1>Weather for {data.city}, {data.country}</h1>

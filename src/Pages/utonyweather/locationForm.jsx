@@ -18,10 +18,9 @@ function LocationForm({ fetchData }) {
     }
 
     return (
-        <div className='place-content-center gridborder-2 border-indigo-500 rounded'>
-            <h1><span className="gb hid p-0 py-3">U</span>Tony Weather</h1>
+        <div className=' place-content-center gridborder-2 border-indigo-500 rounded'>
+            <h1><span className="gb gtxt p-5"> Enter Location </span></h1>
             <form onSubmit={handleSubmit} className='grid grid-rows-4 gap-2'>
-                Enter Location 
                 <input className='mx-3 p-2' type="text" placeholder="City" value={city} 
                 onChange={(e) => setCity(e.target.value)} />
                 
@@ -29,7 +28,7 @@ function LocationForm({ fetchData }) {
                 onChange={(e) => setCountry(e.target.value)} />
                 
                 <button className='mx-3 my-3 p-2 bg-teal-900' type="submit"> Enter </button>
-                <button className='mx-3 my-3 p-2 bg-teal-900' type="submit">Use Location</button>
+                <button className='mx-3 my-3 p-2 bg-teal-900' >Use Location</button>
 
             </form>
         </div>
