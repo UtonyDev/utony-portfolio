@@ -16,12 +16,13 @@ const UWeather = () => {
         if (keys.length > 0) {
             try {
                 // Retrieve the most recent data in localStorage (optional logic can be added to handle multiple keys)
-                const latestKey = keys[keys.length-2]; // Example: Get the last added key
+                const latestKey = keys[0]; // Example: Get the last added key
                 console.log(latestKey);
                 const cachedData = JSON.parse(localStorage.getItem(latestKey));
 
                 setData(cachedData); // Use cached data for rendering
                 console.log('Using cached data from localStorage:', cachedData);
+
 
             } catch (err) {
                 console.error('Error parsing cached data:', err);
@@ -67,10 +68,30 @@ const UWeather = () => {
         }
     };
 
+    const fetchWeatherByCoordinates = async (latitude, longitude) => {
+        try {
+            const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?latitude=${latitude}&longitude=${longitude}`);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const jsonData = await response.json();
+            localStorage.setItem(cacheKey, JSON.stringify(jsonData)); // Store fetched data in cache
+            setData(jsonData); // Set the fetched data to state
+            console.log('Fetched data from server:', jsonData);
+        } catch (err) {
+            console.error('Error fetching weather data:', err);
+            setError(err.message); // Handle network error
+        } finally {
+            setPrompt(false); // End prompt state
+        }
+    }
+
     if (prompt) {
         return (
             <div className='weather-app h-screen' id='target'>
-                <LocationForm fetchData={fetchData} />
+                <LocationForm fetchData={fetchData} fetchWeatherByCoordinates={fetchWeatherByCoordinates} />
             </div>
         );
     }
@@ -82,6 +103,7 @@ const UWeather = () => {
             </div>
         );
     }
+      
 
     return (
         <div className='weather-app h-screen w-auto place-content-center grid border-2 border-indigo-500 rounded' id='target'>
