@@ -69,6 +69,19 @@ const UWeather = () => {
     };
 
     const fetchWeatherByCoordinates = async (latitude, longitude) => {
+        const cacheKey = `${latitude}:${longitude}`;
+        const cachedWeather = localStorage.getItem(cacheKey);
+
+        console.log(cacheKey);
+
+        // Check if data exists in localStorage
+        if (cachedWeather) {
+            const jsonCachedData = JSON.parse(cachedWeather); // Parse cached data
+            setData(jsonCachedData); // Set the state to cached data
+            console.log('Using cached weather data:', jsonCachedData);
+        } else {
+            console.log('Data not found in cache... fetching from server');
+            setPrompt(true); // Show prompt while fetching
         try {
             const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?latitude=${latitude}&longitude=${longitude}`);
 
@@ -85,6 +98,7 @@ const UWeather = () => {
             setError(err.message); // Handle network error
         } finally {
             setPrompt(false); // End prompt state
+        }
         }
     }
 

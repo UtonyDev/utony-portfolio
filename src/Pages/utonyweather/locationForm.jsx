@@ -5,6 +5,9 @@ import { useLoaderData, useLocation } from 'react-router-dom';
 function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,6 +26,10 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
             navigator.geolocation.getCurrentPosition(
               async (position) => {
                 const { latitude, longitude } = position.coords;
+
+                await fetchWeatherByCoordinates(latitude, longitude);
+                setLatitude(latitude);
+                setLongitude(longitude);
 
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
               },
@@ -46,9 +53,11 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
                 onChange={(e) => setCountry(e.target.value)} />
                 
                 <button className='mx-3 my-3 p-2 bg-teal-900' type="submit"> Enter </button>
-                <button className='mx-3 my-3 p-2 bg-teal-900' onClick={useCoordsData}>Use Location</button>
 
             </form>
+
+            <button className='mx-3 my-3 p-2 bg-teal-900' onClick={useCoordsData}>Use Location</button>
+
         </div>
     );
     }
