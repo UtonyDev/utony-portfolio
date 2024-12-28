@@ -16,7 +16,7 @@ const UWeather = () => {
         if (keys.length > 0) {
             try {
                 // Retrieve the most recent data in localStorage (optional logic can be added to handle multiple keys)
-                const latestKey = keys[keys.length]; // Example: Get the last added key
+                const latestKey = keys[keys.length - 1]; // Example: Get the last added key
                 console.log(latestKey);
                 const cachedData = JSON.parse(localStorage.getItem(latestKey));
 
