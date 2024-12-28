@@ -1,41 +1,76 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LocationForm from './locationForm';
 import './uweather.css';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [prompt, setPrompt] = useState(false); // Default to `false` to prevent showing the prompt initially
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        // Check if any data exists in localStorage during the initial render
+        const keys = Object.keys(localStorage);
+        console.log(keys);
+        console.log(keys.length);
+
+        if (keys.length > 0) {
+            try {
+                // Retrieve the most recent data in localStorage (optional logic can be added to handle multiple keys)
+                const latestKey = keys[keys.length-2]; // Example: Get the last added key
+                console.log(latestKey);
+                const cachedData = JSON.parse(localStorage.getItem(latestKey));
+
+                setData(cachedData); // Use cached data for rendering
+                console.log('Using cached data from localStorage:', cachedData);
+
+            } catch (err) {
+                console.error('Error parsing cached data:', err);
+            }
+        } else {
+            // No cached data, show the location prompt
+            setPrompt(true);
+        }
+    }, []); // Run only once during the initial render
 
     // Function to fetch weather data
     const fetchData = async (city, country) => {
-        try {
-            setLoading(true); // Set loading state to true before fetching
-            const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
+        const cacheKey = `${city}:${country}`;
+        const cachedWeather = localStorage.getItem(cacheKey);
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            } else {console.log('Network response was okay');}
+        console.log(cacheKey);
 
-            const jsonData = await response.json();
-            setData(jsonData); // Store the fetched data in the state
-            console.log(jsonData);
-            console.log(jsonData.address);
+        // Check if data exists in localStorage
+        if (cachedWeather) {
+            const jsonCachedData = JSON.parse(cachedWeather); // Parse cached data
+            setData(jsonCachedData); // Set the state to cached data
+            console.log('Using cached weather data:', jsonCachedData);
+        } else {
+            console.log('Data not found in cache... fetching from server');
+            setPrompt(true); // Show prompt while fetching
+            try {
+                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
 
-        } catch (err) {
-            console.error("Error fetching weather data:", err);
-            setError(err.message); // Handle error
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-        } finally {
-            setLoading(false); // End loading state
+                const jsonData = await response.json();
+                localStorage.setItem(cacheKey, JSON.stringify(jsonData)); // Store fetched data in cache
+                setData(jsonData); // Set the fetched data to state
+                console.log('Fetched data from server:', jsonData);
+            } catch (err) {
+                console.error('Error fetching weather data:', err);
+                setError(err.message); // Handle network error
+            } finally {
+                setPrompt(false); // End prompt state
+            }
         }
     };
 
-    if (loading) {
+    if (prompt) {
         return (
             <div className='weather-app h-screen' id='target'>
-                <LocationForm fetchData={fetchData} /> 
+                <LocationForm fetchData={fetchData} />
             </div>
         );
     }
