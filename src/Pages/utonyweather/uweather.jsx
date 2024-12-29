@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import LocationForm from './locationForm';
 import './uweather.css';
+import { e } from 'mathjs';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
     const [prompt, setPrompt] = useState(false); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [indexval, setIndexval] = useState(0);
+    const [dayDate, setDayDate] = useState('');
 
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
@@ -58,7 +61,8 @@ const UWeather = () => {
     
                 const jsonData = await response.json();
                 setLoading(true);
-    
+                const storedData =[];
+                localStorage.setItem(storedData, jsonData);
                 // Update the cache object with new data
                 cachedData[cacheKey] = jsonData;
                 localStorage.setItem(weatherCacheKey, JSON.stringify(cachedData)); // Save the updated cache to localStorage
@@ -156,7 +160,58 @@ const UWeather = () => {
         return celsius;
     }
 
- 
+    const hourMinFormat = (fullTime) => {
+        const formattedTime = fullTime.slice(0, -3);
+        return formattedTime;
+    }
+
+    const formatDay = (numDay) => {
+        const day = new Date(numDay);
+       const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
+        return realDay;
+    }
+
+    let date = new Date();
+    const storedData = [];
+    const jsonData = localStorage.getItem(storedData)
+    const iconBasePath = '/GWeatherIcons/';
+    
+    const currentTime = new Date().getTime();
+    // Convert currentTime to seconds (as JSON uses seconds in datetimeEpoch)
+    const currentEpoch = Math.floor(currentTime / 1000);
+
+    useEffect(() => {
+        if (data) {
+            console.log('Data available outside fetchData:', data);
+    
+            if (data.days && data.days[1]?.hours) {
+                const timeinData = data.days[1].hours[22].datetimeEpoch;
+                const date = new Date(timeinData * 1000);
+
+                const realTime = new Date();
+                console.log(realTime)
+                const realHour = realTime.getHours();
+                console.log(realHour);
+
+                const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
+                console.log(realDay)
+
+                // Extract the hour
+                const hour = date.getHours();
+                console.log('Hour:', hour);               
+                console.log(`${iconBasePath}${data.days[7].icon}.png`)
+
+                console.log(data.days[0].datetime);
+
+                setIndexval(realHour);
+            } else {
+                console.log('Data structure incomplete or missing days/hours');
+            }
+        } else {
+            console.log('Data is not yet available');
+        }
+    }, [data]); // Re-run the effect whenever 'data' changes
+
     return (
         <motion.div initial="start"
         animate="end"
@@ -167,38 +222,45 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid grid-col-2 gap-5 relative top-10 mt-10' >
-                    <div className="temp-con grid grid-rows-3 grid-cols-2 justify-self-center bg-gray-100 gap-5 p-14 shadow-md rounded-lg">
-                        <h1 className="avg-temp col-span-2 text-6xl">{toCelsius(data.days[0].feelslike)}°</h1>
-                        <div className="location col-span-3"> {data.resolvedAddress}</div>
-                        <div className="high-temp"> High {toCelsius(data.days[0].tempmax)}° </div>
-                        <div className="low-temp"> Low {toCelsius(data.days[0].tempmin)}° </div>
+                <div id="weather-app" className='grid grid-col-2 gap-2 relative top-10 mt-10 ' >
+
+                    <div className="temp-con w-10/12 grid grid-auto justify-self-center bg-gray-100 gap-5 px-20 py-6 shadow-md rounded-lg">
+                        <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
+                        ">{toCelsius(data.days[1].hours[indexval].temp)}°</h1>
+                        <div className="conditions text-s ">{data.days[1].hours[indexval].conditions} 
+                            <img src={`${iconBasePath}${data.days[1].hours[indexval].icon}.png`} alt="" className="src size-10" />
+                        </div>
+                        <div className="location col-span-3 text-teal-600 line-clamp-1"> {data.resolvedAddress}</div>
+
+                        <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[1].tempmax)}° </div>
+                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[1].tempmin)}° </div>
                     </div>
 
                     <div className="hourly-forecast grid grid-rows-1 justify-self-center bg-gray-100 gap-3 p-4 m-6 shadow-md rounded-lg">
-                        <div className="desc"> Hourly Forecast </div>
+                        <div className="desc  text-teal-600 bold"> Hourly Forecast </div>
                         <ul className="flex space-x-4 overflow-x-scroll">
                             {data.days[0].hours.map((hour, index) => (
                             <li key={index} className=" bg-gray-100 p-4 rounded-md">
-                                <p className=''>{hour.datetime}</p>
-                                <p className='italic'>{hour.temp}°F</p>
-                                <p className=''>{hour.feelslike}°F</p>
+                                <p className=''>{hourMinFormat(hour.datetime)}</p>
+                                <p className='italic text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
+                                <p className=''>{toCelsius(hour.feelslike)}°F</p>
                                 <p className=''>{hour.conditions}</p>
+                                <p className=""><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-10" /></p>
                             </li>
                             ))}
                         </ul>
                     </div>
 
-                    <div className="daily-forecast grid grid-rows-1 justify-self-center bg-gray-100 p-3 mt-2 mb-8 mx-5 shadow-md rounded-lg">
-                        <div className="desc"> Daily Forecast </div>
+                    <div className="daily-forecast grid grid-rows-1 bg-gray-100 p-3 mt-2 mb-14 mx-5 shadow-md rounded-lg">
+                        <div className="desc  text-teal-600 bold"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.map((day, index) => (
-                                <li key={index} className=" bg-gray-100 p-4 rounded-md">
-                                    <p className='inline-block bold'>{day.datetime}</p>
-                                    <p className='inline-block italic'>{day.temp}°F</p>
-                                    <p className='inline-block'>{day.feelslike}°F</p>
-                                    <p className='inline-block'>{day.conditions}</p>
+                                <li key={index} className="bg-gray-100 p-4 rounded-md">
+                                    <p className='inline-block bold pe-16'>{formatDay(day.datetime)}</p>
+                                    <p className='inline-block italic text-teal-600 align-self-end pe-4'>{toCelsius(day.temp)}°C</p>
+                                    <p className='inline-block align-self-end pe-4'>{toCelsius(day.feelslike)}°C</p>
+                                    <p className="inline-block align-self-end pe-1"><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                 </li>
                             ))}
                         </ul>
