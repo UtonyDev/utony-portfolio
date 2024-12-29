@@ -7,6 +7,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
     const [country, setCountry] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     const handleSubmit = (e) => {
@@ -21,7 +22,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
         fetchData(city, country);
     }
 
-    const useCoordsData = (latitude, longitude) => {
+    const useCoordsData = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
               async (position) => {
@@ -41,23 +42,26 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
             console.error("Geolocation is not supported by this browser.");
           }
         }
+
     
     return (
-        <div className='w-auto place-content-center grid border-2 border-indigo-500 rounded'>
-            <h1><span className="gb gtxt p-5"> Enter Location </span></h1>
-            <form onSubmit={handleSubmit} className='grid grid-rows-4 gap-2'>
-                <input className='mx-3 p-2' type="text" placeholder="City" value={city} 
-                onChange={(e) => setCity(e.target.value)} />
-                
-                <input className='mx-3 p-2' type="text" placeholder="Country" value={country} 
-                onChange={(e) => setCountry(e.target.value)} />
-                
-                <button className='mx-3 my-3 p-2 bg-teal-900' type="submit"> Enter </button>
+        <div className=' place-content-center grid'>
+            <div className="form-container m-5 grid border-2 shadow-2xl rounded">
 
-            </form>
+                <h1><span className="text-teal-300 text-3xl text-justify"> Enter Location </span></h1>
+                <form onSubmit={handleSubmit} className='grid grid-rows-3 gap-2'>
+                    <input className='mx-3 p-2' type="text" placeholder="City" value={city} 
+                    onChange={(e) => setCity(e.target.value)} />
+                    
+                    <input className='mx-3 p-2' type="text" placeholder="Country" value={country} 
+                    onChange={(e) => setCountry(e.target.value)} />
+                    
+                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded text-white' type="submit"> Enter </button>
 
-            <button className='mx-3 my-3 p-2 bg-teal-900' onClick={useCoordsData}>Use Location</button>
+                </form>
 
+                <button className='mx-3 my-3 p-2 bg-teal-700 rounded text-white' onClick={useCoordsData}>Use Location</button>
+            </div>
         </div>
     );
     }

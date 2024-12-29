@@ -4,6 +4,7 @@
 
 
 .weather-app {
-    background-color: aliceblue;
     display: grid;
+    background-color: var(--topbackclr);
 }
+
