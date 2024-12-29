@@ -45,15 +45,15 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
 
     
     return (
-        <div className=' place-content-center grid'>
-            <div className="form-container m-5 grid border-2 shadow-2xl rounded">
+        <div className='w-10/12 place-self-center relative top-1/4 grid'>
+            <div className="form-container grid border-2 shadow-2xl rounded">
 
-                <h1><span className="text-teal-300 text-3xl text-justify"> Enter Location </span></h1>
+                <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
                 <form onSubmit={handleSubmit} className='grid grid-rows-3 gap-2'>
-                    <input className='mx-3 p-2' type="text" placeholder="City" value={city} 
+                    <input className='mx-3 p-2 rounded shadow-md' type="text" placeholder="City" value={city} 
                     onChange={(e) => setCity(e.target.value)} />
                     
-                    <input className='mx-3 p-2' type="text" placeholder="Country" value={country} 
+                    <input className='mx-3 p-2 rounded shadow-md' type="text" placeholder="Country" value={country} 
                     onChange={(e) => setCountry(e.target.value)} />
                     
                     <button className='mx-3 my-3 p-2 bg-teal-700 rounded text-white' type="submit"> Enter </button>

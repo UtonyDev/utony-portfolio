@@ -178,16 +178,26 @@ img.propic {
 	z-index: 100 !important;
 }
 
+
 .menurev {
 	position: fixed;
 	top: 2.8em;
-	width: 93.25% !important;
+	width: 100% !important;
 	height: 100vh;
 	background-color: var(--menuBar);
 	transition: right 1s;
 	z-index: 200;
 	padding-inline: 1rem;
 }
+
+.menu-items-con {
+	padding-top: 10%;
+	display: grid;
+	justify-content: first baseline;
+	align-content: center;
+	gap: 2.5%;
+}
+
 
 .lnk {
 	margin-left: 2%;
@@ -212,7 +222,8 @@ img.propic {
 
 .morecon {
 	margin-left: 2%;
-	padding-left: 3.5% !important;
+	padding: 0 0 0 3.5% !important;
+	display: grid;
 	max-height: 0;
 	transition: max-height .5s ease-out;
 	overflow: hidden;

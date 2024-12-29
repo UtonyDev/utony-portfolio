@@ -142,11 +142,11 @@ function Header({ textAnimations, nameLogoAnimation }) {
 </div>
 
 <div id='menu' className="menurev menupc hide">
-      <img src="/utlogopic.jpeg" alt="" className="propic" />
 
+<div className="menu-items-con">
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
-    <span className="menuIcons"><FaFolder/></span>
+    
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
@@ -160,7 +160,6 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
     <a className="lnk" >
-    <span className="menuIcons"><FaEnvelope/></span>
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
@@ -182,13 +181,13 @@ function Header({ textAnimations, nameLogoAnimation }) {
         <hr />
       </a>
     </div>
-  </div>
+    </div>
+ 
 
   <Link href="jump" className="lnk alnk">
-    <span className="menuIcons"><FaUserCircle/></span>
      About
   </Link>
-  {/* Remove empty div if not needed */}
+  </div>
 </div>
 </div>
 
