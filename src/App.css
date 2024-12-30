@@ -486,11 +486,6 @@ hr:hover {
 	align-items: center;
 }
 
-.mobile-foot-icons {
-	margin: 0;
-	padding: 5%;
-	transform: translateX(15%);
-}
 
 .contact-head,
 .quicklink-head,
@@ -516,10 +511,14 @@ hr:hover {
 	.menurev {
 		position: fixed;
 		width: 100% !important;
+		max-height: max-content;
 		background-color: var(--menuBar);
 		z-index: 1000;
 		overflow: hidden;
 		transition: top 1s !important;
+	}
+	.menu-items-con {
+		padding: 1em;
 	}
 
 	.menupc {
@@ -630,14 +629,18 @@ hr:hover {
 	.menupc {
 		top: 2.8em !important;
 		height: 2.5em !important;
-		display: flex;
-		justify-content: flex-end;
 		backdrop-filter: blur(0);
 		background-color: var(--topbackclr) !important;
 		transition: right 1s;
 		z-index: 1000;
 		padding-inline: 1rem;
 		overflow: visible !important;
+	}
+
+	.menu-items-con {
+		display: flex;
+		justify-content: flex-end;
+		padding-top: 0;
 	}
 
 	.menupc-calc {

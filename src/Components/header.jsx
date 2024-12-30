@@ -128,6 +128,27 @@ function Header({ textAnimations, nameLogoAnimation }) {
     nameLogoAnimation();
   }, [nameLogoAnimation]);
 
+
+  let currentScrl = window.scrollY;
+
+  const persistentNameLogo = () => {
+    if (pageLocation.pathname === '/uweather') {
+      window.addEventListener("scroll", () => {
+        const targetElement = document.getElementById("target");
+        const triggPoint = targetElement.offsetTop;
+        const triggPointX = triggPoint * 1;
+        const profNameDesktop = document.getElementById("nme");
+        
+        if (currentScrl >= triggPointX) {
+            profNameDesktop.classList.replace("nmeHide", "nmeShow");
+        } else {
+            profNameDesktop.classList.replace("nmeHide", "nmeShow");
+        }
+      });
+  }
+}
+  useEffect(() => {persistentNameLogo();}, [currentScrl])
+
     return (
         <>
       <div className="headcon">
@@ -143,7 +164,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div id='menu' className="menurev menupc hide">
 
-<div className="menu-items-con">
+<div className="menu-items-con shadow-lg">
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
     

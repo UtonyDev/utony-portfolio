@@ -9,11 +9,11 @@ function Footer() {
     
   <div className="foot">
 
-    <div className="mobile-foot-icons">
-    <FaEnvelope style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2}}/>
-    <FaTwitter style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
-    <FaLinkedin style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
-    <FaLinkedin style={{ marginRight: '8.5%', height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    <div className="mobile-foot-icons grid justify-self-center grid-cols-2 grid-rows-2 gap-2 m-4">
+    <FaEnvelope style={{ height: '1.5em', width: '1.2em', strokeWidth: 2}}/>
+    <FaTwitter style={{ height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    <FaLinkedin style={{ height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
+    <FaLinkedin style={{ height: '1.5em', width: '1.2em', strokeWidth: 2 }}/>
     </div>
       
       <div className="contact-link">
