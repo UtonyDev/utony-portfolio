@@ -12,6 +12,11 @@ const UWeather = () => {
     const [indexval, setIndexval] = useState(0);
     const [dayDate, setDayDate] = useState('');
 
+    const resetData = () => {
+        localStorage.clear();
+        window.location.reload()
+    }
+
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
         const weatherCacheKey = 'weatherCache';
@@ -217,6 +222,8 @@ const UWeather = () => {
         id='target'>
             {data && (
                 <div id="weather-app" className='grid grid-col-2 gap-1 relative top-10 mt-10 ' >
+
+                    <button  className=" bg-gray-100 text-teal-600 px-1 text-sm py-1 rounded w-fit m-4" onClick={resetData}> Reset </button>
 
                     <div className="temp-con w-10/12 grid grid-auto justify-self-center bg-gray-100 gap-5 px-20 py-6 shadow-md rounded-lg">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
