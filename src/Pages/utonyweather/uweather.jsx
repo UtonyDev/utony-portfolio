@@ -223,7 +223,7 @@ const UWeather = () => {
             {data && (
                 <div id="weather-app" className='grid grid-col-2 gap-1 relative top-10 mt-10 ' >
 
-                    <button  className=" bg-gray-100 text-teal-600 px-1 text-sm py-1 rounded w-fit m-4" onClick={resetData}> Reset </button>
+                    <button  className=" bg-gray-100 text-teal-600 px-1 text-sm py-1 rounded w-fit -4" onClick={resetData}> Reset </button>
 
                     <div className="temp-con w-10/12 grid grid-auto justify-self-center bg-gray-100 gap-5 px-20 py-6 shadow-md rounded-lg">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
@@ -258,9 +258,9 @@ const UWeather = () => {
                                 <li key={index} className="grid grid-flow-col bg-gray-100 p-4 rounded-md">
                                     <p className='inline-block bold'>{formatDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
-                                    <p className='inline-block italic text-teal-600 px-4'>{toCelsius(day.temp)}°C</p>
-                                    <p className='inline-block px-4'>{toCelsius(day.feelslike)}°C</p>
-                                    <p className="inline-block px-1"><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
+                                    <p className='inline-block italic text-teal-600 px-2'>{toCelsius(day.temp)}°C</p>
+                                    <p className='inline-block px-2'>{toCelsius(day.feelslike)}°C</p>
+                                    <p className="inline-block "><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                     </span>
                                 </li>
                             ))}
