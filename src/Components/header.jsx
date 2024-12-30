@@ -164,7 +164,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div id='menu' className="menurev menupc hide">
 
-<div className="menu-items-con shadow-lg">
+<div className="menu-items-con md:shadow-lg">
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
     
