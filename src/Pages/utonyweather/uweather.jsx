@@ -180,37 +180,6 @@ const UWeather = () => {
     // Convert currentTime to seconds (as JSON uses seconds in datetimeEpoch)
     const currentEpoch = Math.floor(currentTime / 1000);
 
-    useEffect(() => {
-        if (data) {
-            console.log('Data available outside fetchData:', data);
-    
-            if (data.days && data.days[1]?.hours) {
-                const timeinData = data.days[1].hours[22].datetimeEpoch;
-                const date = new Date(timeinData * 1000);
-
-                const realTime = new Date();
-                console.log(realTime)
-                const realHour = realTime.getHours();
-                console.log(realHour);
-
-                const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
-                console.log(realDay)
-
-                // Extract the hour
-                const hour = date.getHours();
-                console.log('Hour:', hour);               
-                console.log(`${iconBasePath}${data.days[7].icon}.png`)
-
-                console.log(data.days[0].datetime);
-
-                setIndexval(realHour);
-            } else {
-                console.log('Data structure incomplete or missing days/hours');
-            }
-        } else {
-            console.log('Data is not yet available');
-        }
-    }, [data]); // Re-run the effect whenever 'data' changes
 
     return (
         <motion.div initial="start"
