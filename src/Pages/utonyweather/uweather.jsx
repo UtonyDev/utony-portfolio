@@ -276,7 +276,7 @@ const UWeather = () => {
                     <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
-                        <div className="conditions text-s relative top-1/4 place-self-center ms-10">{data.days[0].hours[indexval].conditions} 
+                        <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexval].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexval].icon}.png`} alt="" className="src size-10" />
                         </div>
                         <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexval].feelslike)}</div>
