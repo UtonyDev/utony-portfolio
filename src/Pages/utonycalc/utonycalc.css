@@ -111,7 +111,7 @@
       position: relative;
       top: 51px;  
       display: grid;
-      max-height: 88vh;
+      max-height: 90vh;
       grid-template-columns: 1fr 1fr 1fr 1fr;      
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  

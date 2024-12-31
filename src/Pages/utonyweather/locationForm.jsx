@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import './form.css';
 import { useLoaderData, useLocation } from 'react-router-dom';
 
-function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
+function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates }) {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [latitude, setLatitude] = useState('');
@@ -20,6 +20,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
         }
 
         fetchData(city, country);
+        setLoading(true);
     }
 
     const useCoordsData = () => {
@@ -29,6 +30,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
                 const { latitude, longitude } = position.coords;
 
                 await fetchWeatherByCoordinates(latitude, longitude);
+                await convertCoordinates(latitude, longitude)
                 setLatitude(latitude);
                 setLongitude(longitude);
 
@@ -43,24 +45,33 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates }) {
           }
         }
 
+        if (loading) {
+            return (
+                <div className="bg-blue-50 place-items-center relative grid w-full h-full">
+                    <span className="absolute top-1/3  spinner"></span>
+                    <div className="plead-message"> Please hold on this may take a while...</div>
+                </div>
+            )
+        }
+
     
     return (
         <div className='w-10/12 place-self-center relative top-1/4 grid'>
-            <div className="form-container grid border-2 shadow-2xl rounded">
+            <div className="form-container grid border-2 shadow-2xl rounded-xl backdrop-blur-sm">
 
                 <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
                 <form onSubmit={handleSubmit} className='grid grid-rows-3 gap-2'>
-                    <input className='mx-3 p-2 rounded shadow-md' type="text" placeholder="City" value={city} 
+                    <input className='mx-3 p-2 rounded-xl shadow-md text-gray-400 text-xl' type="text" placeholder="City" value={city} 
                     onChange={(e) => setCity(e.target.value)} />
                     
-                    <input className='mx-3 p-2 rounded shadow-md' type="text" placeholder="Country" value={country} 
+                    <input className='mx-3 p-2 rounded-xl shadow-md text-gray-400 text-xl' type="text" placeholder="Country" value={country} 
                     onChange={(e) => setCountry(e.target.value)} />
                     
-                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded text-white' type="submit"> Enter </button>
+                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit"> Enter </button>
 
                 </form>
 
-                <button className='mx-3 my-3 p-2 bg-teal-700 rounded text-white' onClick={useCoordsData}>Use Location</button>
+                <button className='mx-3 my-3 p-2 bg-teal-700 rounded drop-shadow-lg text-white' onClick={useCoordsData}>Use Location</button>
             </div>
         </div>
     );

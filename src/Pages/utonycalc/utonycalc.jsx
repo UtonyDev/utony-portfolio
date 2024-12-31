@@ -11,6 +11,7 @@ function UTonyCalc() {
   const [isFirstExecution, setIsFirstExecution] = useState(true);
   const [activeButton, setActiveButton] = useState(null);
   const historyTabRef = useRef(null);
+  const contRef = useRef(null);
 
   const Buttons = [  
   { label: 'H', value: 'history' },
@@ -665,6 +666,14 @@ const onButtonClick = (e, val) => {
     }
   };
 
+  const calcFull = () => {
+    if (contRef.current) {
+      contRef.current.scrollIntoView({ behavior: 'instant', block: 'center' });
+    }
+  }
+
+  useEffect(() => {calcFull()}, [window.load]);
+
   let left; 
   let right;
   const trackCursor = (inputVal) => {
@@ -683,7 +692,7 @@ const onButtonClick = (e, val) => {
       <label> 
       <div className="calccont">
          <div id="history" className='hideHistory' ref={historyTabRef}> </div>
-        <div className='cont' id='calccon' > 
+        <div className='cont' id='calccon' ref={contRef} > 
             <div className="virtualInputField" onClick={hideHistoryTab}>
               <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
               <p className="preciseResultInp">{newResult}</p>

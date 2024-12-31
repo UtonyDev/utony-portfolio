@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from "framer-motion";
 import LocationForm from './locationForm';
 import './uweather.css';
@@ -10,10 +10,10 @@ const UWeather = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [indexval, setIndexval] = useState(0);
-    const [dayDate, setDayDate] = useState('');
+    const [address, setAddress] = useState('');
 
     const resetData = () => {
-        localStorage.clear();
+        localStorage.removeItem('weatherCache');
         window.location.reload()
     }
 
@@ -54,13 +54,34 @@ const UWeather = () => {
     
                 const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
                 console.log(realDay);
-    
+
+                function outputAddress(resolvedAddress) {
+                    const parts = data.resolvedAddress.split(",");
+                const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
+                if (coordinates) {
+                    console.log(data.resolvedAddress)
+                    console.log("coords address:", address);
+                    setAddress(resolvedAddress)
+                } else {
+                    console.log('use entered address');
+                    setAddress(data.resolvedAddress);
+                }
+            }
+            
+                
+
                 // Extract the hour
                 const hour = date.getHours();
                 console.log('Hour:', hour);
                 console.log(`${iconBasePath}${data.days[7].icon}.png`);
     
                 console.log(data.days[0].datetime);
+                const hourInfo = document.querySelectorAll('.hour-info');
+
+                hourInfo[realHour].scrollIntoView({
+                    behavior: 'instant',
+                    block: 'nearest', // Ensures vertical alignment doesn't change
+                    inline: 'start'  });        
     
                 // Update the state
                 setIndexval(realHour);
@@ -100,9 +121,9 @@ const UWeather = () => {
                 }
     
                 const jsonData = await response.json();
-                setLoading(true);
-                const storedData =[];
+                const storedData = [];
                 localStorage.setItem(storedData, jsonData);
+                console.log('new stored data', storedData)
                 // Update the cache object with new data
                 cachedData[cacheKey] = jsonData;
                 localStorage.setItem(weatherCacheKey, JSON.stringify(cachedData)); // Save the updated cache to localStorage
@@ -120,7 +141,30 @@ const UWeather = () => {
             }
         }
     };
-    
+
+    const convertCoordinates = async (latitude, longitude) => {
+        const apiKey = '124d73669936416ea36f14503e262e7d';  // Replace with your OpenCage API key
+
+        const url = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}%2C+${longitude}&pretty=1&no_annotations=1`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results.length > 0) {
+            const city = `${data.results[0].components._normalized_city}, ${data.results[0].components.state},`;
+            const country = `${data.results[0].components.country}`;
+            const resolvedAddress = `${city}${country}`;
+            console.log(resolvedAddress)
+            setAddress(resolvedAddress);
+            } else {
+            console.log('No results found.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
     const fetchWeatherByCoordinates = async (latitude, longitude) => {
         const cacheKey = `${latitude}:${longitude}`;
         const weatherCacheKey = 'weatherCache';
@@ -164,23 +208,18 @@ const UWeather = () => {
                 setLoading(false) // End prompt state
             }
         }
+        convertCoordinates();
     }
 
     if (prompt) {
         return (
-            <div className='weather-app h-screen' id='target'>
-                <LocationForm fetchData={fetchData} fetchWeatherByCoordinates={fetchWeatherByCoordinates} />
+            <div className='weather-app h-screen backdrop-blur-sm' id='target'>
+                <LocationForm fetchData={fetchData} fetchWeatherByCoordinates={fetchWeatherByCoordinates} 
+                convertCoordinates={convertCoordinates}/>
             </div>
         );
     }
 
-    if (loading) {
-        return (
-            <div className="grid place-content-center">
-                <span className=""> loading... </span>
-            </div>
-        )
-    }
 
     if (error) {
         return (
@@ -221,27 +260,27 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid grid-col-2 gap-1 relative top-10 mt-10 ' >
+                <div id="weather-app" className='grid grid-col-2 gap-5 relative top-7 mt-10 ' >
 
                     <button  className=" bg-gray-100 text-teal-600 px-1 text-sm py-1 rounded w-fit -4" onClick={resetData}> Reset </button>
 
-                    <div className="temp-con w-10/12 grid grid-auto justify-self-center bg-gray-100 gap-5 px-20 py-6 shadow-md rounded-lg">
+                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-10 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
-                        <div className="conditions text-s ">{data.days[0].hours[indexval].conditions} 
+                        <div className="conditions text-s relative top-2/4 ms-10">{data.days[0].hours[indexval].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexval].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="location col-span-3 text-teal-600 line-clamp-1"> {data.resolvedAddress}</div>
+                        <div className="location col-span-3 text-teal-600 line-clamp-1"> {address}</div>
 
                         <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}° </div>
                         <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}° </div>
                     </div>
 
-                    <div className="hourly-forecast grid grid-rows-1 justify-self-center bg-gray-100 gap-3 p-4 m-6 shadow-md rounded-lg">
+                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-gray-100 gap-3 shadow-md rounded-lg">
                         <div className="desc  text-teal-600 bold"> Hourly Forecast </div>
-                        <ul className="flex space-x-4 overflow-x-scroll">
+                        <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
-                            <li key={index} className=" bg-gray-100 p-4 rounded-md">
+                            <li key={index} className="hour-info bg-gray-100 p-4 rounded-md">
                                 <p className='py-1'>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
                                 <p className='py-1'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
@@ -250,7 +289,7 @@ const UWeather = () => {
                         </ul>
                     </div>
 
-                    <div className="daily-forecast grid grid-rows-1 bg-gray-100 p-3 mt-2 mb-14 mx-5 shadow-md rounded-lg">
+                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb-14 mx-3 shadow-md rounded-lg">
                         <div className="desc  text-teal-600 bold"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
