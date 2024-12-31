@@ -55,10 +55,12 @@ const UWeather = () => {
                 const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
                 console.log(realDay);
 
-                function outputAddress(resolvedAddress) {
-                    const parts = data.resolvedAddress.split(",");
+                
+                const parts = data.resolvedAddress.split(",");
                 const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
-                if (coordinates) {
+                if (coordinates ) {
+                    const resolvedAddress = localStorage.getItem("resolvedAddress");
+                console.log("Resolved Address:", resolvedAddress);
                     console.log(data.resolvedAddress)
                     console.log("coords address:", address);
                     setAddress(resolvedAddress)
@@ -66,10 +68,7 @@ const UWeather = () => {
                     console.log('use entered address');
                     setAddress(data.resolvedAddress);
                 }
-            }
-            
-                
-
+        
                 // Extract the hour
                 const hour = date.getHours();
                 console.log('Hour:', hour);
@@ -154,8 +153,9 @@ const UWeather = () => {
             const city = `${data.results[0].components._normalized_city}, ${data.results[0].components.state},`;
             const country = `${data.results[0].components.country}`;
             const resolvedAddress = `${city}${country}`;
+            localStorage.setItem("resolvedAddress", resolvedAddress);
+
             console.log(resolvedAddress)
-            setAddress(resolvedAddress);
             } else {
             console.log('No results found.');
             }
@@ -208,7 +208,6 @@ const UWeather = () => {
                 setLoading(false) // End prompt state
             }
         }
-        convertCoordinates();
     }
 
     if (prompt) {
