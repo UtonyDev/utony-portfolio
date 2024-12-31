@@ -30,10 +30,12 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
                 const { latitude, longitude } = position.coords;
 
                 await fetchWeatherByCoordinates(latitude, longitude);
+                setLoading(true)
+
                 await convertCoordinates(latitude, longitude)
                 setLatitude(latitude);
                 setLongitude(longitude);
-
+                
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
               },
               (error) => {

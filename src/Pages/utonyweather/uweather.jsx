@@ -154,6 +154,7 @@ const UWeather = () => {
             const country = `${data.results[0].components.country}`;
             const resolvedAddress = `${city}${country}`;
             localStorage.setItem("resolvedAddress", resolvedAddress);
+            setAddress(resolvedAddress)
 
             console.log(resolvedAddress)
             } else {
