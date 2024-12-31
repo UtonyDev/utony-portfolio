@@ -5,22 +5,29 @@ function Togicon() {
 
     useEffect(() => {
         // Check for saved theme in localStorage
+        //
+       // const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        //const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
+        //console.log(prefersDarkMode);
+
         const savedTheme = localStorage.getItem('theme');
-        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const checkbox = document.getElementById('myCheckbox');
-        console.log(prefersDarkMode);
+
+        if (savedTheme === 'dark') { 
+          checkbox.checked = true;
+          console.log('checkbox is checked yo!')
+        } 
 
         // If a manual override exists, use it; otherwise, use system preference
         if (savedTheme) {
           document.body.setAttribute('data-theme', savedTheme);
-        } else {
-          document.body.setAttribute('data-theme', prefersDarkMode ? 'dark' : savedTheme);
-        }
-        // Set checkbox to true if dark theme is preferred
-        if (savedTheme === 'dark' || prefersDarkMode ) { 
+         
+        } 
+        if (savedTheme === 'dark') { 
           checkbox.checked = true;
           console.log('checkbox is checked yo!')
-        }
+        } 
+        
       }, [window.load]);
 
   

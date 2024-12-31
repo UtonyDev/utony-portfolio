@@ -50,33 +50,28 @@
     box-shadow: 0px 0px 0px var(--bxShadowblr);
     padding: 0;
     margin: 0 0 0 5% ;
-    height: 57vh !important;
     border-radius: 1em;
-  }
-
-  
-  .hideHistory {
-    transition: all .5s ease;
-    position: absolute;
-    top: 32vh;
-    left: -3.5%;
-    z-index: 100;
-    height: 0 !important;
-    width: 0 !important;
-    padding: 0 !important;
-    overflow-y: scroll !important;
-  }
-  .showHistory {
-    transition: all .5s ease;
     position: absolute;
     top: 35vh;
-    left: -3.5% ; 
+    left: -3.5%;
     z-index: 100;
-    height: 62vh;
-    width: 87% !important; 
-    padding: 5% !important;
     overflow-y: scroll !important;
+
   }
+
+  .hideHistory {
+    transition: width .5s ease, height .5s ease, padding .5s ease-out;
+    height: 0% !important;
+    width: 0% !important;
+    padding: 0 !important;
+  }
+  .showHistory {
+    transition: width .5s ease, height .5s ease, padding .5s ease-out;
+    height: 55% !important;
+    width: 97% !important; 
+    padding: 5% !important;
+  }
+
   .historyItem > p {
     font-size: 120% !important;
     text-decoration: none;    
@@ -100,12 +95,12 @@
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
-      box-shadow: 0px 0px 0px var(--bxShadowblr);
       overflow: hidden;
       z-index: 10;
       background-color:var(--contwhite);
       transition: all .5s ease;
-      margin: 2%;
+      margin: 1.5%;
+      padding: 2%;
     }
     .fullCont {
       position: relative;
@@ -116,12 +111,12 @@
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
-      box-shadow: 0px 0px 0px var(--bxShadowblr);
       overflow: hidden;
       z-index: 10;
       background-color:var(--contwhite);
       transition: all 1s ease;
       margin: 1%;
+      padding: 2%;
     }    
      .virtualInputField {
     position: absolute;
@@ -187,6 +182,7 @@
     }
 
     .inputField {
+      visibility: hidden;
       grid-area: 1/1/2/5;
       height: 15vh;
       width: auto;

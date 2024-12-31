@@ -114,7 +114,6 @@ const handleMouseUp = () => {
 
 function hideHistoryTab() {
 if (historyTabRef.current) {
-  // Access the class list of the element
   const classList = historyTabRef.current.classList;
   if (classList.contains('showHistory')) {
       console.log('Element has the class "showHistory"');
@@ -575,6 +574,8 @@ const onButtonClick = (e, val) => {
       console.log(cursorPos);
     } else if (val === "expand") {
     showFunctKeys();
+    hideHistoryTab();
+    
 
   } else if (val === 'DEG') {
       const RadButn = document.querySelector('.butnRAD');
@@ -690,9 +691,9 @@ const onButtonClick = (e, val) => {
     <i className="fa-solid fa-chevron-left"></i> Home </Link>
     <form> 
       <label> 
-      <div className="calccont">
+      <div className="calccont" ref={contRef}>
          <div id="history" className='hideHistory' ref={historyTabRef}> </div>
-        <div className='cont' id='calccon' ref={contRef} > 
+        <div className='cont' id='calccon'  > 
             <div className="virtualInputField" onClick={hideHistoryTab}>
               <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
               <p className="preciseResultInp">{newResult}</p>
