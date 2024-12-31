@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from "framer-motion";
 import LocationForm from './locationForm';
+import { FaUndo, FaSearchLocation } from 'react-icons/fa';
 import './uweather.css';
 import { e } from 'mathjs';
+import { faSearchLocation } from '@fortawesome/free-solid-svg-icons';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
@@ -43,7 +45,11 @@ const UWeather = () => {
             console.log('Data available outside fetchData:', data);
     
             if (data.days && data.days[1]?.hours) {
-                const timeinData = data.days[1].hours[22].datetimeEpoch;
+
+                const currentvalue = data.days[0].hours[indexval].temp;
+                console.log(currentvalue)
+
+                const timeinData = data.days[0].hours[22].datetimeEpoch;
                 const date = new Date(timeinData * 1000);
     
                 const realTime = new Date();
@@ -54,6 +60,7 @@ const UWeather = () => {
     
                 const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
                 console.log(realDay);
+                
 
                 
                 const parts = data.resolvedAddress.split(",");
@@ -235,7 +242,8 @@ const UWeather = () => {
       };
 
     const toCelsius = (fahrenheit) => {
-       const celsius = ((fahrenheit - 32) * (5 / 9)).toFixed(0);
+       const celsius = Math.ceil((fahrenheit - 32) * (5 / 9));
+       
         return celsius;
     }
 
@@ -260,20 +268,23 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid grid-col-2 gap-5 relative top-7 mt-10 ' >
+                <div id="weather-app" className='grid justify-items-center grid-rows-1 grid-col-2 gap-5 relative top-7 mt-10 ' >
+                    <div className="search grid grid-auto w-11/12">
+                        <input type="search" className='search-icon -w-full row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full ' name="place" id="place" placeholder={address} />
+                    </div>
 
-                    <button  className=" bg-gray-100 text-teal-600 px-1 text-sm py-1 rounded w-fit -4" onClick={resetData}> Reset </button>
-
-                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-10 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
+                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
-                        <div className="conditions text-s relative top-2/4 ms-10">{data.days[0].hours[indexval].conditions} 
+                        <div className="conditions text-s relative top-1/4 place-self-center ms-10">{data.days[0].hours[indexval].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexval].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="location col-span-3 text-teal-600 line-clamp-1"> {address}</div>
+                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexval].feelslike)}</div>
 
                         <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}° </div>
                         <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}° </div>
+                        <button  className="text-teal-600 bg-transparent px-1  text-sm py-1 place-self-end rounded w-fit" onClick={resetData}> < FaUndo className='reset'/> </button>
+
                     </div>
 
                     <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-gray-100 gap-3 shadow-md rounded-lg">

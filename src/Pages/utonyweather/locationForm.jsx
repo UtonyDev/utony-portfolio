@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import './form.css';
-import { useLoaderData, useLocation } from 'react-router-dom';
 
 function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates }) {
     const [city, setCity] = useState('');
@@ -30,7 +29,6 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
                 const { latitude, longitude } = position.coords;
 
                 await fetchWeatherByCoordinates(latitude, longitude);
-                setLoading(true)
 
                 await convertCoordinates(latitude, longitude)
                 setLatitude(latitude);
@@ -45,6 +43,8 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
           } else {
             console.error("Geolocation is not supported by this browser.");
           }
+          setLoading(true)
+
         }
 
         if (loading) {
@@ -58,7 +58,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
 
     
     return (
-        <div className='w-10/12 place-self-center relative top-1/4 grid'>
+        <div className=' place-self-center relative top-1/4 grid'>
             <div className="form-container grid border-2 shadow-2xl rounded-xl backdrop-blur-sm">
 
                 <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
