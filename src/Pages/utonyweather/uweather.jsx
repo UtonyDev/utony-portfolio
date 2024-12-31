@@ -269,8 +269,8 @@ const UWeather = () => {
         id='target'>
             {data && (
                 <div id="weather-app" className='grid justify-items-center grid-rows-1 grid-col-2 gap-5 relative top-7 mt-10 ' >
-                    <div className="search grid grid-auto w-11/12">
-                        <input type="search" className='search-icon -w-full row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full ' name="place" id="place" placeholder={address} />
+                    <div className="search grid  grid-auto w-full">
+                        <input type="search" className='search-icon justify-self-center w-11/12 row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full ' name="place" id="place" placeholder={address} />
                     </div>
 
                     <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
