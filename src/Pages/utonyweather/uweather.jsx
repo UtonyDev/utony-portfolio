@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from "framer-motion";
 import LocationForm from './locationForm';
-import { FaUndo, FaSearchLocation } from 'react-icons/fa';
+import { FaUndo } from 'react-icons/fa';
+import axios from "axios";
 import './uweather.css';
 import { e } from 'mathjs';
 import { faSearchLocation } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +14,58 @@ const UWeather = () => {
     const [error, setError] = useState(null);
     const [indexval, setIndexval] = useState(0);
     const [address, setAddress] = useState('');
+    const [query, setQuery] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [holdResult, setHoldResult] = useState('');
+    const [chosenIndex, setChosenIndex] = useState(0);
+
+    const API_KEY = '124d73669936416ea36f14503e262e7d'; // Replace with your OpenCage API key
+
+
+    const InputValChange = async (e) => {
+        const value = e.target.value;
+        setQuery(value);
+
+        if (value.length > 2) { // Fetch suggestions only if query length > 2
+            try {
+                const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
+                    params: {
+                        q: value,
+                        key: API_KEY,
+                        limit: 5, 
+                        language: "en",
+                    },
+                });
+
+                const results = response.data.results.map((result) => result.formatted);
+                setHoldResult(results);
+                setSuggestions(results);
+            
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+            }
+            
+        } else {
+            setSuggestions([]);
+        }
+    }
+
+    const unformatLocation = (index) => {
+        const chosenList = holdResult[index];
+        console.log(chosenList);
+
+       const splitData = chosenList.split(',');
+       console.log(splitData)
+
+       const newcity = splitData[0];
+       const newcountry = splitData[1];
+       console.log(newcity && newcountry);
+
+       fetchData(newcity, newcountry);
+
+    }
 
     const resetData = () => {
         localStorage.removeItem('weatherCache');
@@ -44,12 +97,9 @@ const UWeather = () => {
         if (data) {
             console.log('Data available outside fetchData:', data);
     
-            if (data.days && data.days[1]?.hours) {
+            if (data.days && data.days[0]?.hours) {
 
-                const currentvalue = data.days[0].hours[indexval].temp;
-                console.log(currentvalue)
-
-                const timeinData = data.days[0].hours[22].datetimeEpoch;
+                const timeinData = data.days[0].hours[23].datetime;
                 const date = new Date(timeinData * 1000);
     
                 const realTime = new Date();
@@ -57,12 +107,7 @@ const UWeather = () => {
     
                 const realHour = realTime.getHours();
                 console.log(realHour);
-    
-                const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(realTime);
-                console.log(realDay);
-                
-
-                
+                    
                 const parts = data.resolvedAddress.split(",");
                 const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
                 if (coordinates ) {
@@ -75,7 +120,11 @@ const UWeather = () => {
                     console.log('use entered address');
                     setAddress(data.resolvedAddress);
                 }
-        
+
+                const currentvalue = data.days[0].hours[realHour].temp;
+                console.log(currentvalue)                
+                console.log(toCelsius(currentvalue));
+
                 // Extract the hour
                 const hour = date.getHours();
                 console.log('Hour:', hour);
@@ -87,7 +136,9 @@ const UWeather = () => {
                 hourInfo[realHour].scrollIntoView({
                     behavior: 'instant',
                     block: 'nearest', // Ensures vertical alignment doesn't change
-                    inline: 'start'  });        
+                    inline: 'start'  }); 
+                    
+                hourInfo[realHour].classList.add('text-teal-500')
     
                 // Update the state
                 setIndexval(realHour);
@@ -117,7 +168,9 @@ const UWeather = () => {
             console.log('Using cached weather data:', jsonCachedData);
         } else {
             console.log('Data not found in cache... fetching from server');
-            setPrompt(true); // Show prompt while fetching
+            if (chosenIndex) {
+            setPrompt(true); 
+        } else {setPrompt(false)}// Show prompt while fetching
             try {
                 const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
                 setLoading(true);
@@ -227,7 +280,6 @@ const UWeather = () => {
         );
     }
 
-
     if (error) {
         return (
             <div className='weather-app h-screen'>
@@ -239,10 +291,10 @@ const UWeather = () => {
     const gradientVariants = {
         start: { background: 'linear-gradient(to right, aliceblue, white)' },
         end: { background: 'linear-gradient(to right, white, aliceblue)' },
-      };
+    };
 
     const toCelsius = (fahrenheit) => {
-       const celsius = Math.ceil((fahrenheit - 32) * (5 / 9));
+       const celsius = Math.round((fahrenheit - 32) * (5 / 9));
        
         return celsius;
     }
@@ -268,21 +320,38 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid justify-items-center grid-rows-1 grid-col-2 gap-5 relative top-7 mt-10 ' >
-                    <div className="search grid  grid-auto w-full">
-                        <input type="search" className='search-icon justify-self-center w-11/12 row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full ' name="place" id="place" placeholder={address} />
+                <div id="weather-app" className='grid justify-items-center grid-rows-1 grid-col-2 gap-5 relative top-4 mt-10 ' >
+                    <div className="search z-50 sticky top-12 grid grid-auto w-full">
+                        <input type="search" value={query} className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full' name="place" id="place" onChange={InputValChange} placeholder={address} />
+                    {suggestions.length > 0 && (
+                        <ul className=' absolute justify-self-center w-11/12 top-12 backdrop-blur-md text-zinc-800 ring-1 ring-teal-900 shadow-teal-100 rounded-md overflow-y-auto'>
+                            {suggestions.map((suggestion, index) => (
+                                <li key={index} className='p-1 border-b-2 border-teal-600 text-zinc-800' onClick={
+                                     () => {
+                                        setQuery(suggestion);
+                                        setSuggestions([]);
+                                        setChosenIndex(index);
+                                        unformatLocation(index);
+                                        console.log();
+                                        setCity();
+
+                                        }
+                                    }> {suggestion} </li>
+                            ))}
+                        </ul>
+                    )}
                     </div>
 
-                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 bg-gray-100 gap-5 shadow-md rounded-lg">
+                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-md rounded-lg z-40">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
                         <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexval].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexval].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexval].feelslike)}</div>
+                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexval].feelslike)}°C</div>
 
-                        <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}° </div>
-                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}° </div>
+                        <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}°C </div>
+                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}°C </div>
                         <button  className="text-teal-600 bg-transparent px-1  text-sm py-1 place-self-end rounded w-fit" onClick={resetData}> < FaUndo className='reset'/> </button>
 
                     </div>

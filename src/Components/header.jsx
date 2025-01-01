@@ -165,9 +165,13 @@ function Header({ textAnimations, nameLogoAnimation }) {
 <div id='menu' className="menurev menupc hide">
 
 <div className="menu-items-con md:shadow-lg">
+
+    <Link to="/UHomepage" className='ms-3 ps-3 text-xl'onClick={resetMenu} >
+       Home
+    </Link>
+
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk" >
-    
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
@@ -175,7 +179,6 @@ function Header({ textAnimations, nameLogoAnimation }) {
       } >
       <Link to="/utonycalc" className="more" onClick={resetMenu} > UTony Calc <hr /></Link> 
       <Link to="/uweather" className="more" onClick={resetMenu}> Weather App <hr /></Link>
-      {/* ... other links ... */}
     </div>
   </div>
 
