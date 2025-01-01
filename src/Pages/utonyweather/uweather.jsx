@@ -4,6 +4,7 @@ import LocationForm from './locationForm';
 import { FaUndo } from 'react-icons/fa';
 import axios from "axios";
 import './uweather.css';
+import './form.css';
 import { e } from 'mathjs';
 import { faSearchLocation } from '@fortawesome/free-solid-svg-icons';
 
@@ -138,7 +139,7 @@ const UWeather = () => {
                     block: 'nearest', // Ensures vertical alignment doesn't change
                     inline: 'start'  }); 
                     
-                hourInfo[realHour].classList.add('text-teal-500')
+                hourInfo[realHour].classList.add('text-teal-500');
     
                 // Update the state
                 setIndexval(realHour);
@@ -170,10 +171,14 @@ const UWeather = () => {
             console.log('Data not found in cache... fetching from server');
             if (chosenIndex) {
             setPrompt(true); 
-        } else {setPrompt(false)}// Show prompt while fetching
+            console.log('yes', chosenIndex);
+        } else {
+            setPrompt(false);
+            setLoading(true);
+            console.log('no', chosenIndex);
+        }// Show prompt while fetching
             try {
                 const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
-                setLoading(true);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -269,7 +274,16 @@ const UWeather = () => {
                 setLoading(false) // End prompt state
             }
         }
+    } 
+    if (loading) {
+        return (
+            <div className="bg-blue-50 place-items-center relative grid w-full h-screen">
+                <span className="absolute top-1/3  spinner"></span>
+                <div className="plead-message"> Please hold on this may take a while...</div>
+            </div>
+        )
     }
+
 
     if (prompt) {
         return (
@@ -283,7 +297,7 @@ const UWeather = () => {
     if (error) {
         return (
             <div className='weather-app h-screen'>
-                <p>Error: {error}</p>
+                <p>Error: {error} please enter a valid address...</p>
             </div>
         );
     }
@@ -294,21 +308,25 @@ const UWeather = () => {
     };
 
     const toCelsius = (fahrenheit) => {
-       const celsius = Math.round((fahrenheit - 32) * (5 / 9));
-       
-        return celsius;
-    }
+        const celsius = Math.round((fahrenheit - 32) * (5 / 9));
+        
+         return celsius;
+     }
+ 
+     const hourMinFormat = (fullTime) => {
+         const formattedTime = fullTime.slice(0, -3);
+         return formattedTime;
+     }
+ 
+     const formatDay = (numDay) => {
+         const day = new Date(numDay);
+        const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
+         return realDay;
+     }
+ 
 
-    const hourMinFormat = (fullTime) => {
-        const formattedTime = fullTime.slice(0, -3);
-        return formattedTime;
-    }
 
-    const formatDay = (numDay) => {
-        const day = new Date(numDay);
-       const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
-        return realDay;
-    }
+
     
     return (
         <motion.div initial="start"
@@ -320,8 +338,8 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid justify-items-center grid-rows-1 grid-col-2 gap-5 relative top-4 mt-10 ' >
-                    <div className="search z-50 sticky top-12 grid grid-auto w-full">
+                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10' >
+                    <div className="search z-50 top-12 grid grid-auto w-full">
                         <input type="search" value={query} className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full' name="place" id="place" onChange={InputValChange} placeholder={address} />
                     {suggestions.length > 0 && (
                         <ul className=' absolute justify-self-center w-11/12 top-12 backdrop-blur-md text-zinc-800 ring-1 ring-teal-900 shadow-teal-100 rounded-md overflow-y-auto'>
@@ -332,9 +350,6 @@ const UWeather = () => {
                                         setSuggestions([]);
                                         setChosenIndex(index);
                                         unformatLocation(index);
-                                        console.log();
-                                        setCity();
-
                                         }
                                     }> {suggestion} </li>
                             ))}
@@ -363,13 +378,14 @@ const UWeather = () => {
                             <li key={index} className="hour-info bg-gray-100 p-4 rounded-md">
                                 <p className='py-1'>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
+                                <p className='py-1'> {data.days[0].hours[indexval].precipprob}% </p>                        
                                 <p className='py-1'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
                             </li>
                             ))}
                         </ul>
                     </div>
 
-                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb-14 mx-3 shadow-md rounded-lg">
+                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb mx-3 shadow-md rounded-lg">
                         <div className="desc  text-teal-600 bold"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
@@ -386,10 +402,44 @@ const UWeather = () => {
                         </ul>
                     </div>
 
-                    <div className="element-widgets">
+                    <div className="current-conditions justify-self-center w-11/12 p-4 mb-4">
+                            <div className="desc text-teal-600 bold py-2"> Current Conditions </div>
 
+                        <div className="weather-elements grid grid-rows-3 grid-cols-2 gap-x-2 gap-y-4">
+                            <div className="precip border w-full h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                                <div className="desc  text-teal-600 bold">Precipitaion</div>
+                                <p className='py-1'> {data.days[0].hours[indexval].precipprob}% </p>                        
+                                <p className='py-1'> {data.days[0].hours[indexval].precip} mm </p>
+                                <p className='py-1'> {data.days[0].hours[indexval].preciptype} </p>                        
+                            </div>
+                            <div className="atmos border w-full h-5/12 p-4 bg-gray-100 rounded-lg drop-shadow-md">
+                                <div className="desc  text-teal-600 bold">Humdity</div>
+                                <p className='inline-block relative h-24 m-5 py-0 px-0 rounded-full bg-orange-300'> 
+                                    <span className="level relative top-12 h-24 px-2 py-7 m-0 rounded-full bg-orange-700 font-bold text-center"> {Math.round(data.days[0].hours[indexval].humidity)}%</span> 
+                                </p> 
+                                <p className='py-1 inline-block'> Dew point {data.days[0].hours[indexval].dew}°</p>                       
+                            </div>
+                            <div className="wind border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                                <div className="desc  text-teal-600 bold">Wind</div>
+                                <p className='py-1'> {data.days[0].hours[indexval].winddir} </p>
+                                <p className='py-1'> {data.days[0].hours[indexval].windspeed} </p>                        
+                            </div>
+                            <div className="visibi border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                                <div className="desc  text-teal-600 bold">Visibility</div>
+                                <p className='py-1'> {data.days[0].hours[indexval].visibility} </p>
+                                <p className='py-1'> {data.days[0].hours[indexval].cloudcover} </p>                                                
+                            </div>
+                            <div className="solar border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                                <div className="desc  text-teal-600 bold">Solar</div>
+                                <p className='py-1'> {data.days[0].hours[indexval].solarradiation} </p>
+                                <p className='py-1'> {data.days[0].hours[indexval].solarenergy} </p>                        
+                                <p className='py-1'> {data.days[0].hours[indexval].uvindex} </p>                     
+                            </div>
+                            <div className="phases border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                                <p className='py-1'> {data.days[0].sunrise} </p>                        
+                            </div>
+                        </div>
                     </div>
-
 
                 </div>
             )}
