@@ -414,7 +414,7 @@ const UWeather = () => {
                             </div>
                             <div className="atmos border w-full h-5/12 p-4 bg-gray-100 rounded-lg drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Humdity</div>
-                                <p className='inline-block  relative h-24 m-6 rounded-2xl bg-orange-300'> 
+                                <p className='inline-block  relative h-24 m-6 rounded-3xl bg-orange-300'> 
                                     <span className="level relative top-12 h-24 px-2 py-7 m-0 rounded-2xl bg-orange-700 font-bold text-center"> {Math.round(data.days[0].hours[indexval].humidity)}%</span> 
                                 </p> 
                                 <p className='py-1 inline-block'> Dew point {data.days[0].hours[indexval].dew}°</p>                       
