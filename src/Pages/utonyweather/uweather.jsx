@@ -350,15 +350,21 @@ const UWeather = () => {
         return val;
     } 
 
-    const precipType = (type, amount, snowamount) => {
+    const precipType = (type, amount, snowamount, snowdepth) => {
         console.log(type);
+        const rainmessage = `${amount}, mm  of rainfall` 
+        const snowmessage = `${snowamount}, cm  of snow with ${snowdepth} cm Depth`;
+
         if (type === null) {
             console.log('no rain or snow');
             return 'No Current Precipitation'; 
-        } else if (type === 'rain') {
-            return amount, 'mm of rainfall';
-        } else if (type === 'snow') {
-            return snowamount, 'mm of snow';
+        } else if (type.includes('rain' && 'snow')
+        ) {
+            return (rainmessage, snowmessage);
+        } else if (type.includes('rain')) {
+            return (rainmessage);
+        } else if (type.includes('rain')) {
+            return (snowmessage);
         }
     }
     
@@ -459,7 +465,7 @@ const UWeather = () => {
                                 <p className='p-4 text-5xl font-semibold text-blue-500'> {data.days[0].hours[indexval].precipprob}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
                                 <hr className='my-2 text-zinc-400' />                  
-                                <p className='py-1 text-zinc-500'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow)} </p> 
+                                <p className='py-1 text-zinc-500'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow, data.days[0].hours[indexval].snowdepth)} </p> 
                             </div>
                             <div className="atmos border w-full h-5/12 p-4 rounded-lg drop-shadow-md">
                                 <div className="desc  text-teal-600 bold"> Humidity </div>
