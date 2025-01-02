@@ -360,10 +360,13 @@ const UWeather = () => {
             return 'No Current Precipitation'; 
         } else if (type.includes('rain' && 'snow')
         ) {
+            console.log('rain & snow')
             return (rainmessage, snowmessage);
         } else if (type.includes('rain')) {
+            console.log('rain')
             return (rainmessage);
         } else if (type.includes('rain')) {
+            console.log('snow')
             return (snowmessage);
         }
     }
@@ -462,7 +465,7 @@ const UWeather = () => {
                         <div className="weather-elements grid grid-rows-3 grid-cols-2 justify-items-start w-full gap-x-4 gap-y-4">
                             <div className="precip border w-full h-5/12 p-4  rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Precipitaion</div>
-                                <p className='p-4 text-5xl font-semibold text-blue-500'> {data.days[0].hours[indexval].precipprob}% </p> 
+                                <p className='p-4 text-5xl font-semibold text-blue-500'> {Math.round(data.days[0].hours[indexval].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
                                 <hr className='my-2 text-zinc-400' />                  
                                 <p className='py-1 text-zinc-500'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow, data.days[0].hours[indexval].snowdepth)} </p> 
