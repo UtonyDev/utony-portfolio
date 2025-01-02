@@ -348,8 +348,19 @@ const UWeather = () => {
         setHumidLvl(val);
         console.log(val);
         return val;
-
     } 
+
+    const precipType = (type, amount, snowamount) => {
+        console.log(type);
+        if (type === null) {
+            console.log('no rain or snow');
+            return 'No Current Precipitation'; 
+        } else if (type === 'rain') {
+            return amount, 'mm of rainfall';
+        } else if (type === 'snow') {
+            return snowamount, 'mm of snow';
+        }
+    }
     
     const getHumidityColor = (humidity) => {
         if (humidity >= 0 && humidity < 30) return '#bef264'/*lime-300*/;
@@ -445,9 +456,10 @@ const UWeather = () => {
                         <div className="weather-elements grid grid-rows-3 grid-cols-2 justify-items-start w-full gap-x-4 gap-y-4">
                             <div className="precip border w-full h-5/12 p-4  rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Precipitaion</div>
-                                <p className='py-1'> {data.days[0].hours[indexval].precipprob}% </p>                        
-                                <p className='py-1'> {data.days[0].hours[indexval].precip} mm </p>
-                                <p className='py-1'> {data.days[0].hours[indexval].preciptype} </p>                        
+                                <p className='p-4 text-5xl font-semibold text-blue-500'> {data.days[0].hours[indexval].precipprob}% </p> 
+                                <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
+                                <hr className='my-2 text-zinc-400' />                  
+                                <p className='py-1 text-zinc-500'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow)} </p> 
                             </div>
                             <div className="atmos border w-full h-5/12 p-4 rounded-lg drop-shadow-md">
                                 <div className="desc  text-teal-600 bold"> Humidity </div>
@@ -469,8 +481,9 @@ const UWeather = () => {
                                         {Math.round(data.days[0].hours[indexval].humidity)}%</span>
                                     </span>
                                 </p> <div className="ms-6 mb-4 text-sm"> 0 </div>
-                                <p className='py-1 inline-block'> <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> Dew point </p>                       
+                                <p className='py-1 inline-block '> 
+                                    <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
+                                    {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> <span className="wr text-zinc-500">Dew point</span>  </p>                       
                             </div>
 
                             <div className="wind border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
