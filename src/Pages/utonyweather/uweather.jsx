@@ -17,10 +17,12 @@ const UWeather = () => {
     const [address, setAddress] = useState('');
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-    const [city, setCity] = useState('');
+    const [hour, setHour] = useState(0);
     const [country, setCountry] = useState('');
     const [holdResult, setHoldResult] = useState('');
     const [chosenIndex, setChosenIndex] = useState(0);
+    const [humidLvl, setHumidLvl] = useState(0);
+    const [humidClr, setHumidClr] = useState('');
 
     const API_KEY = '124d73669936416ea36f14503e262e7d'; // Replace with your OpenCage API key
 
@@ -73,6 +75,8 @@ const UWeather = () => {
         window.location.reload()
     }
 
+
+
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
         const weatherCacheKey = 'weatherCache';
@@ -91,6 +95,8 @@ const UWeather = () => {
             // No cached data, show the location prompt
             setPrompt(true);
         }
+
+
     }, []); // Run only once during the initial render
 
     const iconBasePath = '/GWeatherIcons/';
@@ -108,6 +114,7 @@ const UWeather = () => {
     
                 const realHour = realTime.getHours();
                 console.log(realHour);
+                setHour(realHour);
                     
                 const parts = data.resolvedAddress.split(",");
                 const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
@@ -140,18 +147,32 @@ const UWeather = () => {
                     inline: 'start'  }); 
                     
                 hourInfo[realHour].classList.add('text-teal-500');
-    
+
                 // Update the state
                 setIndexval(realHour);
+
+                const humidValue = Math.round(data.days[0].hours[realHour]?.humidity || 0);
+                console.log(humidValue)
+    
+                if (humidValue >= 0 && humidValue < 30) {
+                    setHumidClr('lime');
+                } else if (humidValue >= 30 && humidValue < 60) {
+                    setHumidClr('blue');
+                } else if (humidValue >= 60 && humidValue <= 100) {
+                    setHumidClr('orange');
+                }
+        
+                SendData(humidValue);
+
             } else {
                 console.log('Data structure incomplete or missing days/hours');
             }
         } else {
             console.log('Data is not yet available');
         }
+ 
     }, [data]); // Re-run the effect whenever 'data' changes
 
-    
     // Function to fetch weather data
     const fetchData = async (city, country) => {
         const cacheKey = `${city}:${country}`;
@@ -322,11 +343,27 @@ const UWeather = () => {
          const day = new Date(numDay);
         const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
          return realDay;
-     }
- 
+     } 
+     function SendData(val) {
+        setHumidLvl(val);
+        console.log(val);
+        return val;
 
-
-
+    } 
+    
+    const getHumidityColor = (humidity) => {
+        if (humidity >= 0 && humidity < 30) return '#bef264'/*lime-300*/;
+        if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*shy-300*/;
+        if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-300*/;
+        return 'gray'; // Default color
+      };
+      
+      const getHumidityBGColor = (humidity) => {
+        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
+        if (humidity >= 30 && humidity < 60) return '#0284c7' /*shy-600*/ ;
+        if (humidity >= 60 && humidity <= 100) return '#ea580c'/*orange-600*/;
+        return 'gray-600'; // Default dark color
+      };      
     
     return (
         <motion.div initial="start"
@@ -402,23 +439,40 @@ const UWeather = () => {
                         </ul>
                     </div>
 
-                    <div className="current-conditions justify-self-center w-11/12 p-4 mb-4">
+                    <div className="current-conditions justify-self-center w-11/12">
                             <div className="desc text-teal-600 bold py-2"> Current Conditions </div>
 
-                        <div className="weather-elements grid grid-rows-3 grid-cols-2 gap-x-2 gap-y-4">
-                            <div className="precip border w-full h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                        <div className="weather-elements grid grid-rows-3 grid-cols-2 justify-items-start w-full gap-x-4 gap-y-4">
+                            <div className="precip border w-full h-5/12 p-4  rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Precipitaion</div>
                                 <p className='py-1'> {data.days[0].hours[indexval].precipprob}% </p>                        
                                 <p className='py-1'> {data.days[0].hours[indexval].precip} mm </p>
                                 <p className='py-1'> {data.days[0].hours[indexval].preciptype} </p>                        
                             </div>
-                            <div className="atmos border w-full h-5/12 p-4 bg-gray-100 rounded-lg drop-shadow-md">
-                                <div className="desc  text-teal-600 bold">Humdity</div>
-                                <p className='inline-block  relative h-24 m-6 rounded-3xl bg-orange-300'> 
-                                    <span className="level relative top-12 h-24 px-2 py-7 m-0 rounded-2xl bg-orange-700 font-bold text-center"> {Math.round(data.days[0].hours[indexval].humidity)}%</span> 
-                                </p> 
-                                <p className='py-1 inline-block'> Dew point {data.days[0].hours[indexval].dew}°</p>                       
+                            <div className="atmos border w-full h-5/12 p-4 rounded-lg drop-shadow-md">
+                                <div className="desc  text-teal-600 bold"> Humidity </div>
+                                <div className="ms-4 mt-4 text-sm ">100</div>
+                                <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
+                                style={{
+                                    backgroundColor: getHumidityColor(humidLvl)
+                                }}>
+                                   <span 
+                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-`}
+                                        style={{
+                                            height: `${humidLvl}%`,
+                                            backgroundColor: getHumidityBGColor(humidLvl)
+                                            }}>
+                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
+                                        style={{
+                                            color: getHumidityColor(humidLvl)
+                                        }}>
+                                        {Math.round(data.days[0].hours[indexval].humidity)}%</span>
+                                    </span>
+                                </p> <div className="ms-6 mb-4 text-sm"> 0 </div>
+                                <p className='py-1 inline-block'> <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
+                                    {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> Dew point </p>                       
                             </div>
+
                             <div className="wind border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Wind</div>
                                 <p className='py-1'> {data.days[0].hours[indexval].winddir} </p>
