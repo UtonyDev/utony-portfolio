@@ -454,30 +454,30 @@ const UWeather = () => {
 
                     </div>
 
-                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-full p-4 bg-gray-100 gap-3 shadow-md rounded-lg">
-                        <div className="desc  text-teal-600 bold"> Hourly Forecast </div>
+                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-gray-100 gap-3 shadow-md rounded-lg">
+                        <div className="desc font-semibold text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
                             <li key={index} className="hour-info bg-gray-100 p-4 rounded-md">
-                                <p className='py-1'>{hourMinFormat(hour.datetime)}</p>
+                                <p className='py-1 text-zinc-500'>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
-                                <p className='py-1'> {data.days[0].hours[indexval].precipprob}% </p>                        
-                                <p className='py-1'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
+                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexval].precipprob}% </p>                        
+                                <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
                             </li>
                             ))}
                         </ul>
                     </div>
 
                     <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb mx-3 shadow-md rounded-lg">
-                        <div className="desc  text-teal-600 bold"> Daily Forecast </div>
+                        <div className="desc font-semibold text-teal-600 bold"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.map((day, index) => (
                                 <li key={index} className="grid grid-flow-col bg-gray-100 p-4 rounded-md">
-                                    <p className='inline-block bold'>{formatDay(day.datetime)}</p>
+                                    <p className='inline-block font-medium text-zinc-500'>{formatDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
                                     <p className='inline-block italic text-teal-600 px-2'>{toCelsius(day.temp)}°C</p>
-                                    <p className='inline-block px-2'>{Math.round(day.precipprob)}%</p>
+                                    <p className='inline-block text-zinc-500 px-2'>{Math.round(day.precipprob)}%</p>
                                     <p className="inline-block "><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                     </span>
                                 </li>
@@ -486,11 +486,11 @@ const UWeather = () => {
                     </div>
 
                     <div className="current-conditions justify-self-center w-11/12">
-                            <div className="desc text-teal-600 bold py-2"> Current Conditions </div>
+                            <div className="desc text-teal-600 font-bold py-2"> Current Conditions </div>
 
-                        <div className="weather-elements grid grid-rows-auto grid-cols-2 justify-items-stretch w-full gap-x-4 gap-y-4">
+                        <div className="weather-elements grid grid-rows-4 grid-cols-2 justify-items-stretch w-full gap-x-4 gap-y-4">
 
-                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-md">
+                            <div className="precip font-semibold bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Precipitaion</div>
                                 <p className='px-2 py-3 text-5xl font-semibold text-blue-500'> {Math.round(data.days[0].hours[indexval].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
@@ -499,7 +499,7 @@ const UWeather = () => {
                             </div>
 
                             <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-md" >
-                                <div className="desc  text-teal-600 bold"> Humidity </div>
+                                <div className="desc font-semibold text-teal-600 bold"> Humidity </div>
                                 <div className="ms-4 mt-4 text-sm ">100</div>
                                 <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
                                 style={{
@@ -524,7 +524,7 @@ const UWeather = () => {
                             </div>
 
                             <div className="wind bg-[#F4F9FF] relative bottom-[10%] border w-full h-fit p-4 rounded-sm drop-shadow-md">
-                                <div className="desc  text-teal-600 bold">Wind</div>
+                                <div className="desc font-semibold text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
                                     <div className="north justify-self-center text-zinc-500">N</div>
@@ -550,7 +550,7 @@ const UWeather = () => {
                             </div>
 
                             <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-md">
-                                <div className="desc  text-teal-600 bold"> Pressure </div>
+                                <div className="desc font-semibold text-teal-600 bold"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
                                     <span class="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2  bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
