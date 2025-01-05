@@ -7,6 +7,7 @@ import './uweather.css';
 import './form.css';
 import { e } from 'mathjs';
 import { faSearchLocation } from '@fortawesome/free-solid-svg-icons';
+import { layer } from '@fortawesome/fontawesome-svg-core';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
@@ -390,12 +391,24 @@ const UWeather = () => {
         if (wcb >= 0 && wcb < 90) { 
             return `N${Math.round(wcb)}E`;
         } else if (wcb >= 90 && wcb < 180) {
-            return `S${Math.round(180 - wcb)}E`;
+            return `N${Math.round(180 - wcb)}E`;
         } else if (wcb >= 180 && wcb < 270) {
-            return `N${Math.round(wcb - 180)}W`;
+            return `S${Math.round(wcb - 180)}W`;
         } else if (wcb >= 270 && wcb < 360) {
-            return `S${Math.round(360 - wcb)}W`
+            return `S${Math.round(360 - wcb)}E`
         }
+      }
+
+      const toKiloM = (mph) => {
+        const kmh = Math.round(mph * 1.60934);
+        console.log(kmh);
+        return kmh;
+      }
+
+      const baroPercent = (pressure) => {
+        const perCent = ( pressure * 100 ) / ( 1013.25 * 1.2 ); // 1.2 added for scalling
+        console.log(perCent);
+        return perCent;
       }
     
     return (
@@ -464,7 +477,7 @@ const UWeather = () => {
                                     <p className='inline-block bold'>{formatDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
                                     <p className='inline-block italic text-teal-600 px-2'>{toCelsius(day.temp)}°C</p>
-                                    <p className='inline-block px-2'>{toCelsius(day.feelslike)}°C</p>
+                                    <p className='inline-block px-2'>{Math.round(day.precipprob)}%</p>
                                     <p className="inline-block "><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                     </span>
                                 </li>
@@ -475,8 +488,9 @@ const UWeather = () => {
                     <div className="current-conditions justify-self-center w-11/12">
                             <div className="desc text-teal-600 bold py-2"> Current Conditions </div>
 
-                        <div className="weather-elements grid grid-rows-3 grid-cols-2 justify-items-start w-full gap-x-4 gap-y-4">
-                            <div className="precip border w-full h-5/12 p-4  rounded-sm drop-shadow-md">
+                        <div className="weather-elements grid grid-rows-auto grid-cols-2 justify-items-stretch w-full gap-x-4 gap-y-4">
+
+                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Precipitaion</div>
                                 <p className='px-2 py-3 text-5xl font-semibold text-blue-500'> {Math.round(data.days[0].hours[indexval].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
@@ -484,7 +498,7 @@ const UWeather = () => {
                                 <p className='py-1 text-zinc-500'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow, data.days[0].hours[indexval].snowdepth)} </p> 
                             </div>
 
-                            <div className="humid border w-full h-5/12 p-4 rounded-lg drop-shadow-md">
+                            <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-md" >
                                 <div className="desc  text-teal-600 bold"> Humidity </div>
                                 <div className="ms-4 mt-4 text-sm ">100</div>
                                 <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
@@ -509,7 +523,7 @@ const UWeather = () => {
                                     {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> <span className="wr text-zinc-500">Dew point</span>  </p>                       
                             </div>
 
-                            <div className="wind border w-full h-5/12 p-4 rounded-sm drop-shadow-md">
+                            <div className="wind bg-[#F4F9FF] relative bottom-[10%] border w-full h-fit p-4 rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
@@ -518,15 +532,9 @@ const UWeather = () => {
                                     <div 
                                     className="arrow justify-self-center text-4xl"
                                     >
-                                        <img src="/wind-icon.png" alt="" className="w-5 h-5 relative left-3" 
-                                        style={{
-                                            transform: `rotate(${data.days[0].hours[indexval].winddir}deg)`,
-                                            }}
-                                        />
                                         <img src="/compass.png" alt="" srcset="" className='w-6 h-6 '
                                         style={{
                                             transform: `rotate(${data.days[0].hours[indexval].winddir}deg)`,
-                                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',                                                                                    
                                             }}/>
                                         
                                     </div>
@@ -535,22 +543,48 @@ const UWeather = () => {
                                 </div>
                                 <p className='py-1 text-zinc-500'> {bearingConversion(data.days[0].hours[indexval].winddir)} </p>
                                 <hr className='my-2 text-zinc-400' />
-                                <p className='py-1 text-zinc-500'> <p className="speed text-teal-300"> Wind Speed </p>
-                                     {data.days[0].hours[indexval].windspeed} </p>                        
+                                <p className='py-1 text-teal-500'> 
+                                    <span className="speed text-2xl"> {toKiloM(data.days[0].hours[indexval].windspeed)} </span>
+                                    km/h
+                                </p>
                             </div>
 
-                            <div className="visibi border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                            <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-md">
+                                <div className="desc  text-teal-600 bold"> Pressure </div>
+
+                                <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
+                                    <span class="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2  bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <div className="progress absolute w-full h-full rounded-full"
+                                    style={{
+                                        background: `conic-gradient(
+                                        from 150deg,
+                                        #0ea5e9 20%,
+                                        #0ea5e9 ${baroPercent(data.days[0].hours[indexval].pressure)}%,
+                                        #bae6fd 50%,
+                                        #bae6fd 100%
+                                        )`,
+                                        mask: `radial-gradient(circle, transparent 55%, black 55%)`,
+                                    }} 
+                                    
+                                    ></div>
+                                </div>
+                                <span className="h z-30 relative bottom-4 ms-3 text-xs">high</span>
+                                <span className="l z-30 relative bottom-4 ms-3 text-xs">low</span>
+                                <p className='py-1 text-zinc-500'> <span className="pval text-2xl">{data.days[0].hours[indexval].pressure}</span> mb </p>
+                            </div>
+
+                            <div className="visibi border w-11/12 h-fit p-4 bg-gray-100 rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Visibility</div>
                                 <p className='py-1'> {data.days[0].hours[indexval].visibility} </p>
                                 <p className='py-1'> {data.days[0].hours[indexval].cloudcover} </p>                                                
                             </div>
-                            <div className="solar border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                            <div className="solar border w-11/12 h-fit p-4 bg-gray-100 rounded-sm drop-shadow-md">
                                 <div className="desc  text-teal-600 bold">Solar</div>
                                 <p className='py-1'> {data.days[0].hours[indexval].solarradiation} </p>
                                 <p className='py-1'> {data.days[0].hours[indexval].solarenergy} </p>                        
                                 <p className='py-1'> {data.days[0].hours[indexval].uvindex} </p>                     
                             </div>
-                            <div className="phases border w-11/12 h-5/12 p-4 bg-gray-100 rounded-sm drop-shadow-md">
+                            <div className="phases border w-11/12 h-fit p-4 bg-gray-100 rounded-sm drop-shadow-md">
                                 <p className='py-1'> {data.days[0].sunrise} </p>                        
                             </div>
                         </div>
