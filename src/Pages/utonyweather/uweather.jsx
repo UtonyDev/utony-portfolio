@@ -414,8 +414,15 @@ const UWeather = () => {
       const UVLevel = (uvval) => {
         const uvPercent = ( uvval * 100 ) / 12;
         console.log(uvPercent)
+
         return uvPercent;
       }
+
+      const bttmAlign = (uvPercent) => {
+        if (uvPercent >= 0 && uvPercent < 50) { return `32`};
+        if (uvPercent >= 50 && uvPercent < 75) { return `16`};
+        if (uvPercent >= 75 && uvPercent < 100) { return `8`};
+    }
 
     return (
         <motion.div initial="start"
@@ -595,15 +602,25 @@ const UWeather = () => {
 
                             <div className="solar border w-full bg-[#F4F9FF] relative bottom-[27%] h-fit p-4 rounded-sm drop-shadow-md">
                                 <div className="desc font-medium text-teal-600 bold">UV Index</div>
+
+                                <div className="uvmeter relative h-fit">
+                                <div className="ms-8 relative top-3 text-sm text-zinc-400">11+</div>
+                                    <div className="currentUV absolute bottom-1 left-1 text-zinc-400"
+                                    style={{
+                                            height: `${UVLevel(data.days[0].hours[indexval].uvindex)}%`,
+                                            bottom: `${bttmAlign(UVLevel(data.days[0].hours[indexval].uvindex))}px`
+                                        }}> {data.days[0].hours[indexval].uvindex} </div>
+
                                     <div className="sun relative w-16 h-16 m-3 bg-amber-400 rounded-full overflow-clip">
-                                        <div className="lev absolute bottom-0  bg-red-800 w-full" 
+                                        <div className="lev absolute bottom-0  bg-red-600 w-full" 
                                         style={{
-                                            height: `${UVLevel(data.days[0].hours[indexval].uvindex)}`
+                                            height: `${UVLevel(data.days[0].hours[indexval].uvindex)}%`,
                                         }}></div>
                                     </div>
+                                <div className="ms-10 relative bottom-3 text-sm text-zinc-400">0</div>
+                                </div>
 
-                                <p className='py-1 text-zinc-500'> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexval].solarradiation} W/m² </p>
-                                <p className='py-1 text-zinc-500'> <img src="/lighting.png" alt="" className="energy inline-block" />{data.days[0].hours[indexval].solarenergy} MJ/m²  </p>                        
+                                <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexval].solarradiation} W/m² </p>
                             </div>
 
                             <div className="phases border w-11/12 h-fit p-4 bg-gray-100 rounded-sm drop-shadow-md">

@@ -113,7 +113,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
       }
 
   const calcLogo = () => {
-    if (pageLocation.pathname === '/utonycalc') {
+    if (pageLocation.pathname === '/utonycalc' || pageLocation.pathname === '/uweather') {
     const profNameDesktop = document.getElementById("nme");
     const menu = document.querySelector("#menu");
 
@@ -128,26 +128,6 @@ function Header({ textAnimations, nameLogoAnimation }) {
     nameLogoAnimation();
   }, [nameLogoAnimation]);
 
-
-  let currentScrl = window.scrollY;
-
-  const persistentNameLogo = () => {
-    if (pageLocation.pathname === '/uweather') {
-      window.addEventListener("scroll", () => {
-        const targetElement = document.getElementById("target");
-        const triggPoint = targetElement.offsetTop;
-        const triggPointX = triggPoint * 1;
-        const profNameDesktop = document.getElementById("nme");
-        
-        if (currentScrl >= triggPointX) {
-            profNameDesktop.classList.replace("nmeHide", "nmeShow");
-        } else {
-            profNameDesktop.classList.replace("nmeHide", "nmeShow");
-        }
-      });
-  }
-}
-  useEffect(() => {persistentNameLogo();}, [currentScrl])
 
     return (
         <>
@@ -164,32 +144,32 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div id='menu' className="menurev menupc hide">
 
-<div className="menu-items-con md:shadow-lg">
+<div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none">
 
-    <Link to="/UHomepage" className='ms-3 ps-3 text-xl'onClick={resetMenu} >
+    <Link to="/UHomepage" className=' ps-3 text-2xl lg:text-lg'onClick={resetMenu} >
        Home
     </Link>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
-    <a className="lnk" >
+    <a className="lnk text-2xl lg:text-lg" >
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
       } >
       <Link to="/utonycalc" className="more" onClick={resetMenu} > UTony Calc <hr /></Link> 
-      <Link to="/uweather" className="more" onClick={resetMenu}> Weather App <hr /></Link>
+      <Link to="/uweather" className="more" onClick={resetMenu}> UWeather <hr /></Link>
     </div>
   </div>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
-    <a className="lnk" >
+    <a className="lnk text-2xl lg:text-lg" >
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
       showDropdown2 ? 'moreconv' : ''}`} >
       <a href="https://linkedin.com/in/tonyudoye" className="more" target="_blank">
-        <i className="fa-brands fa-linkedin"></i> LinkedIn Profile 
+        <i className="fa-brands fa-linkedin"></i> LinkedIn
         <hr />
       </a>
       <a href="https://twitter.com/UTonyDev" className="more" target="_blank">
@@ -208,7 +188,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
     </div>
  
 
-  <Link href="jump" className="lnk alnk">
+  <Link href="jump" className="lnk text-2xl lg:text-lg">
      About
   </Link>
   </div>

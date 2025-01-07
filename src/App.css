@@ -192,17 +192,7 @@ img.propic {
 
 .menu-items-con {
 	padding-top: 10%;
-	display: grid;
-	justify-content: first baseline;
-	align-content: center;
 	gap: 2.5%;
-}
-
-
-.lnk {
-	margin-left: 2%;
-	padding-left: 3.5% !important;
-	font-size: 1.25em !important;
 }
 
 .hide {
@@ -639,7 +629,8 @@ hr:hover {
 	.menu-items-con {
 		display: flex;
 		justify-content: flex-end;
-		padding-top: 0;
+		padding: 0;
+		padding-inline-end: 5%;
 	}
 
 	.menupc-calc {
@@ -674,15 +665,6 @@ hr:hover {
 
 	.propic {
 		display: var(--hideContent) !important;
-	}
-
-	.lnk {
-		margin-right: 56px;
-		font-size: 80% !important;
-	}
-
-	.alnk {
-		margin-left: -2.5% !important;
 	}
 
 	.morecon {
