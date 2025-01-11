@@ -128,6 +128,14 @@ function Header({ textAnimations, nameLogoAnimation }) {
     nameLogoAnimation();
   }, [nameLogoAnimation]);
 
+  const scrlToProjects = () => {
+    const scrlButn = document.querySelector('.skills-section');
+    scrlButn.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start'  }); 
+  }
+
 
     return (
         <>
@@ -146,41 +154,41 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none">
 
-    <Link to="/UHomepage" className=' ps-3 text-2xl lg:text-lg'onClick={resetMenu} >
+    <Link to="/UHomepage" className=' ps-3 text-2xl lg:text-xs'onClick={resetMenu} >
        Home
     </Link>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
-    <a className="lnk text-2xl lg:text-lg" >
+    <a className="lnk text-2xl lg:text-xs" >
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
       } >
-      <Link to="/utonycalc" className="more" onClick={resetMenu} > UTony Calc <hr /></Link> 
-      <Link to="/uweather" className="more" onClick={resetMenu}> UWeather <hr /></Link>
+      <Link to="/utonycalc" className="more text-base lg:text-xs" onClick={resetMenu} > UTony Calc <hr /></Link> 
+      <Link to="/uweather" className="more text-base lg:text-xs" onClick={resetMenu}> UWeather <hr /></Link>
     </div>
   </div>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
-    <a className="lnk text-2xl lg:text-lg" >
+    <a className="lnk text-2xl lg:text-xs" >
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
       showDropdown2 ? 'moreconv' : ''}`} >
-      <a href="https://linkedin.com/in/tonyudoye" className="more" target="_blank">
+      <a href="https://linkedin.com/in/tonyudoye" className="more text-base lg:text-xs " target="_blank">
         <i className="fa-brands fa-linkedin"></i> LinkedIn
         <hr />
       </a>
-      <a href="https://twitter.com/UTonyDev" className="more" target="_blank">
+      <a href="https://twitter.com/UTonyDev" className="more text-base lg:text-xs " target="_blank">
         <i className="fa-brands fa-twitter"></i> Twitter 
         <hr />
       </a>
-      <a href="https://github.com/UTonyDev" className="more">
+      <a href="https://github.com/UTonyDev" className="more text-base lg:text-xs ">
         <i className="fa-brands fa-github"></i> Github 
         <hr />
       </a>
-      <a href="https://utonydev@gmail.com" className="more" target="_blank">  
+      <a href="https://utonydev@gmail.com" className="more text-base lg:text-xs " target="_blank">  
         <i className="fa-solid fa-envelope"></i> Email  
         <hr />
       </a>
@@ -188,7 +196,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
     </div>
  
 
-  <Link href="jump" className="lnk text-2xl lg:text-lg">
+  <Link onClick={scrlToProjects} className="lnk text-2xl lg:text-xs">
      About
   </Link>
   </div>

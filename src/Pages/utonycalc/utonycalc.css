@@ -86,12 +86,17 @@
     background-color: transparent;
   }
 
+  .calccont {
+    position: relative !important;
+    height: 100vh;
+  }
+
     .cont {
-      position: relative;
+      position: absolute;
       top: 51px;  
       display: grid;
-      max-height: 88vh;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      height: 90vh;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
@@ -103,12 +108,12 @@
       padding: 2%;
     }
     .fullCont {
-      position: relative;
+      position: absolute;
       top: 51px;  
       display: grid;
-      max-height: 90vh;
+      max-height: 90%;
       grid-template-columns: 1fr 1fr 1fr 1fr;      
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  repeat(12, minmax(0, 0.8fr));
       border: 1px solid var(-);  
       border-radius: 10px;
       overflow: hidden;
@@ -117,27 +122,60 @@
       transition: all 1s ease;
       margin: 1%;
       padding: 2%;
-    }    
-     .virtualInputField {
-    position: absolute;
-    top: 0 !important;
+    }
+
+    .inputParent {
+      position: relative;
+      grid-area: 1/1/2/5;
+      visibility: none;
+      grid-area: 1/1/2/5;
+      height: 110%;
+      width: auto;
+      margin: 0;
+      padding: 0.25em 0 0.25em 0.25em ;      
+      border: solid 2px gray;
+      border-radius: 5px;
+      font-size: 100%;
+      background-color: #C0C0C0;
+      color: rgba(127, 255, 212, 0.8);
+    }
+
+    .virtualInputField div {
+    position: inherit;
+    top: inherit;
     width: 100% !important;
-    height: 16vh;
+    height: inherit;
     padding: 0;
     background-color: #C0C0C0;
     border-radius: 5px;
     }
+
+
+    .inputField {
+      visibility: hidden;
+      grid-area: 1/1/2/5;
+      height: 100%;
+      width: auto;
+      margin: 0;
+      border: solid 2px pink;
+      border-radius: 5px;
+      font-size: 250%;
+      color: rgba(127, 255, 212, 0.8);   
+    }
+
     .enteredExpressionInp {
-      font-size: 150%;
+      position: absolute;
+      top: 0;
+      font-size: 100%;
       color: #0C645B;
-      padding: 0.25em 0.5em;
-      margin: 0.3em 0.5em;
+      padding: 0em 0 0.25em 0.25em ;
     }
     .preciseResultInp {
-      font-size: 150%;
+      position: absolute;
+      top: 50%;
+      font-size: 100%;
       color: #e2e0e0;
-      padding: 0.25em 0.5em;
-      margin: 0.3em 0.5em;  
+      padding: 0em 0 0.25em 0.25em ;
     }
 
     button { 
@@ -181,18 +219,6 @@
       box-shadow: none !important;
     }
 
-    .inputField {
-      visibility: hidden;
-      grid-area: 1/1/2/5;
-      height: 15vh;
-      width: auto;
-      margin: 0;
-      border: solid 0px grey;
-      border-radius: 5px;
-      font-size: 250%;
-      color: rgba(127, 255, 212, 0.8);   
-    }
-
     .topKeys {
       background-color: var(--contwhite);
       border-radius: 60%;
@@ -201,9 +227,7 @@
       margin: 0 !important;
       padding: 0 !important;
       box-shadow: none !important;
-      position: relative;
       place-self: center;
-      margin-top: 10% !important;
     }
   
     .shiftLeft {
@@ -452,6 +476,18 @@
       transition: left 1s;
     }
 
+  @media screen and (min-width: 768px) {
+    .cont {
+      position: relative;
+      top: 10vh;
+      width: 98% !important; 
+      place-self: center;
+      max-height: 80%;
+      background-color: var(--contwhite);
+      padding: 0.8em !important;
+    }
+  }
+
   @media screen and (min-width: 1024px) {
     .calcparent {
       width: 100%;
@@ -465,12 +501,13 @@
       top: -0.5vh !important;
     }
     .cont {
-      top: -2.2%;  
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr !important;
+      top: 0%; 
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      grid-template-rows:  repeat(6, minmax(0, 0.8fr)) !important;
       box-shadow: 10px 10px 10px 10px rgba(0, 0, 1, 0.2);
       width: auto; 
-      max-height: 78vh;
+      place-content: center;
+      max-height: 80%;
       padding: 0.5% 0 1.5% 0;
       margin: 2% !important;
       background-color: var(--contwhite);
@@ -523,8 +560,8 @@
 
     .butns {
       box-shadow:  5px 5px 5px rgba(0, 0, 1, 0.2) !important;
-      height: 85% !important;
-      width: 90% !important;
+      height: 75% !important;
+      width: 75% !important;
       margin-top:  15%;
       margin-left: 2%;
     }
@@ -536,16 +573,16 @@
       background-color: var(--topbackclr);
       color: var(--butnTxtclr);
       border-radius: 40%;
-      height: 85% !important;
-      width: 90% !important;
+      height: 75% !important;
+      width: 75% !important;
       transition: all .5s ease;
     }
 
     .topKeys {
       background-color:#e2e0e0 ;
       border-radius: 45% !important;
-      height: 85% !important;
-      width: 90% !important;
+      height: 75% !important;
+      width: 75% !important;
       margin-left: 0% !important;
       position: relative;
       margin-top: 15% !important;
@@ -623,10 +660,10 @@
 
     .butnEqual {
       grid-area: 6/8/7/10;
-      border-radius: 15% !important;
+      border-radius: 10px !important;
       background-color: rgb(108,225,203);
       margin-top: 10%;
-      height: 77% !important;
+      height: 75% !important;
       width: 90% !important;
     }
 

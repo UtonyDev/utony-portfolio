@@ -575,8 +575,6 @@ const onButtonClick = (e, val) => {
     } else if (val === "expand") {
     showFunctKeys();
     hideHistoryTab();
-    
-
   } else if (val === 'DEG') {
       const RadButn = document.querySelector('.butnRAD');
       const DegButn = document.querySelector('.butnDEG');
@@ -687,13 +685,12 @@ const onButtonClick = (e, val) => {
   return (
     <>
     <div className="calcparent" id='target'>
-     <Link to="/UHomepage" className='back'>
-    <i className="fa-solid fa-chevron-left"></i> Home </Link>
-    <form> 
+    <form className='relative '> 
       <label> 
-      <div className="calccont" ref={contRef}>
+      <div className="calccont h-screen" ref={contRef}>
          <div id="history" className='hideHistory' ref={historyTabRef}> </div>
         <div className='cont' id='calccon'  > 
+          <div className="inputParent">
             <div className="virtualInputField" onClick={hideHistoryTab}>
               <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
               <p className="preciseResultInp">{newResult}</p>
@@ -701,7 +698,7 @@ const onButtonClick = (e, val) => {
              <input type="text" name='calc' value={trackCursor(inputVal )} 
              className='inputField' 
               readOnly/>
-
+</div>
           {Buttons.map((buttons, index) => (
   <button
     key = {index} 

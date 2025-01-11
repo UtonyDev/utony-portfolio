@@ -235,7 +235,6 @@ img.propic {
 
 .more {
 	color: var(--grey) !important;
-	font-size: 1em;
 }
 
 .morecon a:hover hr {
@@ -689,7 +688,6 @@ hr:hover {
 
 	.more {
 		padding: 1.25em !important;
-		font-size: .8em;
 	}
 
 	hr {
