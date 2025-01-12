@@ -52,7 +52,7 @@
     margin: 0 0 0 5% ;
     border-radius: 1em;
     position: absolute;
-    top: 35vh;
+    top: 33vh;
     left: -3.5%;
     z-index: 100;
     overflow-y: scroll !important;
@@ -67,8 +67,8 @@
   }
   .showHistory {
     transition: width .5s ease, height .5s ease, padding .5s ease-out;
-    height: 55% !important;
-    width: 97% !important; 
+    height: 67% !important;
+    width: 96% !important; 
     padding: 5% !important;
   }
 
@@ -95,9 +95,9 @@
       position: absolute;
       top: 51px;  
       display: grid;
-      height: 90vh;
+      height: 92vh;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      grid-template-rows:  1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows:  1.2fr 0.6fr 1fr 1fr 1fr 1fr 1fr;
       border: 1px solid var(-);  
       border-radius: 10px;
       overflow: hidden;
@@ -109,11 +109,12 @@
     }
     .fullCont {
       position: absolute;
-      top: 51px;  
+      top: 40px;
+      bottom: 15px;  
       display: grid;
-      max-height: 90%;
-      grid-template-columns: 1fr 1fr 1fr 1fr;      
-      grid-template-rows:  repeat(12, minmax(0, 0.8fr));
+      height: 96vh;
+      grid-template-columns:repeat(4, minmax(0, 0.9fr));      
+      grid-template-rows: 3.5em 2.5em 2.7em 2.7em 2.7em 2.7em 2.7em 3em 3em 3em 3em 3em;
       border: 1px solid var(-);  
       border-radius: 10px;
       overflow: hidden;
@@ -129,7 +130,7 @@
       grid-area: 1/1/2/5;
       visibility: none;
       grid-area: 1/1/2/5;
-      height: 110%;
+      height: 12vh;
       width: auto;
       margin: 0;
       padding: 0.25em 0 0.25em 0.25em ;      
@@ -166,14 +167,14 @@
     .enteredExpressionInp {
       position: absolute;
       top: 0;
-      font-size: 100%;
+      font-size: 110%;
       color: #0C645B;
       padding: 0em 0 0.25em 0.25em ;
     }
     .preciseResultInp {
       position: absolute;
       top: 50%;
-      font-size: 100%;
+      font-size: 110%;
       color: #e2e0e0;
       padding: 0em 0 0.25em 0.25em ;
     }
@@ -190,7 +191,7 @@
     }
     
     .butns {
-      border-radius: 40%;
+      border-radius: 45%;
       width: 92.5%;
       height: 92.5%;
       background-color: #A1A1A1;
@@ -220,7 +221,7 @@
     }
 
     .topKeys {
-      background-color: var(--contwhite);
+      background-color: transparent !important;
       border-radius: 60%;
       width: 50% !important;
       height: 50% !important;
@@ -242,15 +243,8 @@
     } 
     .chevDown {
       grid-area: 2/4/3/5;
-      z-index: 1;
       transition: all .5s ease;
-    }
-    .chevUp {
-      grid-area: 2/4/3/5;
-      z-index: -1;
-      border-radius: 50% !important;
-      width: 95%;
-      height: 95%;
+      margin-top: .4em !important;
     }
     
     .overlayChev {
@@ -476,6 +470,41 @@
       transition: left 1s;
     }
 
+  @media screen and (min-width: 400px) {
+    #history {
+      top: 30vh;
+    }
+    .showHistory {
+      height: 70% !important;
+    }
+
+    .inputParent {
+      position: relative;
+      height: 14vh;
+      padding: 0.75em 0 0.75em 0.5em;
+  }
+
+    .fullCont {
+      grid-template-rows: 1fr 0.5fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr;
+    }
+
+    .enteredExpressionInp {
+      position: absolute;
+      top: 0;
+      font-size: 140%;
+      color: #0C645B;
+      padding: 0em 0 0.25em 0.25em ;
+    }
+    .preciseResultInp {
+      position: absolute;
+      top: 50%;
+      font-size: 140%;
+      color: #e2e0e0;
+      padding: 0em 0 0.25em 0.25em ;
+    }
+
+  }
+
   @media screen and (min-width: 768px) {
     .cont {
       position: relative;
@@ -486,6 +515,7 @@
       background-color: var(--contwhite);
       padding: 0.8em !important;
     }
+
   }
 
   @media screen and (min-width: 1024px) {
@@ -588,9 +618,6 @@
       margin-top: 15% !important;
     }
 
-    .chevUp {
-      display: none;
-    }
     .chevDown {
       display: none;
     }

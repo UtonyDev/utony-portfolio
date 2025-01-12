@@ -18,7 +18,6 @@ function UTonyCalc() {
   { label: '←', value: '←' },
   { label: '→', value: '→' },
   { label: <FaChevronDown />, value: 'expand' },
-  { label: <FaChevronUp />, value: 'expand' },
 
   { label: 'AC', value: 'AC' },
   { label: 'π', value: 'π' },
@@ -91,7 +90,7 @@ function UTonyCalc() {
   { label: 'Csch', value: 'csch(' },
   { label: 'Sech', value: 'sech(' },
   { label: 'Coth', value: 'coth(' },
-];   
+]; 
 
   window.addEventListener("DOMContentLoaded", function() {
     setTimeout( () => {
@@ -130,8 +129,8 @@ const onButtonClick = (e, val) => {
     let enteredExpression;
     let historyElement; 
     let butn =  document.querySelectorAll("#butns");
-    let showAllButn = document.querySelector("#calccon")
-    let chevUp = document.querySelector('.chevUp');
+    let showAllButn = document.querySelector("#calccon");
+    let chevButn = document.querySelector('.chevDown');
 
     function renderHistory(calculationHistory) {
       const historyContainer = document.getElementById('history');
@@ -184,12 +183,6 @@ const onButtonClick = (e, val) => {
     function showFunctKeys() {
       if (window.innerWidth <= 1000) {
         
-        if (showAllButn.classList.contains('cont')) {
-          chevUp.classList.add('overlayChev');
-        } else {
-          chevUp.classList.remove('overlayChev');
-        }
-
         butn.forEach((button) => {
           if (button.classList.contains('butnHid')) {
             button.classList.replace("butnHid", "butnShow");
@@ -208,6 +201,16 @@ const onButtonClick = (e, val) => {
         showAllButn.classList.replace("fullCont", "cont");
       }
     }
+
+    function rotateChev() {
+          if (showAllButn.classList.contains("cont")) {
+            chevButn.style.rotate = 'x 180deg';
+          } else {
+            chevButn.style.rotate = 'x 0deg';
+          }
+     }
+
+
 
     if (val === '=') {
 
@@ -574,6 +577,7 @@ const onButtonClick = (e, val) => {
       console.log(cursorPos);
     } else if (val === "expand") {
     showFunctKeys();
+    rotateChev();
     hideHistoryTab();
   } else if (val === 'DEG') {
       const RadButn = document.querySelector('.butnRAD');
@@ -706,7 +710,7 @@ const onButtonClick = (e, val) => {
     className={` 
       ${
         index === 0 || index === 1
-        || index === 2 || index === 3 || index === 4 
+        || index === 2 || index === 3
         ? 'topKeys' : 'butns'
       }
 
@@ -714,90 +718,89 @@ const onButtonClick = (e, val) => {
       ${index === 1 ? 'shiftLeft' : ''}
       ${index === 2 ? 'shiftRight' : ''}
       ${index === 3 ? 'chevDown' : ''}
-      ${index === 4 ? 'chevUp': '' }
 
-      ${index === 5 ? 'butnAC': '' }
-      ${index === 6 ? 'butnPie': '' }
-      ${index === 7 ? 'butnPercent': '' }
-      ${index === 8 ? 'butnDivide' : ''}
+      ${index === 4 ? 'butnAC': '' }
+      ${index === 5 ? 'butnPie': '' }
+      ${index === 6 ? 'butnPercent': '' }
+      ${index === 7 ? 'butnDivide' : ''}
 
-      ${index === 9 ? 'bracOpen' : ''}
-      ${index === 10 ? 'bracClose' : ''}
-      ${index === 11 ? 'powerButn' : ''}
-      ${index === 12 ? 'sqrButn': '' }
+      ${index === 8 ? 'bracOpen' : ''}
+      ${index === 9 ? 'bracClose' : ''}
+      ${index === 10 ? 'powerButn' : ''}
+      ${index === 11 ? 'sqrButn': '' }
 
-      ${index === 13 ? 'butn1': '' }
-      ${index === 14 ? 'butn2': '' }
-      ${index === 15 ? 'butn3': '' }
-      ${index === 16 ? 'butnTimes' : ''}
+      ${index === 12 ? 'butn1': '' }
+      ${index === 13 ? 'butn2': '' }
+      ${index === 14 ? 'butn3': '' }
+      ${index === 15 ? 'butnTimes' : ''}
 
-      ${index === 17 ? 'butnFact': '' }
-      ${index === 18 ? 'butnSqrt': '' }
-      ${index === 19 ? 'butnCbrt': '' }
-      ${index === 20 ? 'butnExp': '' }
+      ${index === 16 ? 'butnFact': '' }
+      ${index === 17 ? 'butnSqrt': '' }
+      ${index === 18 ? 'butnCbrt': '' }
+      ${index === 19 ? 'butnExp': '' }
 
-      ${index === 21 ? 'butn4': ''}
-      ${index === 22 ? 'butn5': ''}
-      ${index === 23 ? 'butn6': ''}
-      ${index === 24 ? 'butnPlus': ''}
+      ${index === 20 ? 'butn4': ''}
+      ${index === 21 ? 'butn5': ''}
+      ${index === 22 ? 'butn6': ''}
+      ${index === 23 ? 'butnPlus': ''}
         
-      ${index === 25 ? 'butnEuler' : ''}
-      ${index === 26 ? 'butnNatLog' : ''}
-      ${index === 27 ? 'butnLog' : ''}
-      ${index === 28 ? 'butnInvert' : ''}
+      ${index === 24 ? 'butnEuler' : ''}
+      ${index === 25 ? 'butnNatLog' : ''}
+      ${index === 26 ? 'butnLog' : ''}
+      ${index === 27 ? 'butnInvert' : ''}
 
-      ${index === 29 ? 'butn7' : ''}
-      ${index === 30 ? 'butn8' : ''}
-      ${index === 31 ? 'butn9' : ''}
-      ${index === 32 ? 'butnMinus' : ''} 
+      ${index === 28 ? 'butn7' : ''}
+      ${index === 29 ? 'butn8' : ''}
+      ${index === 30 ? 'butn9' : ''}
+      ${index === 31 ? 'butnMinus' : ''} 
 
-      ${index === 33 ? 'butnPoint' : ''}
-      ${index === 34 ? 'butnZero' : ''}
-      ${index === 35 ? 'butnClear' : ''}
-      ${index === 36 ? 'butnEqual' : ''}
+      ${index === 32 ? 'butnPoint' : ''}
+      ${index === 33 ? 'butnZero' : ''}
+      ${index === 34 ? 'butnClear' : ''}
+      ${index === 35 ? 'butnEqual' : ''}
 
-      ${index === 37 ? "butnSin trigButns" : ''}
-      ${index === 38 ? "butnCos trigButns" : ''}
-      ${index === 39 ? "butnTan trigButns" : ''}
-      ${index === 40 ? "butnDEG " : ''}
+      ${index === 36 ? "butnSin trigButns" : ''}
+      ${index === 37 ? "butnCos trigButns" : ''}
+      ${index === 38 ? "butnTan trigButns" : ''}
+      ${index === 39 ? "butnDEG " : ''}
 
-      ${index === 41 ? "butnArcSin invButns" : ''}
-      ${index === 42 ? "butnArcCos invButns" : ''}
-      ${index === 43 ? "butnArcTan invButns" : ''}
-      ${index === 44 ? "butnRAD RadHide" : ''}
+      ${index === 40 ? "butnArcSin invButns" : ''}
+      ${index === 41 ? "butnArcCos invButns" : ''}
+      ${index === 42 ? "butnArcTan invButns" : ''}
+      ${index === 43 ? "butnRAD RadHide" : ''}
 
-      ${index === 45 ? "butnCsc trigButns" : ''}
-      ${index === 46 ? "butnSec trigButns" : ''}
-      ${index === 47 ? "butnCot trigButns" : ''}
-      ${index === 48 ? "butnHyp " : ''}
+      ${index === 44 ? "butnCsc trigButns" : ''}
+      ${index === 45 ? "butnSec trigButns" : ''}
+      ${index === 46 ? "butnCot trigButns" : ''}
+      ${index === 47 ? "butnHyp " : ''}
 
-      ${index === 49 ? "butnAns butnHid butnc" : ''}
+      ${index === 48 ? "butnAns butnHid butnc" : ''}
 
-      ${index === 50 ? "butnSinh butnHid invHyp hypHide" : ''}
-      ${index === 51 ? "butnCosh butnHid invHyp hypHide" : ''}
-      ${index === 52 ? "butnTanh butnHid invHyp hypHide" : ''}
+      ${index === 49 ? "butnSinh butnHid invHyp hypHide" : ''}
+      ${index === 50 ? "butnCosh butnHid invHyp hypHide" : ''}
+      ${index === 51 ? "butnTanh butnHid invHyp hypHide" : ''}
 
-      ${index === 53 ? "butnArcCsc butnHid invButns" : ''}
-      ${index === 54 ? "butnArcSec butnHid invButns" : ''}
-      ${index === 55 ? "butnArcCot butnHid invButns" : ''}
+      ${index === 52 ? "butnArcCsc butnHid invButns" : ''}
+      ${index === 53 ? "butnArcSec butnHid invButns" : ''}
+      ${index === 54 ? "butnArcCot butnHid invButns" : ''}
 
-      ${index === 56 ? "butnCsch butnHid invHyp hypHide" : ''}
-      ${index === 57 ? "butnSech butnHid invHyp hypHide" : ''}
-      ${index === 58 ? "butnCoth butnHid invHyp hypHide" : ''}
+      ${index === 55 ? "butnCsch butnHid invHyp hypHide" : ''}
+      ${index === 56 ? "butnSech butnHid invHyp hypHide" : ''}
+      ${index === 57 ? "butnCoth butnHid invHyp hypHide" : ''}
 
 
-      ${index === 6 || index === 7
-        || index === 8 || index === 16
-        || index === 24 || index === 32
+      ${index === 5 || index === 6
+        || index === 7 || index === 15
+        || index === 23 || index === 31
         ? "butnc" : ""}
 
-      ${index === 9 || index === 10 || index === 11 || index === 12 
-        || index === 17 || index === 18 || index === 19 || index === 20
-        || index === 25 || index === 26 || index === 27 || index === 28
-        || index === 37 || index === 38 || index === 39 || index === 40
-        || index === 41 || index === 42 || index === 43 || index === 44
-        || index === 45 || index === 46 || index === 47 || index === 48
-        || index === 49 || index === 50
+      ${index === 8 || index === 9 || index === 10 || index === 11
+        || index === 16 || index === 17 || index === 18 || index === 19
+        || index === 24 || index === 25 || index === 26 || index === 27
+        || index === 36 || index === 37 || index === 38 || index === 39
+        || index === 40 || index === 41 || index === 42 || index === 43
+        || index === 44 || index === 45 || index === 46 || index === 47
+        || index === 48 || index === 49
 
         ? 'butnHid': ''}
 
@@ -810,9 +813,9 @@ const onButtonClick = (e, val) => {
     onTouchEnd={handleMouseUp}
 
     style={{
-      transform: activeButton === index ? 'scale(1.05)' : 'scale(1)',
-      padding: activeButton === index ? '4px' : '6px',
-      transition: "all 0.2s",
+      transform: `${activeButton === index ? 'scale(1.05)' : 'scale(1)'}`,
+      padding: `${activeButton === index ? '4px' : '6px'}`,
+      transition: `all 0.2s`
     }}  >
     {buttons.label}
   </button>
