@@ -69,7 +69,7 @@ return (
       </div>
 
     <div id='scrlTarget' className="scrl">  
-      <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll  </a>
+      <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll </a>
     </div>
   </div>
   </section>
@@ -79,16 +79,16 @@ return (
       <h1 className="skills-title gtxt elements hide-contents"> Skills </h1>
 
       <div className="tech-stacks"> 
-        <div className="stacks elements hide-contents"> <img className="stack-imgs" src="htmllogo.webp" alt="" srcSet="" /> HTML </div>
-        <div className="stacks elements hide-contents"> 
+        <div className="stacks elements"> <img className="stack-imgs" src="htmllogo.webp" alt="" srcSet="" /> HTML </div>
+        <div className="stacks elements"> 
           <img className="stack-imgs" src="csslogo.webp" alt="" srcSet="" /> CSS </div>
-        <div className="stacks elements hide-contents"> 
+        <div className="stacks elements"> 
           <img className="stack-imgs" src="javascriptlogo.webp" alt="" srcSet="" /> JavaScript </div>
-        <div className="stacks elements hide-contents"> 
+        <div className="stacks elements"> 
           <img className="stack-imgs" src="reactlogo.webp" alt="" srcSet="" /> React </div>
-        <div className="stacks elements hide-contents"> 
+        <div className="stacks elements"> 
           <img className="stack-imgs" src="tailwindlogo.webp" alt="" srcSet="" /> TailWind </div>
-        <div className="stacks elements hide-contents"> 
+        <div className="stacks elements"> 
           <img className="stack-imgs" src="npmlogo.webp" alt="" srcSet="" /> npm </div>
       </div>
     </div>

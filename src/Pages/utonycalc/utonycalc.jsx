@@ -695,12 +695,12 @@ const onButtonClick = (e, val) => {
          <div id="history" className='hideHistory' ref={historyTabRef}> </div>
         <div className='cont' id='calccon'  > 
           <div className="inputParent">
-            <div className="virtualInputField" onClick={hideHistoryTab}>
+            <div className="virtualInputField" >
               <p className="enteredExpressionInp">{trackCursor(inputVal )}</p>
               <p className="preciseResultInp">{newResult}</p>
             </div>
              <input type="text" name='calc' value={trackCursor(inputVal )} 
-             className='inputField' 
+             className='inputField'  onClick={hideHistoryTab}
               readOnly/>
 </div>
           {Buttons.map((buttons, index) => (

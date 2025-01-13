@@ -373,7 +373,7 @@ const UWeather = () => {
     }
     
     const getHumidityColor = (humidity) => {
-        if (humidity >= 0 && humidity < 30) return '#bef264'/*lime-300*/;
+        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-300*/;
         if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-300*/;
         if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-300*/;
         return 'gray'; // Default color
