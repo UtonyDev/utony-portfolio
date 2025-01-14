@@ -141,13 +141,16 @@ const UWeather = () => {
     
                 console.log(data.days[0].datetime);
                 const hourInfo = document.querySelectorAll('.hour-info');
+                const hourTime = document.querySelectorAll('.hour-time');
 
                 hourInfo[realHour].scrollIntoView({
                     behavior: 'instant',
                     block: 'nearest', // Ensures vertical alignment doesn't change
-                    inline: 'start'  }); 
+                    inline: 'start'}); 
                     
-                hourInfo[realHour].classList.add('text-teal-500');
+                console.log(hourInfo[realHour])
+                console.log(hourTime[realHour]);
+                hourTime[realHour].textContent = 'Now';
 
                 // Update the state
                 setIndexval(realHour);
@@ -424,6 +427,28 @@ const UWeather = () => {
         if (uvPercent >= 75 && uvPercent < 100) { return `8`};
     }
 
+    const getPhaseType = (phase) => {
+       if (phase == 0) { return `new-moon-phase`};
+       if (phase > 0 && phase < 0.25) { return `waxing-crescent-phase`};
+       if (phase == 0.25) { return `first-quarter-phase`};
+       if (phase > 0.25 && phase < 0.5) { return `waxing-gibbous-phase`};
+       if (phase == 0.5) { return `full-moon-phase`};
+       if (phase > 0.5 && phase < 0.75) { return `waning-gibbous-phase`};
+       if (phase == 0.75) { return `last-quarter-phase`};
+       if (phase > 0.75 && phase < 1) { return `waning-crescent-phase`};
+    }
+
+    const getPhaseInfo = (phase) => {
+        if (phase == 0) { return `New Moon`};
+        if (phase > 0 && phase < 0.25) { return `Waxing Crescent`};
+        if (phase == 0.25) { return `First Quarter`};
+        if (phase > 0.25 && phase < 0.5) { return `Waxing Gibbous`};
+        if (phase == 0.5) { return `Full Moon`};
+        if (phase > 0.5 && phase < 0.75) { return `Waning Gibbous`};
+        if (phase == 0.75) { return `Last Quarter`};
+        if (phase > 0.75 && phase < 1) { return `Waning crescent`};
+     }
+
     return (
         <motion.div initial="start"
         animate="end"
@@ -468,11 +493,11 @@ const UWeather = () => {
                     </div>
 
                     <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-gray-100 gap-3 shadow-md rounded-lg">
-                        <div className="desc font-semibold text-teal-600"> Hourly Forecast </div>
+                        <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
                             <li key={index} className="hour-info bg-gray-100 p-4 rounded-md">
-                                <p className='py-1 text-zinc-500'>{hourMinFormat(hour.datetime)}</p>
+                                <p className='py-1 hour-time text-zinc-500'>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
                                 <p className='py-1 text-zinc-500'> {data.days[0].hours[indexval].precipprob}% </p>                        
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
@@ -482,7 +507,7 @@ const UWeather = () => {
                     </div>
 
                     <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb mx-3 shadow-md rounded-lg">
-                        <div className="desc font-semibold text-teal-600 bold"> Daily Forecast </div>
+                        <div className="desc text-xl font-medium text-teal-600"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.map((day, index) => (
@@ -499,20 +524,20 @@ const UWeather = () => {
                     </div>
 
                     <div className="current-conditions justify-self-center w-11/12">
-                            <div className="desc text-teal-600 font-bold py-2"> Current Conditions </div>
+                            <div className="desc text-xl text-teal-600 font-medium py-2"> Current Conditions </div>
 
-                        <div className="weather-elements grid row-auto grid-cols-2 justify-items-stretch w-full gap-x-4 gap-y-4">
+                        <div className="weather-elements grid row-auto grid-cols-2 justify-items w-full gap-x-4 gap-y-4">
 
-                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-md">
-                                <div className="desc font-meduim text-teal-600 bold">Precipitaion</div>
+                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl font-meduim text-teal-600 bold">Precipitaion</div>
                                 <p className='px-2 py-3 text-5xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexval].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
                                 <hr className='my-2 text-zinc-700' />                  
                                 <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow, data.days[0].hours[indexval].snowdepth)} </p> 
                             </div>
 
-                            <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-md" >
-                                <div className="desc font-medium text-teal-600 bold"> Humidity </div>
+                            <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-sm" >
+                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
                                 <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
                                 <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
                                 style={{
@@ -536,8 +561,8 @@ const UWeather = () => {
                                     {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
                             </div>
 
-                            <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-md">
-                                <div className="desc font-medium text-teal-600 bold">Wind</div>
+                            <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
                                     <div className="north justify-self-center text-zinc-500">N</div>
@@ -562,8 +587,8 @@ const UWeather = () => {
                                 </p>
                             </div>
 
-                            <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-md">
-                                <div className="desc font-medium text-teal-600"> Pressure </div>
+                            <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
                                     <span class="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
@@ -588,8 +613,8 @@ const UWeather = () => {
                                 </p>
                             </div>
 
-                            <div className="visible relative bottom-[9%] border w-full h-fit p-3 bg-[#F4F9FF] rounded-sm drop-shadow-md">
-                                <div className="desc font-medium text-teal-600">Visibility</div>
+                            <div className="visible relative bottom-[9%] border w-full h-fit p-3 bg-[#F4F9FF] rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
 
                                 <img src="/horizon.png" alt="" className="s m-4" />
                                 <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
@@ -600,8 +625,8 @@ const UWeather = () => {
                                 </p>                                                
                             </div>
 
-                            <div className="solar border w-full bg-[#F4F9FF] relative bottom-[27%] h-fit p-4 rounded-sm drop-shadow-md">
-                                <div className="desc font-medium text-teal-600 bold">UV Index</div>
+                            <div className="solar border w-full bg-[#F4F9FF] relative bottom-[27%] h-fit p-4 rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600 bold">UV Index</div>
 
                                 <div className="uvmeter relative h-fit">
                                 <div className="ms-8 relative top-3 text-sm text-zinc-400">11+</div>
@@ -623,8 +648,27 @@ const UWeather = () => {
                                 <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexval].solarradiation} W/m² </p>
                             </div>
 
-                            <div className="phases border w-11/12 h-fit p-4 bg-gray-100 rounded-sm drop-shadow-md">
-                                <p className='py-1'> {data.days[0].sunrise} </p>                        
+                            <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-4 bg-[#F4F9FF] relative bottom-[35%] rounded-sm drop-shadow-sm">
+                                <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
+                                
+                                <div className="sun-phase col-span-1 row-span-2">
+                                    <div className="sunrise ">
+                                        <h1 className=' text-teal-500'> Sunrise </h1>
+                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunrise)} </p>
+                                    </div>
+                                    <div className="sunset ">
+                                        <h1 className=' text-teal-500'> Sunset </h1>
+                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunset)} </p>
+                                    </div> 
+                                </div>
+
+                               <div className="moon row-span-2 mx-10">
+                                    <div className=" text-teal-500"> Moon </div>
+                                    <img src={`/moon-phases/${getPhaseType(data.days[0].moonphase)}.png`} alt="" srcset="" />
+                                    <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[0].moonphase)} </h1>
+
+                                </div>
+                                            
                             </div>
                         </div>
                     </div>

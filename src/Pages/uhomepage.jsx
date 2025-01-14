@@ -99,80 +99,83 @@ return (
       <h1 className="projt gtxt elements hide-contents"> Projects </h1>
 
       <div className="projcon" id="txt">
-      <Link className="cardCont elements hide-contents" to="/utonycalc" >
+
+      <Link className="card-item grid place-items-baseline shadow-sm elements hide-contents" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
-        <h1 className="projTitle"> Calculator App </h1>
-        <span className="descr">
-        A responsive calculator built with React.
-        </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>
+        <h1 className="card-title m-2 text-lg font-medium "> Calculator App </h1>
+        <span className="card-description me-2">
+        A responsive scientific calculator built with React.
+        </span>
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>
       </Link>
 
-      <p className="cardCont elements hide-contents">
+      <p className="card-item grid place-items-baseline elements hide-contents">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
-        <span className="descr">
-        <span className="projTitle"> Coming Soon </span>
-        <span className="descr">
+        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-description me-2">
          Project in progress...
         </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>     
-        </span> 
-      </p>
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>      
+        </p>
 
-      <p className="cardCont elements hide-contents">
+      <p className="card-item grid place-items-baseline elements hide-contents">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
-        <span className="descr">
-        <span className="projTitle"> Coming Soon </span>
-        <span className="descr">
+        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-description me-2">
          Project in progress...
         </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>     
-        </span> 
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>     
       </p>
 
-      <p className="cardCont elements hide-contents">
+      <p className="card-item grid place-items-baseline elements hide-contents">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
-        <span className="descr">
-        <span className="projTitle"> Coming Soon </span>
-        <span className="descr">
+        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-description me-2">
          Project in progress...
         </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>     
-        </span> 
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>     
       </p>
 
-      <p className="cardCont elements hide-contents">
+      <p className="card-item grid place-items-baseline elements hide-contents">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
-        <span className="descr">
-        <span className="projTitle"> Coming Soon </span>
-        <span className="descr">
+        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-description me-2">
          Project in progress...
         </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>     
-        </span> 
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>     
       </p>
 
-      <p className="cardCont elements hide-contents"> 
+      <p className="card-item grid place-items-baseline elements hide-contents"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
-        <span className="descr">
-        <span className="projTitle"> Coming Soon </span>
-        <span className="descr">
+        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-description me-2">
          Project in progress...
         </span> 
-        <span className="langs"> ∘ HTML </span>
-        <span className="langs"> ∘ CSS </span>
-        <span className="langs"> ∘ React </span>     
-        </span> 
+        <div className="card-lang me-2 inline">
+          <span className="langs">  HTML </span>
+          <span className="langs">  CSS </span>
+          <span className="langs">  React </span>
+        </div>     
       </p>
 
       </div>

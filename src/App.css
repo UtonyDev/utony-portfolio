@@ -14,7 +14,7 @@ box-sizing: border-box;
 	--grey: #7A7A7A;
 	--iconclr: #535557;
 	--boxShadowClr: #0000001a;
-	--svgBackClr: #f0f8ff;
+	--svgBackClr: rgba(240, 248, 255, 0.75);
 	--topbackclr: #ffffff;
 	--white: #ffffff;
 	--TxtFontXClr: #0a0a0a;
@@ -24,7 +24,7 @@ box-sizing: border-box;
 body[data-theme='light'] {
 	--menuCard: rgba(247, 246, 246, 0.8);
 	--cardClr: #E5EDF5;
-	--svgBackClr: #f0f8ff;
+	--svgBackClr: rgba(240, 248, 255, 0.75);
 	--topbackclr: #ffffff;
 	--white: #ffffff;
 	--aquamFont: #0C645B;
@@ -412,14 +412,14 @@ hr:hover {
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-.cardCont {
+.card-item {
 	padding: 0;
 	margin: 0.5em;
-	border-radius: 0.5em;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-	background-color: var(--cardClr);
+	border-radius: 2.5%;
+	background-color: rgb(231 229 228 / var(--tw-bg-opacity, 1));
 	color: var(--TxtFontXClr) !important;
 	text-decoration: none;
+	overflow: clip;
 }
 
 .con:hover {
@@ -427,9 +427,12 @@ hr:hover {
 	transition: transform 0.2s ease;
 }
 
-.projTitle {
+.card-title {
 	color: var(--aquamFont);
-	margin-left: 5%;
+}
+
+.card-description {
+	display: block;
 }
 
 .hideCards {
@@ -446,15 +449,9 @@ hr:hover {
 	transition: all .9s ease-in;
 }
 
-.descr {
-	margin: 5% !important;
-	display: block;
-}
-
 .langs {
-	margin-left: 5%;
+	margin-inline-end: 0.5em;
 	color: #149489;
-	text-decoration: underline;
 }
 
 .foot {
@@ -531,7 +528,7 @@ hr:hover {
 		grid-template-rows: 1fr 1fr 1fr !important;
 	}
 
-	.cardCont {
+	.card-item {
 		padding: 0;
 	}
 
