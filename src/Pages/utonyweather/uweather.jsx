@@ -5,9 +5,7 @@ import { FaUndo } from 'react-icons/fa';
 import axios from "axios";
 import './uweather.css';
 import './form.css';
-import { e } from 'mathjs';
-import { faSearchLocation } from '@fortawesome/free-solid-svg-icons';
-import { layer } from '@fortawesome/fontawesome-svg-core';
+import DaysInfoPage from './daysInfoPage';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
@@ -24,9 +22,10 @@ const UWeather = () => {
     const [chosenIndex, setChosenIndex] = useState(0);
     const [humidLvl, setHumidLvl] = useState(0);
     const [humidClr, setHumidClr] = useState('');
+    const [dayPage, setDayPage] = useState(false);
+    const [dayIndex, setDayIndex] = useState(0);
 
-    const API_KEY = '124d73669936416ea36f14503e262e7d'; // Replace with your OpenCage API key
-
+    const API_KEY = '124d73669936416ea36f14503e262e7d';
 
     const InputValChange = async (e) => {
         const value = e.target.value;
@@ -76,8 +75,6 @@ const UWeather = () => {
         window.location.reload()
     }
 
-
-
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
         const weatherCacheKey = 'weatherCache';
@@ -111,12 +108,34 @@ const UWeather = () => {
                 const date = new Date(timeinData * 1000);
     
                 const realTime = new Date();
-                console.log(realTime);
-    
+                console.log(realTime)
                 const realHour = realTime.getHours();
                 console.log(realHour);
-                setHour(realHour);
-                    
+
+                const timezone = data.timezone;
+                console.log(timezone);
+
+                const currentTime = new Intl.DateTimeFormat("en-US", {
+                    timeZone: timezone,
+                    hour: "2-digit",
+                    hour12: false // Use 24-hour format, set to true for 12-hour format
+                }).format(new Date());
+
+                function parseCurrentTime(time) {
+                    if (time.charAt(0) == 0) {
+                        console.log('yes theres a zero in front');
+                        const parsedTime = time.slice(1);
+                        return parsedTime;
+                    } else {
+                        return time;
+                    }
+                }
+
+                const currentHour = parseCurrentTime(currentTime);
+
+                console.log(currentHour);
+                setHour(currentHour);
+
                 const parts = data.resolvedAddress.split(",");
                 const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
                 if (coordinates ) {
@@ -130,7 +149,7 @@ const UWeather = () => {
                     setAddress(data.resolvedAddress);
                 }
 
-                const currentvalue = data.days[0].hours[realHour].temp;
+                const currentvalue = data.days[0].hours[currentHour].temp;
                 console.log(currentvalue)                
                 console.log(toCelsius(currentvalue));
 
@@ -143,19 +162,19 @@ const UWeather = () => {
                 const hourInfo = document.querySelectorAll('.hour-info');
                 const hourTime = document.querySelectorAll('.hour-time');
 
-                hourInfo[realHour].scrollIntoView({
+                hourInfo[currentHour].scrollIntoView({
                     behavior: 'instant',
                     block: 'nearest', // Ensures vertical alignment doesn't change
                     inline: 'start'}); 
                     
-                console.log(hourInfo[realHour])
-                console.log(hourTime[realHour]);
-                hourTime[realHour].textContent = 'Now';
+                console.log(hourInfo[currentTime])
+                console.log(hourTime[currentTime]);
+                hourTime[currentHour].textContent = 'Now';
 
                 // Update the state
-                setIndexval(realHour);
+                setIndexval(currentHour);
 
-                const humidValue = Math.round(data.days[0].hours[realHour]?.humidity || 0);
+                const humidValue = Math.round(data.days[0].hours[currentHour]?.humidity || 0);
                 console.log(humidValue)
     
                 if (humidValue >= 0 && humidValue < 30) {
@@ -300,6 +319,8 @@ const UWeather = () => {
             }
         }
     } 
+
+
     if (loading) {
         return (
             <div className="bg-blue-50 place-items-center relative grid w-full h-screen">
@@ -326,17 +347,34 @@ const UWeather = () => {
             </div>
         );
     }
-      
-    const gradientVariants = {
-        start: { background: 'linear-gradient(to right, aliceblue, white)' },
-        end: { background: 'linear-gradient(to right, white, aliceblue)' },
-    };
 
     const toCelsius = (fahrenheit) => {
         const celsius = Math.round((fahrenheit - 32) * (5 / 9));
         
          return celsius;
      }
+
+     const updateDayIndex = (index) => {
+        setDayIndex(index);
+     }
+
+     const defaultPage = (page) => {
+        setDayPage(page);
+     }
+
+    if (dayPage) {
+        return (
+            <div className='weather-app h-screen' id='target'>
+               <div className="daily-page"> <DaysInfoPage data={data} toCelsius={toCelsius} dayIndex={dayIndex} onPageUpdate={defaultPage}/></div>
+            </div>
+        )
+    }
+      
+    const gradientVariants = {
+        start: { background: 'linear-gradient(to right, aliceblue, white)' },
+        end: { background: 'linear-gradient(to right, white, aliceblue)' },
+    };
+
  
      const hourMinFormat = (fullTime) => {
          const formattedTime = fullTime.slice(0, -3);
@@ -376,7 +414,7 @@ const UWeather = () => {
     }
     
     const getHumidityColor = (humidity) => {
-        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-300*/;
+        if (humidity >= 0 && humidity < 30) return '#bef264'/*lime-300*/;
         if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-300*/;
         if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-300*/;
         return 'gray'; // Default color
@@ -387,7 +425,14 @@ const UWeather = () => {
         if (humidity >= 30 && humidity < 60) return '#0284c7' /*sky-600*/ ;
         if (humidity >= 60 && humidity <= 100) return '#ea580c'/*orange-600*/;
         return 'gray-600'; // Default dark color
-      };  
+      }; 
+      
+      const getHumidityTxtColor = (humidity) => {
+        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
+        if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-600*/ ;
+        if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-600*/;
+        return 'gray-600'; // Default dark color
+      }; 
       
       const bearingConversion = (wcb) => {
         console.log(wcb);
@@ -459,7 +504,7 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10' >
+                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10'>
                     <div className="search z-50 top-12 grid grid-auto w-full">
                         <input type="search" value={query} className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 ring-1 text-md ring-teal-900 rounded-full' name="place" id="place" onChange={InputValChange} placeholder={address} />
                     {suggestions.length > 0 && (
@@ -478,7 +523,7 @@ const UWeather = () => {
                     )}
                     </div>
 
-                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-md rounded-lg z-40">
+                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
                         <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexval].conditions} 
@@ -492,11 +537,11 @@ const UWeather = () => {
 
                     </div>
 
-                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-gray-100 gap-3 shadow-md rounded-lg">
+                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
-                            <li key={index} className="hour-info bg-gray-100 p-4 rounded-md">
+                            <li key={index} className="hour-info bg-sky-100 p-4 rounded-md" style={{marginInlineEnd: '0.5em'}}>
                                 <p className='py-1 hour-time text-zinc-500'>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
                                 <p className='py-1 text-zinc-500'> {data.days[0].hours[indexval].precipprob}% </p>                        
@@ -506,12 +551,19 @@ const UWeather = () => {
                         </ul>
                     </div>
 
-                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-gray-100 p-3 mt-1 mb mx-3 shadow-md rounded-lg">
+                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-[#F4F9FF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-medium text-teal-600"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.map((day, index) => (
-                                <li key={index} className="grid grid-flow-col bg-gray-100 p-4 rounded-md">
+                                <li key={index} 
+                                    className="grid grid-flow-col bg-sky-100 p-4 rounded-md" 
+                                    style={{marginBlockEnd: '.5em'}}
+                                    onClick={() => {
+                                        setDayPage(true);
+                                        updateDayIndex(index);
+                                        }}
+                                    >
                                     <p className='inline-block font-medium text-zinc-500'>{formatDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
                                     <p className='inline-block italic text-teal-600 px-2'>{toCelsius(day.temp)}°C</p>
@@ -551,7 +603,7 @@ const UWeather = () => {
                                             }}>
                                         <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
                                         style={{
-                                            color: getHumidityColor(humidLvl)
+                                            color: getHumidityTxtColor(humidLvl)
                                         }}>
                                         {Math.round(data.days[0].hours[indexval].humidity)}%</span>
                                     </span>
@@ -591,7 +643,7 @@ const UWeather = () => {
                                 <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
-                                    <span class="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
                                     <div className="progress absolute w-full h-full rounded-full"
                                     style={{
                                         background: `conic-gradient(
@@ -664,7 +716,7 @@ const UWeather = () => {
 
                                <div className="moon row-span-2 mx-10">
                                     <div className=" text-teal-500"> Moon </div>
-                                    <img src={`/moon-phases/${getPhaseType(data.days[0].moonphase)}.png`} alt="" srcset="" />
+                                    <img src={`/moon-phases/${getPhaseType(data.days[0].moonphase)}.png`} alt="" srcSet="" />
                                     <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[0].moonphase)} </h1>
 
                                 </div>
