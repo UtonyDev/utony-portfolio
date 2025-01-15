@@ -8,6 +8,7 @@ import jssrcpic2 from '../assets/jssrcpic2.png';
 import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
 import { Link } from "react-router-dom";
 import 'intersection-observer';
+import { FaArrowDown } from "react-icons/fa";
 
 function UHomePage( { textAnimations }) {
 
@@ -69,7 +70,7 @@ return (
       </div>
 
     <div id='scrlTarget' className="scrl">  
-      <a href="#jump"> <i className="fa-solid fa-arrow-down"> </i> Scroll </a>
+      <a> <FaArrowDown/> Scroll </a>
     </div>
   </div>
   </section>
