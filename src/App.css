@@ -14,7 +14,7 @@ box-sizing: border-box;
 	--grey: #7A7A7A;
 	--iconclr: #535557;
 	--boxShadowClr: #0000001a;
-	--svgBackClr: rgba(240, 248, 255, 0.75);
+	--svgBackClr: rgba(240, 248, 255, 0.749);
 	--topbackclr: #ffffff;
 	--white: #ffffff;
 	--TxtFontXClr: #0a0a0a;
@@ -23,11 +23,11 @@ box-sizing: border-box;
 
 body[data-theme='light'] {
 	--menuCard: rgba(247, 246, 246, 0.8);
-	--cardClr: #ffffff;
+	--cardClr: #EBF5FFBF;
 	--svgBackClr: rgba(240, 248, 255, 0.75);
 	--topbackclr: #ffffff;
 	--white: #ffffff;
-	--aquamFont: #0C645B;
+	--aquamFont: #0B5B53;
 	--aquamWeight: 500;
 	--footBackclr: #d9e6f2;
 }
@@ -38,7 +38,7 @@ body[data-theme='dark'] {
 	--cardClr: rgba(22, 27, 34, 0.7);
 	--aquamFont: #3FCABA;
 	--aquamWeight: 100;
-	--grey: #C9C9C9;
+	--grey: #c9c9c9;
 	--svgBackClr: #0A0E14;
 	--topbackclr: #080808;
 	--white: #292b2c;
@@ -399,7 +399,7 @@ hr:hover {
 }
 
 /* projects */
-.projcon {
+.project-section {
 	position: relative;
 	color: var(--iconclr) !important;
 	padding-bottom: 2vh;
@@ -430,6 +430,14 @@ hr:hover {
 
 .card-description {
 	display: block;
+	color: #4F4F4F;
+	font-size: 0.65em;
+}
+
+.langs {
+	margin-inline-end: 0.5em;
+	color: #149489;
+	font-size: 0.65em !important;
 }
 
 .hideCards {
@@ -444,11 +452,6 @@ hr:hover {
 	backdrop-filter: blur(0);
 	opacity: none;
 	transition: all .9s ease-in;
-}
-
-.langs {
-	margin-inline-end: 0.5em;
-	color: #149489;
 }
 
 .foot {
@@ -517,7 +520,7 @@ hr:hover {
 		top: 2.8em !important;
 	}
 
-	.projcon {
+	.project-section {
 		color: var(--iconclr) !important;
 		display: grid;
 		gap: 30px;
@@ -701,7 +704,7 @@ hr:hover {
 		padding-top: 15vh;
 	}
 
-	.projcon {
+	.project-section {
 		color: var(--iconclr) !important;
 		display: grid;
 		gap: 30px;

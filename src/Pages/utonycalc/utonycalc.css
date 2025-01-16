@@ -136,8 +136,6 @@
       width: auto;
       margin: 0;
       padding: 0.25em 0 0.25em 0.25em ;      
-      border: solid 2px gray;
-      border-radius: 5px;
       font-size: 100%;
       background-color: #C0C0C0;
       color: rgba(127, 255, 212, 0.8);
@@ -159,8 +157,6 @@
       height: 100%;
       width: auto;
       margin: 0;
-      border: solid 2px pink;
-      border-radius: 5px;
       font-size: 250%;
       color: rgba(127, 255, 212, 0.8);   
     }

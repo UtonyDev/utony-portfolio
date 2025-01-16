@@ -37,6 +37,15 @@ useEffect(() => {
   return () => observer.disconnect();
 }, []);
 
+const scrollToProjects = () => {
+  const projectSection = document.querySelector('.project-section');
+
+  projectSection.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+    });
+}
+
 
 return (
   <>
@@ -69,7 +78,7 @@ return (
        and adhering to modern standards.
       </div>
 
-    <div id='scrlTarget' className="scrl">  
+    <div id='scrlTarget' className="scrl" onClick={scrollToProjects}>  
       <a> <FaArrowDown/> Scroll </a>
     </div>
   </div>
@@ -99,11 +108,11 @@ return (
     <div className="cent">  
       <h1 className="projt gtxt elements hide-contents"> Projects </h1>
 
-      <div className="projcon" id="txt">
+      <div className="project-section" id="txt">
 
-      <Link className="card-item grid place-items-baseline shadow-sm elements hide-contents" to="/utonycalc" >
+      <Link className="card-item hover:shadow-2xl  grid place-items-baseline shadow-sm elements hide-contents" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
-        <h1 className="card-title m-2 text-lg font-medium "> Calculator App </h1>
+        <h1 className="card-title m-2 text-md font-medium "> Calculator App </h1>
         <span className="card-description me-2">
         A responsive scientific calculator built with React.
         </span>
@@ -114,9 +123,9 @@ return (
         </div>
       </Link>
 
-      <p className="card-item grid place-items-baseline elements hide-contents">
+      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
          Project in progress...
         </span> 
@@ -127,9 +136,9 @@ return (
         </div>      
         </p>
 
-      <p className="card-item grid place-items-baseline elements hide-contents">
+      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
          Project in progress...
         </span> 
@@ -140,9 +149,9 @@ return (
         </div>     
       </p>
 
-      <p className="card-item grid place-items-baseline elements hide-contents">
+      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
          Project in progress...
         </span> 
@@ -153,9 +162,9 @@ return (
         </div>     
       </p>
 
-      <p className="card-item grid place-items-baseline elements hide-contents">
+      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
          Project in progress...
         </span> 
@@ -166,9 +175,9 @@ return (
         </div>     
       </p>
 
-      <p className="card-item grid place-items-baseline elements hide-contents"> 
+      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-lg font-medium"> Coming Soon </span>
+        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
          Project in progress...
         </span> 
