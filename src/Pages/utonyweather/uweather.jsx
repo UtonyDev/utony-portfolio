@@ -6,22 +6,26 @@ import axios from "axios";
 import './uweather.css';
 import './form.css';
 import DaysInfoPage from './daysInfoPage';
+import 'intersection-observer';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
     const [prompt, setPrompt] = useState(false); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [indexval, setIndexval] = useState(0);
+    const [indexHour, setIndexHour] = useState(0);
     const [address, setAddress] = useState('');
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-    const [hour, setHour] = useState(0);
     const [holdResult, setHoldResult] = useState('');
     const [chosenIndex, setChosenIndex] = useState(0);
-    const [humidLvl, setHumidLvl] = useState(0);
+    const [activeButton, setActiveButton] = useState(false);
     const [dayPage, setDayPage] = useState(false);
     const [dayIndex, setDayIndex] = useState(0);
+    const [forceRender, setForceRender] = useState(0);
+    const hourInfoRef = useRef([]);
+    const hourTimeRef = useRef([]);
+
 
     const API_KEY = '124d73669936416ea36f14503e262e7d';
 
@@ -79,7 +83,7 @@ const UWeather = () => {
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
         const weatherCacheKey = 'weatherCache';
-        const cachedData = JSON.parse(localStorage.getItem(weatherCacheKey)) || {}; // Use empty object if no data is present
+        const cachedData = JSON.parse(localStorage.getItem(weatherCacheKey)) || {};
     
         console.log('Cached data:', cachedData);
     
@@ -103,16 +107,19 @@ const UWeather = () => {
         if (data) {
             console.log('Data available outside fetchData:', data);
     
-            if (data.days && data.days[0]?.hours) {
-
+            if (data.days && data.days[0]?.hours) {            
+                // Extract user's hour for debugging
                 const timeinData = data.days[0].hours[23].datetime;
                 const date = new Date(timeinData * 1000);
-    
                 const realTime = new Date();
                 console.log(realTime)
                 const realHour = realTime.getHours();
                 console.log(realHour);
+                const hour = date.getHours();
+                console.log('Hour:', hour);
+                console.log(`${iconBasePath}${data.days[7].icon}.png`);
 
+                // Current duration index being used
                 const timezone = data.timezone;
                 console.log(timezone);
 
@@ -131,18 +138,13 @@ const UWeather = () => {
                         return time;
                     }
                 }
-
                 const currentHour = parseCurrentTime(currentTime);
-
-                console.log(currentHour);
-                setHour(currentHour);
 
                 const parts = data.resolvedAddress.split(",");
                 const coordinates = parts.every(part => !isNaN(part) && part.trim() !== "");
                 if (coordinates ) {
                     const resolvedAddress = localStorage.getItem("resolvedAddress");
-                console.log("Resolved Address:", resolvedAddress);
-                    console.log(data.resolvedAddress)
+                    console.log("Resolved Address:", resolvedAddress);
                     console.log("coords address:", address);
                     setAddress(resolvedAddress)
                 } else {
@@ -153,27 +155,10 @@ const UWeather = () => {
                 const currentvalue = data.days[0].hours[currentHour].temp;
                 console.log(currentvalue)                
                 console.log(toCelsius(currentvalue));
-
-                // Extract the hour
-                const hour = date.getHours();
-                console.log('Hour:', hour);
-                console.log(`${iconBasePath}${data.days[7].icon}.png`);
     
-                console.log(data.days[0].datetime);
-                const hourInfo = document.querySelectorAll('.hour-info');
-                const hourTime = document.querySelectorAll('.hour-time');
-
-                hourInfo[currentHour].scrollIntoView({
-                    behavior: 'instant',
-                    block: 'nearest', // Ensures vertical alignment doesn't change
-                    inline: 'start'}); 
-                    
-                console.log(hourInfo[currentTime])
-                console.log(hourTime[currentTime]);
-                hourTime[currentHour].textContent = 'Now';
-
                 // Update the state
-                setIndexval(currentHour);
+                console.log(currentHour);
+                setIndexHour(currentHour);
 
             } else {
                 console.log('Data structure incomplete or missing days/hours');
@@ -183,6 +168,7 @@ const UWeather = () => {
         }
  
     }, [data]); // Re-run the effect whenever 'data' changes
+
 
     // Function to fetch weather data
     const fetchData = async (city, country) => {
@@ -349,8 +335,7 @@ const UWeather = () => {
      const defaultPage = (page) => {
         setDayPage(page);
      }
-
-      
+                 
     const gradientVariants = {
         start: { background: 'linear-gradient(to right, aliceblue, white)' },
         end: { background: 'linear-gradient(to right, white, aliceblue)' },
@@ -366,12 +351,7 @@ const UWeather = () => {
          const day = new Date(numDay);
         const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
          return realDay;
-     } 
-     function SendData(val) {
-        setHumidLvl(val);
-        console.log(val);
-        return val;
-    } 
+     }
 
     const precipType = (type, amount, snowamount, snowdepth) => {
         console.log(type);
@@ -475,13 +455,33 @@ const UWeather = () => {
         if (phase > 0.75 && phase < 1) { return `Waning crescent`};
      }
 
+
+
+     const showCurrentHour = () => {
+        if (hourInfoRef.current.length > 0) {
+            hourInfoRef.current[indexHour].scrollIntoView({
+                behavior: 'instant',
+                block: 'nearest',
+                inline: 'start',
+            });
+            
+            if (hourTimeRef.current[indexHour]) {
+                hourTimeRef.current[indexHour].textContent = 'Now';
+            }
+        } else {
+            console.log('elemnt doesnt exist yet')
+        }
+    };
+
+
      if (dayPage) {
         return (
             <div className='weather-app place-items-center relative grid w-full' id='target'>
                <div className="daily-page"> 
                 <DaysInfoPage 
                     data={data} toCelsius={toCelsius} dayIndex={dayIndex}
-                     onPageUpdate={defaultPage} precipType={precipType} 
+                     onPageUpdate={defaultPage}
+                     precipType={precipType} 
                      getHumidityBGColor={getHumidityBGColor}
                      getHumidityColor={getHumidityColor}
                      getHumidityTxtColor={getHumidityTxtColor}
@@ -494,6 +494,7 @@ const UWeather = () => {
                      getPhaseInfo={getPhaseInfo}
                      hourMinFormat={hourMinFormat}
                      formatDay={formatDay}
+                     showCurrentHour={showCurrentHour}
                 /></div>
             </div>
         )
@@ -531,11 +532,11 @@ const UWeather = () => {
 
                     <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
-                        ">{toCelsius(data.days[0].hours[indexval].temp)}°</h1>
-                        <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexval].conditions} 
-                            <img src={`${iconBasePath}${data.days[0].hours[indexval].icon}.png`} alt="" className="src size-10" />
+                        ">{toCelsius(data.days[0].hours[indexHour].temp)}°</h1>
+                        <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexHour].conditions} 
+                            <img src={`${iconBasePath}${data.days[0].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexval].feelslike)}°C</div>
+                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexHour].feelslike)}°C</div>
 
                         <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}°C </div>
                         <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}°C </div>
@@ -543,28 +544,37 @@ const UWeather = () => {
 
                     </div>
 
-                    <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
+                    <div className="hourly-forecast forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
-                            <li key={index} className="hour-info bg-sky-100 p-4 rounded-md" style={{marginInlineEnd: '0.5em'}}>
-                                <p className='py-1 hour-time text-zinc-500'>{hourMinFormat(hour.datetime)}</p>
+                            <li 
+                            key={index} 
+                            className="hour-info bg-sky-100 p-4 rounded-md" 
+                            style={{marginInlineEnd: '0.5em'}}
+                            ref={(el) => (hourInfoRef.current[index] = el)}
+                            onLoad={showCurrentHour}>
+                                <p 
+                                    className='py-1 hour-time text-zinc-500'
+                                    ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
-                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexval].precipprob}% </p>                        
+                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
                             </li>
                             ))}
                         </ul>
                     </div>
 
-                    <div className="daily-forecast grid grid-rows-1 w-11/12 bg-[#F4F9FF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
+                    <div className="daily-forecast forecast grid grid-rows-1 w-11/12 bg-[#F4F9FF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-medium text-teal-600"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.map((day, index) => (
                                 <li key={index} 
                                     className="grid grid-flow-col bg-sky-100 p-4 rounded-md" 
-                                    style={{marginBlockEnd: '.5em'}}
+                                    style={{
+                                        marginBlockEnd: '.5em',
+                                    }}
                                     onClick={() => {
                                         setDayPage(true);
                                         updateDayIndex(index);
@@ -588,10 +598,10 @@ const UWeather = () => {
 
                             <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-sm">
                                 <div className="desc text-xl font-meduim text-teal-600 bold">Precipitaion</div>
-                                <p className='px-2 py-3 text-5xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexval].precipprob)}% </p> 
+                                <p className='px-2 py-3 text-5xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
                                 <hr className='my-2 text-zinc-700' />                  
-                                <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexval].preciptype, data.days[0].hours[indexval].precip, data.days[0].hours[indexval].snow, data.days[0].hours[indexval].snowdepth)} </p> 
+                                <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[0].hours[indexHour].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
                             </div>
 
                             <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-sm" >
@@ -599,24 +609,24 @@ const UWeather = () => {
                                 <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
                                 <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
                                 style={{
-                                    backgroundColor: getHumidityColor((data.days[0].hours[indexval].humidity))
+                                    backgroundColor: getHumidityColor((data.days[0].hours[indexHour].humidity))
                                 }}>
                                    <span 
                                         className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-`}
                                         style={{
-                                            height: `${(data.days[0].hours[indexval].humidity)}%`,
-                                            backgroundColor: getHumidityBGColor((data.days[0].hours[indexval].humidity))
+                                            height: `${(data.days[0].hours[indexHour].humidity)}%`,
+                                            backgroundColor: getHumidityBGColor((data.days[0].hours[indexHour].humidity))
                                             }}>
                                         <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
                                         style={{
-                                            color: getHumidityTxtColor((data.days[0].hours[indexval].humidity))
+                                            color: getHumidityTxtColor((data.days[0].hours[indexHour].humidity))
                                         }}>
-                                        {Math.round(data.days[0].hours[indexval].humidity)}%</span>
+                                        {Math.round(data.days[0].hours[indexHour].humidity)}%</span>
                                     </span>
                                 </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
                                 <p className='py-1 inline'> 
                                     <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(toCelsius(data.days[0].hours[indexval].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
+                                    {Math.round(toCelsius(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
                             </div>
 
                             <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
@@ -630,17 +640,17 @@ const UWeather = () => {
                                     >
                                         <img src="/compass.png" alt="" srcSet="" className='w-6 h-6 '
                                         style={{
-                                            transform: `rotate(${data.days[0].hours[indexval].winddir}deg)`,
+                                            transform: `rotate(${data.days[0].hours[indexHour].winddir}deg)`,
                                             }}/>
                                         
                                     </div>
                                     <div className="west relative bottom-full text-zinc-500">W</div>
                                     <div className="south justify-self-center text-zinc-500">S</div>
                                 </div>
-                                <p className='py-1 text-zinc-700'> {bearingConversion(data.days[0].hours[indexval].winddir)} </p>
+                                <p className='py-1 text-zinc-700'> {bearingConversion(data.days[0].hours[indexHour].winddir)} </p>
                                 <hr className='my-2 text-zinc-400' />
                                 <p className='py-1 text-teal-500'> 
-                                    <span className="speed text-2xl font-semibold"> {toKiloM(data.days[0].hours[indexval].windspeed)} </span>
+                                    <span className="speed text-2xl font-semibold"> {toKiloM(data.days[0].hours[indexHour].windspeed)} </span>
                                     km/h
                                 </p>
                             </div>
@@ -655,7 +665,7 @@ const UWeather = () => {
                                         background: `conic-gradient(
                                         from 150deg,
                                         #0ea5e9 20%,
-                                        #0ea5e9 ${baroPercent(data.days[0].hours[indexval].pressure)}%,
+                                        #0ea5e9 ${baroPercent(data.days[0].hours[indexHour].pressure)}%,
                                         #bae6fd 50%,
                                         #bae6fd 100%
                                         )`,
@@ -667,7 +677,7 @@ const UWeather = () => {
                                 <span className="h z-30 relative bottom-4 ms-3 text-xs text-zinc-400">low</span>
                                 <span className="l z-30 relative bottom-4 ms-4 text-xs text-zinc-400">high</span>
                                 <p className='py-1 text-zinc-500'> 
-                                    <span className="pval font-semibold text-2xl">{data.days[0].hours[indexval].pressure}</span> mb 
+                                    <span className="pval font-semibold text-2xl">{data.days[0].hours[indexHour].pressure}</span> mb 
                                 </p>
                             </div>
 
@@ -676,10 +686,10 @@ const UWeather = () => {
 
                                 <img src="/horizon.png" alt="" className="s m-4" />
                                 <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
-                                    {toKiloM(data.days[0].hours[indexval].visibility)} km
+                                    {toKiloM(data.days[0].hours[indexHour].visibility)} km
                                 </p>
                                 <p className='py-1  text-zinc-500'> <img src="/cloud-cover.png" alt="" className="me-1 inline-block" />
-                                    {data.days[0].hours[indexval].cloudcover} %
+                                    {data.days[0].hours[indexHour].cloudcover} %
                                 </p>                                                
                             </div>
 
@@ -690,20 +700,20 @@ const UWeather = () => {
                                 <div className="ms-8 relative top-3 text-sm text-zinc-400">11+</div>
                                     <div className="currentUV absolute bottom-1 left-1 text-zinc-400"
                                     style={{
-                                            height: `${UVLevel(data.days[0].hours[indexval].uvindex)}%`,
-                                            bottom: `${bttmAlign(UVLevel(data.days[0].hours[indexval].uvindex))}px`
-                                        }}> {data.days[0].hours[indexval].uvindex} </div>
+                                            height: `${UVLevel(data.days[0].hours[indexHour].uvindex)}%`,
+                                            bottom: `${bttmAlign(UVLevel(data.days[0].hours[indexHour].uvindex))}px`
+                                        }}> {data.days[0].hours[indexHour].uvindex} </div>
 
                                     <div className="sun relative w-16 h-16 m-3 bg-amber-400 rounded-full overflow-clip">
                                         <div className="lev absolute bottom-0  bg-red-600 w-full" 
                                         style={{
-                                            height: `${UVLevel(data.days[0].hours[indexval].uvindex)}%`,
+                                            height: `${UVLevel(data.days[0].hours[indexHour].uvindex)}%`,
                                         }}></div>
                                     </div>
                                 <div className="ms-10 relative bottom-3 text-sm text-zinc-400">0</div>
                                 </div>
 
-                                <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexval].solarradiation} W/m² </p>
+                                <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexHour].solarradiation} W/m² </p>
                             </div>
 
                             <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-4 bg-[#F4F9FF] relative bottom-[35%] rounded-sm drop-shadow-sm">

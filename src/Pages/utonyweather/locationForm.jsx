@@ -58,7 +58,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
 
     
     return (
-        <div className=' place-self-center relative top-1/4 grid'>
+        <div className=' place-self-center relative top-[15%] grid'>
             <div className="form-container grid w-full border-2 shadow-2xl rounded-xl backdrop-blur-sm">
 
                 <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
@@ -69,7 +69,7 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
                     <input className='mx-3 p-3 rounded-xl shadow-md text-gray-400 text-xl' type="text" placeholder="Country" value={country} 
                     onChange={(e) => setCountry(e.target.value)} />
                     
-                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit"> Enter </button>
+                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit" onClick={onButnTouch}> Enter </button>
 
                 </form>
 

@@ -16,10 +16,6 @@ box-sizing: border-box;
     visibility: visible !important;
 }
 
-.form-container {
-    background-color: aliceblue;
-}
-
 svg.reset {
     fill: grey;
     stroke: transparent;

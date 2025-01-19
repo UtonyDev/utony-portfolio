@@ -9,10 +9,13 @@ function DaysInfoPage( {
     bttmAlign, UVLevel, baroPercent, toKiloM, 
     bearingConversion, getHumidityTxtColor, 
     getHumidityColor, getHumidityBGColor, 
-    precipType, hourMinFormat, formatDay
+    precipType, hourMinFormat
 } ) {
 
-    const [indexval, setIndexval] = useState(0);
+    const [indexHour, setIndexHour] = useState(0);
+    const pageRef = useRef([]);
+    const hourInfoRef = useRef([]);
+    const hourTimeRef = useRef([]);
 
     const iconBasePath = '/GWeatherIcons/';
 
@@ -39,7 +42,7 @@ function DaysInfoPage( {
         const currentHour = parseCurrentTime(currentTime);
     
         console.log(currentHour);
-        setIndexval(currentHour);
+        setIndexHour(currentHour);
     
     }, [data])
 
@@ -47,26 +50,87 @@ function DaysInfoPage( {
         onPageUpdate(false);
     }
 
+    const showCurrentHour = () => {
+        if (hourInfoRef.current.length > 0) {
+            const indexHour = new Date().getHours(); // Replace with your logic for the current hour
+            hourInfoRef.current[indexHour]?.scrollIntoView({
+                behavior: 'instant',
+                block: 'nearest',
+                inline: 'start',
+            });
+            pageRef.current.scrollIntoView(
+                {
+                    behavior: 'instant',
+                    block: 'center',
+                }
+            )
+
+            if (hourTimeRef.current[indexHour]) {
+                hourTimeRef.current[indexHour].textContent = 'Now';
+            }
+        }
+    };
+    useEffect(() => {showCurrentHour()}, [data]);
+
+        const formatFullDay = (numDay) => {
+            const day = new Date(numDay);
+           const realDate = new Intl.DateTimeFormat('en-US', 
+            { weekday: 'long' },
+            {day: 'numeric'},
+            {month: 'long'}
+        ).format(day);
+            return realDate;
+        }   
+
     return (
-        <div className=''>
-            <div className="dayname mt-10" onClick={defaultPage}> 
+        <div className='weather-app top-5'>
+            <div className="dayname mt-10" 
+            onClick={
+                () => {
+                    defaultPage();
+                } 
+                
+            }
+            ref={pageRef}
+            > 
                 <img src='/back-button.png' alt="" srcSet="" /> 
             </div>
 
             <div className="day-weather top-0 grid grid-cols-1 row-auto justify-items-center h-full gap-5">
-                <div className="daytext relative text-teal-900 text-2xl leading-snug"> {formatDay(data.days[dayIndex].datetime)}</div>
+                <div className="daytext relative text-teal-900 text-2xl leading-snug"> {formatFullDay(data.days[dayIndex].datetime)}</div>
 
                 <div className="temp-con grid grid-auto justify-self-center relative w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
-                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{toCelsius(data.days[dayIndex].hours[indexval].temp)}°</h1>
-                    <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[dayIndex].hours[indexval].conditions} 
-                        <img src={`${iconBasePath}${data.days[dayIndex].hours[indexval].icon}.png`} alt="" className="src size-10" />
+                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{toCelsius(data.days[dayIndex].hours[indexHour].temp)}°</h1>
+                    <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[dayIndex].hours[indexHour].conditions} 
+                        <img src={`${iconBasePath}${data.days[dayIndex].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                     </div>
 
-                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[dayIndex].hours[indexval].feelslike)}°C</div>
+                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[dayIndex].hours[indexHour].feelslike)}°C</div>
 
                     <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[dayIndex].tempmax)}°C </div>
                     <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[dayIndex].tempmin)}°C </div>
                 </div>
+
+                <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
+                        <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
+                        <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
+                            {data.days[0].hours.map((hour, index) => (
+                            <li 
+                            key={index} 
+                            className="hour-info bg-sky-100 p-4 rounded-md" 
+                            style={{marginInlineEnd: '0.5em'}}
+                            ref={(el) => (hourInfoRef.current[index] = el)}>
+                                <p 
+                                    className='py-1 hour-time text-zinc-500'
+                                    ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
+                                <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
+                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
+                                <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
+                            </li>
+                            ))}
+                        </ul>
+                    </div>
+
 
                 <div className="conditions justify-self-center w-11/12">
                             <div className="desc text-xl text-teal-600 font-medium py-2"> Conditions </div>
