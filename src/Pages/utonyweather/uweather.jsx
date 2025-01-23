@@ -7,6 +7,7 @@ import './uweather.css';
 import './form.css';
 import DaysInfoPage from './daysInfoPage';
 import 'intersection-observer';
+import { useAsyncError, useLocation } from 'react-router-dom';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
@@ -19,13 +20,19 @@ const UWeather = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [holdResult, setHoldResult] = useState('');
     const [chosenIndex, setChosenIndex] = useState(0);
-    const [activeButton, setActiveButton] = useState(false);
     const [dayPage, setDayPage] = useState(false);
     const [dayIndex, setDayIndex] = useState(0);
-    const [forceRender, setForceRender] = useState(0);
-    const hourInfoRef = useRef([]);
+    const [metricUnit, setMetricUnit] = useState(false);
+    const [usUnit, setUSUnit] = useState(false);
+    const [ukUnit, setUKUnit] = useState(false);
+    const [fahrenhait, setFahrenhait] = useState(false);
+    const [preferredUnit, setPreferredUnit] = useState('');
+    const [celsiusBox, setCelsiusBox] = useState(false);
+    const [fahrenhaitBox, setFahrenhaitBox] = useState(false);
+    const hourInfoRef = useRef([]); 
     const hourTimeRef = useRef([]);
-
+    const dayRef = useRef([]);
+    const weatherPage = useLocation();
 
     const API_KEY = '124d73669936416ea36f14503e262e7d';
 
@@ -33,13 +40,13 @@ const UWeather = () => {
         const value = e.target.value;
         setQuery(value);
 
-        if (value.length > 1) { 
+        if (value.length > 3) { 
             try {
                 const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
                     params: {
                         q: value,
                         key: API_KEY,
-                        limit: 5, 
+                        limit: 6, 
                         language: "en",
                     },
                 });
@@ -66,17 +73,19 @@ const UWeather = () => {
 
        const splitData = chosenList.split(',');
        console.log(splitData)
-
-       const newcity = splitData[0];
-       const newcountry = splitData[1];
-       console.log(newcity && newcountry);
-
-       fetchData(newcity, newcountry);
-
+        if (splitData) {
+            const newcity = splitData[0];
+            const newcountry = splitData[splitData.length - 1];
+            console.log(newcountry)
+            let unit = checkCountry(newcountry);
+            fetchData(newcity, newcountry, unit);
+            console.log('search length is:', splitData.length);
+        }
     }
 
     const resetData = () => {
         localStorage.removeItem('weatherCache');
+        localStorage.removeItem('userUnitPref');
         window.location.reload()
     }
 
@@ -94,30 +103,39 @@ const UWeather = () => {
     
             setData(latestData); // Use the most recent cached data for rendering
             console.log('Using cached data from weatherCache:', latestData);
+            console.log(latestData.resolvedAddress);
+
+            let userUnitPreference = localStorage.getItem('userUnitPref');
+            console.log('the user prefers: ', userUnitPreference);
+
+            if (userUnitPreference) {
+                checkCountry(userUnitPreference);
+            } else {
+                console.log('user hasnt set preference');
+                let cacheLocation = latestData.resolvedAddress.split(',');
+                const cacheCountry = cacheLocation[cacheLocation.length -1];
+                checkCountry(cacheCountry);    
+            }
+
         } else {
             // No cached data, show the location prompt
             setPrompt(true);
         }
 
 
-    }, []); // Run only once during the initial render
+    }, [weatherPage]);
 
     const iconBasePath = '/GWeatherIcons/';
     useEffect(() => {
         if (data) {
-            console.log('Data available outside fetchData:', data);
     
             if (data.days && data.days[0]?.hours) {            
                 // Extract user's hour for debugging
                 const timeinData = data.days[0].hours[23].datetime;
                 const date = new Date(timeinData * 1000);
                 const realTime = new Date();
-                console.log(realTime)
                 const realHour = realTime.getHours();
-                console.log(realHour);
                 const hour = date.getHours();
-                console.log('Hour:', hour);
-                console.log(`${iconBasePath}${data.days[7].icon}.png`);
 
                 // Current duration index being used
                 const timezone = data.timezone;
@@ -152,10 +170,7 @@ const UWeather = () => {
                     setAddress(data.resolvedAddress);
                 }
 
-                const currentvalue = data.days[0].hours[currentHour].temp;
-                console.log(currentvalue)                
-                console.log(toCelsius(currentvalue));
-    
+                const currentvalue = data.days[0].hours[currentHour].temp;    
                 // Update the state
                 console.log(currentHour);
                 setIndexHour(currentHour);
@@ -169,15 +184,19 @@ const UWeather = () => {
  
     }, [data]); // Re-run the effect whenever 'data' changes
 
-
-    // Function to fetch weather data
-    const fetchData = async (city, country) => {
-        const cacheKey = `${city}:${country}`;
+    // Function to fetch weather data.
+    const fetchData = async (city, country, unit) => {
+        const cacheKey = `${city}:${country}:${unit}`;
         const weatherCacheKey = 'weatherCache';
-    
+        let userUnitPreference = localStorage.getItem('userUnitPref');
+        if (userUnitPreference) {
+            checkCountry(userUnitPreference);
+        } else {
+            checkCountry(country);
+        }
+        
         // Retrieve the cache object from localStorage
         const cachedData = JSON.parse(localStorage.getItem(weatherCacheKey)) || {};
-    
         console.log('Cache key:', cacheKey);
     
         // Check if data for the given city-country pair exists in the cache
@@ -187,16 +206,17 @@ const UWeather = () => {
             console.log('Using cached weather data:', jsonCachedData);
         } else {
             console.log('Data not found in cache... fetching from server');
-            if (chosenIndex) {
+
+        if (chosenIndex) {
             setPrompt(true); 
             console.log('yes', chosenIndex);
         } else {
             setPrompt(false);
             setLoading(true);
             console.log('no', chosenIndex);
-        }// Show prompt while fetching
+        }
             try {
-                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
+                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}&unit=${unit}`);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -207,11 +227,14 @@ const UWeather = () => {
                 localStorage.setItem(storedData, jsonData);
                 console.log('new stored data', storedData)
                 // Update the cache object with new data
+        
+        
                 cachedData[cacheKey] = jsonData;
                 localStorage.setItem(weatherCacheKey, JSON.stringify(cachedData)); // Save the updated cache to localStorage
     
                 setData(jsonData); // Set the fetched data to state
                 console.log('Fetched data from server:', jsonData);
+
                 
             } catch (err) {
                 console.error('Error fetching weather data:', err);
@@ -224,8 +247,8 @@ const UWeather = () => {
         }
     };
 
-    const convertCoordinates = async (latitude, longitude) => {
-        const apiKey = '124d73669936416ea36f14503e262e7d';  // Replace with your OpenCage API key
+    const convertCoordinates = async (latitude, longitude, unit) => {
+        const apiKey = '124d73669936416ea36f14503e262e7d';
 
         const url = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}%2C+${longitude}&pretty=1&no_annotations=1`;
 
@@ -235,11 +258,13 @@ const UWeather = () => {
             if (data.results.length > 0) {
             const city = `${data.results[0].components._normalized_city}, ${data.results[0].components.state},`;
             const country = `${data.results[0].components.country}`;
+            console.log(country);
+            const unit = checkCountry(country);
             const resolvedAddress = `${city}${country}`;
             localStorage.setItem("resolvedAddress", resolvedAddress);
-            setAddress(resolvedAddress)
+            setAddress(resolvedAddress);
 
-            console.log(resolvedAddress)
+            console.log(resolvedAddress);
             } else {
             console.log('No results found.');
             }
@@ -249,51 +274,107 @@ const UWeather = () => {
         });
     }
 
-    const fetchWeatherByCoordinates = async (latitude, longitude) => {
-        const cacheKey = `${latitude}:${longitude}`;
-        const weatherCacheKey = 'weatherCache';
+    function waitForCheckboxes(timeout = 5000) {
+        return new Promise((resolve, reject) => {
+            const startTime = Date.now();
     
-        // Retrieve the cache object from localStorage
-        const cachedData = JSON.parse(localStorage.getItem(weatherCacheKey)) || {};
+            function check() {
+                const customCheckBox1 = document.querySelector('.custom-checkbox1');
+                const customCheckBox2 = document.querySelector('.custom-checkbox2');
     
-        console.log('Cache key:', cacheKey);
-    
-        // Check if data for the given coordinate pair exists in the cache
-        if (cachedData[cacheKey]) {
-            const jsonCachedData = cachedData[cacheKey]; // Access cached data
-            setData(jsonCachedData); // Set the state to cached data
-            console.log('Using cached weather data:', jsonCachedData);
-        } else {
-            console.log('Data not found in cache... fetching from server');
-            setPrompt(true); // Show prompt while fetching
-
-            try {
-                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?latitude=${latitude}&longitude=${longitude}`);
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                if (customCheckBox1 && customCheckBox2) {
+                    resolve({ customCheckBox1, customCheckBox2 });
+                } else if (Date.now() - startTime > timeout) {
+                    reject(new Error("Checkboxes did not load within the timeout period."));
                 } else {
-                    setLoading(true);
-                    console.log("response ok loading...");
+                    setTimeout(check, 100); // Check again in 100ms
                 }
-    
-                const jsonData = await response.json();
-                // Update the cache object with new data
-                cachedData[cacheKey] = jsonData;
-                localStorage.setItem(weatherCacheKey, JSON.stringify(cachedData)); // Save the updated cache to localStorage
-    
-                setData(jsonData); // Set the fetched data to state
-                console.log('Fetched data from server:', jsonData);
-            } catch (err) {
-                console.error('Error fetching weather data:', err);
-                setError(err.message); // Handle network error
-            } finally {
-                setPrompt(false);
-                setLoading(false) // End prompt state
             }
-        }
-    } 
+    
+            check();
+        });
+    }
 
+    function checkActionCels() {
+        checkCountry('metric');
+        localStorage.setItem('userUnitPref', 'metric');
+        const userPref = localStorage.getItem("userUnitPref");
+        console.log(userPref)
+    }
+
+   function checkActionFahr() {
+        checkCountry('us');
+        localStorage.setItem('userUnitPref', 'us');
+        const userPref = localStorage.getItem("userUnitPref");
+        console.log(userPref)
+   }
+
+    async function checkCountry(countries) {
+        try {
+            // Wait for checkboxes to exist
+            const { customCheckBox1, customCheckBox2 } = await waitForCheckboxes();
+    
+            const theUSA = ' United States of America';
+            const theus = 'us';
+            const theUS = ' United States';
+            const theUKE = 'England';
+            const theUK = 'United Kingdom';
+    
+            if (countries === theUS || countries === theUSA || countries === theus) {
+                setUSUnit(true);
+                setUKUnit(false);
+                setMetricUnit(false);
+                setFahrenhaitBox(true);
+                customCheckBox1.checked = false;
+                customCheckBox2.checked = true; // Set Fahrenheit radio
+                defaultTempUnit();
+                console.log('In the US');
+            } else if (countries === theUKE || countries === theUK) {
+                setUKUnit(true);
+                setUSUnit(false);
+                setMetricUnit(false);
+                setCelsiusBox(true);
+                customCheckBox1.checked = true; // Set Celsius radio
+                customCheckBox2.checked = false;
+                defaultTempUnit();
+                console.log('In the UK');
+            } else {
+                setMetricUnit(true);
+                setUKUnit(false);
+                setUSUnit(false);
+                setCelsiusBox(true);
+                customCheckBox1.checked = true; // Set Celsius radio
+                customCheckBox2.checked = false;
+                defaultTempUnit();
+                console.log('The rest of the world...');
+                return 'metric';
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+      
+    const defaultTempUnit = (tempunit) => {
+        if (metricUnit) {
+            const celsius = Math.round((tempunit - 32) * (5 / 9));
+            return celsius;
+        } else if (usUnit) {
+            return Math.round(tempunit);
+        } else if (ukUnit) {
+            const celsius = Math.round((tempunit - 32) * (5 / 9));  
+            return celsius;
+        } else if (fahrenhait) {
+            const Fahrenhait = Math.round((5 / 9) * (tempunit - 32));
+            return Fahrenhait;
+        }
+     }
+
+     const tempSymbol = () => {
+        if (usUnit) return '°F';
+        return '°C'; // Defaults to Celsius for both metricUnit and ukUnit
+      };      
+      const symb = tempSymbol();
 
     if (loading) {
         return (
@@ -304,11 +385,10 @@ const UWeather = () => {
         )
     }
 
-
     if (prompt) {
         return (
             <div className='weather-app h-screen backdrop-blur-sm' id='target'>
-                <LocationForm fetchData={fetchData} fetchWeatherByCoordinates={fetchWeatherByCoordinates} 
+                <LocationForm fetchData={fetchData} 
                 convertCoordinates={convertCoordinates}/>
             </div>
         );
@@ -321,12 +401,6 @@ const UWeather = () => {
             </div>
         );
     }
-
-    const toCelsius = (fahrenheit) => {
-        const celsius = Math.round((fahrenheit - 32) * (5 / 9));
-        
-         return celsius;
-     }
 
      const updateDayIndex = (index) => {
         setDayIndex(index);
@@ -341,35 +415,35 @@ const UWeather = () => {
         end: { background: 'linear-gradient(to right, white, aliceblue)' },
     };
 
- 
      const hourMinFormat = (fullTime) => {
          const formattedTime = fullTime.slice(0, -3);
          return formattedTime;
      }
  
-     const formatDay = (numDay) => {
-         const day = new Date(numDay);
-        const realDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(day);
-         return realDay;
-     }
+     const dateFormats = {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+    };
+
+    const formatFullDay = (numDay) => {
+        const day = new Date(numDay);
+        const realDate = new Intl.DateTimeFormat('en-US', dateFormats).format(day);
+        return realDate;
+    };
 
     const precipType = (type, amount, snowamount, snowdepth) => {
-        console.log(type);
         const rainmessage = `${amount}, mm  of rainfall` 
         const snowmessage = `${snowamount}, cm  of snow with ${snowdepth} cm Depth`;
 
         if (type === null) {
-            console.log('no rain or snow');
             return 'No Current Precipitation'; 
         } else if (type.includes('rain' && 'snow')
         ) {
-            console.log('rain & snow')
             return (rainmessage, snowmessage);
         } else if (type.includes('rain')) {
-            console.log('rain')
             return (rainmessage);
         } else if (type.includes('rain')) {
-            console.log('snow')
             return (snowmessage);
         }
     }
@@ -379,24 +453,23 @@ const UWeather = () => {
         if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-300*/;
         if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-300*/;
         return 'gray'; // Default color
-      };
+    };
+    
+    const getHumidityBGColor = (humidity) => {
+    if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
+    if (humidity >= 30 && humidity < 60) return '#0284c7' /*sky-600*/ ;
+    if (humidity >= 60 && humidity <= 100) return '#ea580c'/*orange-600*/;
+    return 'gray-600'; // Default dark color
+    }; 
+    
+    const getHumidityTxtColor = (humidity) => {
+    if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
+    if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-600*/ ;
+    if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-600*/;
+    return 'gray-600'; // Default dark color
+    }; 
       
-      const getHumidityBGColor = (humidity) => {
-        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
-        if (humidity >= 30 && humidity < 60) return '#0284c7' /*sky-600*/ ;
-        if (humidity >= 60 && humidity <= 100) return '#ea580c'/*orange-600*/;
-        return 'gray-600'; // Default dark color
-      }; 
-      
-      const getHumidityTxtColor = (humidity) => {
-        if (humidity >= 0 && humidity < 30) return '#65a30d'/*lime-600*/;
-        if (humidity >= 30 && humidity < 60) return '#7dd3fc' /*sky-600*/ ;
-        if (humidity >= 60 && humidity <= 100) return '#fdba74'/*orange-600*/;
-        return 'gray-600'; // Default dark color
-      }; 
-      
-      const bearingConversion = (wcb) => {
-        console.log(wcb);
+    const bearingConversion = (wcb) => {
         if (wcb >= 0 && wcb < 90) { 
             return `N${Math.round(wcb)}E`;
         } else if (wcb >= 90 && wcb < 180) {
@@ -406,42 +479,38 @@ const UWeather = () => {
         } else if (wcb >= 270 && wcb < 360) {
             return `S${Math.round(360 - wcb)}E`
         }
-      }
+    }
 
-      const toKiloM = (mph) => {
+    const toKiloM = (mph) => {
         const kmh = Math.round(mph * 1.60934);
-        console.log(kmh);
         return kmh;
-      }
+    }
 
-      const baroPercent = (pressure) => {
-        const perCent = ( pressure * 100 ) / ( 1013.25 * 1.2 ); // 1.2 added for scalling
-        console.log(perCent);
-        return perCent;
-      }
-    
-      const UVLevel = (uvval) => {
-        const uvPercent = ( uvval * 100 ) / 12;
-        console.log(uvPercent)
+    const baroPercent = (pressure) => {
+    const perCent = ( pressure * 100 ) / ( 1013.25 * 1.2 ); // 1.2 added for scalling
+    return perCent;
+    }
 
-        return uvPercent;
-      }
+    const UVLevel = (uvval) => {
+    const uvPercent = ( uvval * 100 ) / 12;
+    return uvPercent;
+    }
 
-      const bttmAlign = (uvPercent) => {
-        if (uvPercent >= 0 && uvPercent < 50) { return `32`};
-        if (uvPercent >= 50 && uvPercent < 75) { return `16`};
-        if (uvPercent >= 75 && uvPercent < 100) { return `8`};
+    const bttmAlign = (uvPercent) => {
+    if (uvPercent >= 0 && uvPercent < 50) { return `32`};
+    if (uvPercent >= 50 && uvPercent < 75) { return `16`};
+    if (uvPercent >= 75 && uvPercent < 100) { return `8`};
     }
 
     const getPhaseType = (phase) => {
-       if (phase == 0) { return `new-moon-phase`};
-       if (phase > 0 && phase < 0.25) { return `waxing-crescent-phase`};
-       if (phase == 0.25) { return `first-quarter-phase`};
-       if (phase > 0.25 && phase < 0.5) { return `waxing-gibbous-phase`};
-       if (phase == 0.5) { return `full-moon-phase`};
-       if (phase > 0.5 && phase < 0.75) { return `waning-gibbous-phase`};
-       if (phase == 0.75) { return `last-quarter-phase`};
-       if (phase > 0.75 && phase < 1) { return `waning-crescent-phase`};
+        if (phase == 0) { return `new-moon-phase`};
+        if (phase > 0 && phase < 0.25) { return `waxing-crescent-phase`};
+        if (phase == 0.25) { return `first-quarter-phase`};
+        if (phase > 0.25 && phase < 0.5) { return `waxing-gibbous-phase`};
+        if (phase == 0.5) { return `full-moon-phase`};
+        if (phase > 0.5 && phase < 0.75) { return `waning-gibbous-phase`};
+        if (phase == 0.75) { return `last-quarter-phase`};
+        if (phase > 0.75 && phase < 1) { return `waning-crescent-phase`};
     }
 
     const getPhaseInfo = (phase) => {
@@ -453,10 +522,19 @@ const UWeather = () => {
         if (phase > 0.5 && phase < 0.75) { return `Waning Gibbous`};
         if (phase == 0.75) { return `Last Quarter`};
         if (phase > 0.75 && phase < 1) { return `Waning crescent`};
-     }
-
-
-
+    }
+        
+    const settingElement = document.querySelector('#w-menu-card');
+    const showSetting = () => {
+        if (settingElement.classList.contains('hidden')) {
+            settingElement.classList.replace('hidden', "block");
+        } else {
+            settingElement.classList.toggle('hidden');
+            settingElement.classList.add('block');
+        }
+    }
+   
+ 
      const showCurrentHour = () => {
         if (hourInfoRef.current.length > 0) {
             hourInfoRef.current[indexHour].scrollIntoView({
@@ -467,19 +545,19 @@ const UWeather = () => {
             
             if (hourTimeRef.current[indexHour]) {
                 hourTimeRef.current[indexHour].textContent = 'Now';
+                dayRef.current[0].textContent = 'Today';
             }
         } else {
             console.log('elemnt doesnt exist yet')
         }
     };
 
-
      if (dayPage) {
         return (
             <div className='weather-app place-items-center relative grid w-full' id='target'>
                <div className="daily-page"> 
                 <DaysInfoPage 
-                    data={data} toCelsius={toCelsius} dayIndex={dayIndex}
+                    data={data} checkCountry={checkCountry} defaultTempUnit={defaultTempUnit} dayIndex={dayIndex}
                      onPageUpdate={defaultPage}
                      precipType={precipType} 
                      getHumidityBGColor={getHumidityBGColor}
@@ -493,14 +571,13 @@ const UWeather = () => {
                      getPhaseType={getPhaseType}
                      getPhaseInfo={getPhaseInfo}
                      hourMinFormat={hourMinFormat}
-                     formatDay={formatDay}
+                     formatFullDay={formatFullDay}
                      showCurrentHour={showCurrentHour}
                 /></div>
             </div>
         )
     }
-
-
+    
     return (
         <motion.div initial="start"
         animate="end"
@@ -511,13 +588,19 @@ const UWeather = () => {
         className='h-auto w-auto' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10'>
+                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10 ' 
+                 >
                     <div className="search z-50 top-12 grid grid-auto w-full">
-                        <input type="search" value={query} className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 border text-md border-teal-900 rounded-full' name="place" id="place" onChange={InputValChange} placeholder={address} />
+                        <input type="search"
+                         value={query} 
+                         className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 focus:outline-none focus:shadow-lg focus:shadow-sky-100 border text-md border-shy-900 shadow-md rounded-full' 
+                         name="place" id="place" 
+                         onChange={InputValChange} 
+                         placeholder={address} />
                     {suggestions.length > 0 && (
-                        <ul className=' absolute justify-self-center w-11/12 top-12  text-zinc-800 shadow-teal-100 rounded-md overflow-y-auto'>
+                        <ul className=' absolute justify-self-center w-11/12 top-12 text-zinc-800 bg-sky-50 backdrop-blur-md shadow-teal-100 rounded-md overflow-y-auto'>
                             {suggestions.map((suggestion, index) => (
-                                <li key={index} className='p-1 border-b-2 border-teal-600 text-zinc-800' onClick={
+                                <li key={index} className='p-1 border-b border-zinc-300 text-zinc-800 hover:opacity-70' onClick={
                                      () => {
                                         setQuery(suggestion);
                                         setSuggestions([]);
@@ -532,16 +615,43 @@ const UWeather = () => {
 
                     <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
-                        ">{toCelsius(data.days[0].hours[indexHour].temp)}°</h1>
+                        ">{defaultTempUnit(data.days[0].hours[indexHour].temp)}°</h1>
                         <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexHour].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[0].hours[indexHour].feelslike)}°C</div>
+                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {defaultTempUnit(data.days[0].hours[indexHour].feelslike)}{tempSymbol(symb)}</div>
 
-                        <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[0].tempmax)}°C </div>
-                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[0].tempmin)}°C </div>
-                        <button  className="text-teal-600 bg-transparent px-1  text-sm py-1 place-self-end rounded w-fit" onClick={resetData}> < FaUndo className='reset'/> </button>
+                        <div className="high-temp" > <h2 className='text-teal-600'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
+                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
+                        <div className="weather-menu px-1 text-sm py-1 place-self-end w-fit shadow-none">
+                            <span className="menu-butn" onTouchStartCapture={showSetting}>
+                                <img src="/icons8-menu-vertical-24.png" 
+                                className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
+                                alt="" srcSet="" />
+                            </span>
 
+                            <div
+                                id='w-menu-card' 
+                                className="w-menu-card hidden absolute left-[50%] bg-stone-300 w-32 h-40 p-4 rounded z-50"
+                              >
+                                <div className="pref-units">
+                                    <h1 className="desc desc text-base font-medium shadow-sm text-teal-600"> Temperature Units</h1>
+                                    <label className="custom-checkbox" htmlFor="">
+                                        <p 
+                                            className="units check-button1"
+                                            onClick={checkActionCels}
+                                            >
+                                            <input type="radio" className='custom-checkbox1 pe-4' name="celsius" value={'metric'}  /><span></span>Celsius</p>
+                                        <p 
+                                            className="units check-button2"
+                                            onClick={checkActionFahr}
+                                            >
+                                            <input type="radio" className='custom-checkbox2 pe-4' name="fahrenhait" value={'us'} /> <span></span>Fahrenhait</p>
+                                    </label>
+                                </div>
+                                <button className="px-1 text-sm relative top-4 w-fit shadow-none active:opacity-70" onClick={resetData}> Reset</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="hourly-forecast forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
@@ -557,9 +667,9 @@ const UWeather = () => {
                                 <p 
                                     className='py-1 hour-time text-zinc-500'
                                     ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
-                                <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
-                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
+                                <p className='py-1 text-teal-600 bold'>{defaultTempUnit(hour.temp)}{tempSymbol(symb)}</p>
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
+                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>
                             </li>
                             ))}
                         </ul>
@@ -569,9 +679,9 @@ const UWeather = () => {
                         <div className="desc text-xl font-medium text-teal-600"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
-                            {data.days.map((day, index) => (
+                            {data.days.slice(0, 10).map((day, index) => (
                                 <li key={index} 
-                                    className="grid grid-flow-col bg-sky-100 p-4 rounded-md" 
+                                    className="grid grid-flow-col bg-sky-100 p-4 rounded-md active:scale-95" 
                                     style={{
                                         marginBlockEnd: '.5em',
                                     }}
@@ -580,9 +690,9 @@ const UWeather = () => {
                                         updateDayIndex(index);
                                         }}
                                     >
-                                    <p className='inline-block font-medium text-zinc-500'>{formatDay(day.datetime)}</p>
+                                    <p className='inline-block font-medium text-zinc-500' ref={(el) => (dayRef.current[index]) = el }>{formatFullDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
-                                    <p className='inline-block italic text-teal-600 px-2'>{toCelsius(day.temp)}°C</p>
+                                    <p className='inline-block italic text-teal-600 px-2'>{defaultTempUnit(day.temp)}{tempSymbol(symb)}</p>
                                     <p className='inline-block text-zinc-700 px-2'>{Math.round(day.precipprob)}%</p>
                                     <p className="inline-block "><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                     </span>
@@ -617,7 +727,7 @@ const UWeather = () => {
                                             height: `${(data.days[0].hours[indexHour].humidity)}%`,
                                             backgroundColor: getHumidityBGColor((data.days[0].hours[indexHour].humidity))
                                             }}>
-                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
+                                        <span className={`humid text-lg ps-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
                                         style={{
                                             color: getHumidityTxtColor((data.days[0].hours[indexHour].humidity))
                                         }}>
@@ -626,7 +736,7 @@ const UWeather = () => {
                                 </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
                                 <p className='py-1 inline'> 
                                     <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(toCelsius(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
+                                    {Math.round(defaultTempUnit(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
                             </div>
 
                             <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">

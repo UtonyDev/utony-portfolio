@@ -4,12 +4,6 @@ import './togicon.css'
 function Togicon() {
 
     useEffect(() => {
-        // Check for saved theme in localStorage
-        //
-       // const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        //const prefersLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
-        //console.log(prefersDarkMode);
-
         const savedTheme = localStorage.getItem('theme');
         const checkbox = document.getElementById('myCheckbox');
 

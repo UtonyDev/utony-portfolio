@@ -4,7 +4,7 @@ import { FaBackspace, FaUndo } from 'react-icons/fa';
 import { index } from 'mathjs';
 
 function DaysInfoPage( {
-    data, toCelsius, dayIndex, 
+    data, toPrefedTempUnit, dayIndex, 
     onPageUpdate, getPhaseInfo, getPhaseType, 
     bttmAlign, UVLevel, baroPercent, toKiloM, 
     bearingConversion, getHumidityTxtColor, 
@@ -72,25 +72,22 @@ function DaysInfoPage( {
     };
     useEffect(() => {showCurrentHour()}, [data]);
 
-        const formatFullDay = (numDay) => {
-            const day = new Date(numDay);
-           const realDate = new Intl.DateTimeFormat('en-US', 
-            { weekday: 'long' },
-            {day: 'numeric'},
-            {month: 'long'}
-        ).format(day);
-            return realDate;
-        }   
+    const dates = {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+    };
+
+    const formatFullDay = (numDay) => {
+        const day = new Date(numDay);
+        const realDate = new Intl.DateTimeFormat('en-US', dates).format(day);
+        return realDate;
+    };
 
     return (
         <div className='weather-app top-5'>
-            <div className="dayname mt-10" 
-            onClick={
-                () => {
-                    defaultPage();
-                } 
-                
-            }
+            <div className="dayname mt-12" 
+            onClick={() => {defaultPage();}}
             ref={pageRef}
             > 
                 <img src='/back-button.png' alt="" srcSet="" /> 
@@ -100,15 +97,15 @@ function DaysInfoPage( {
                 <div className="daytext relative text-teal-900 text-2xl leading-snug"> {formatFullDay(data.days[dayIndex].datetime)}</div>
 
                 <div className="temp-con grid grid-auto justify-self-center relative w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
-                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{toCelsius(data.days[dayIndex].hours[indexHour].temp)}°</h1>
+                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{toPrefedTempUnit(data.days[dayIndex].hours[indexHour].temp)}°</h1>
                     <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[dayIndex].hours[indexHour].conditions} 
                         <img src={`${iconBasePath}${data.days[dayIndex].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                     </div>
 
-                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toCelsius(data.days[dayIndex].hours[indexHour].feelslike)}°C</div>
+                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toPrefedTempUnit(data.days[dayIndex].hours[indexHour].feelslike)}°C</div>
 
-                    <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toCelsius(data.days[dayIndex].tempmax)}°C </div>
-                    <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toCelsius(data.days[dayIndex].tempmin)}°C </div>
+                    <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toPrefedTempUnit(data.days[dayIndex].tempmax)}°C </div>
+                    <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toPrefedTempUnit(data.days[dayIndex].tempmin)}°C </div>
                 </div>
 
                 <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
@@ -123,7 +120,7 @@ function DaysInfoPage( {
                                 <p 
                                     className='py-1 hour-time text-zinc-500'
                                     ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
-                                <p className='py-1 text-teal-600 bold'>{toCelsius(hour.temp)}°C</p>
+                                <p className='py-1 text-teal-600 bold'>{toPrefedTempUnit(hour.temp)}°C</p>
                                 <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
                             </li>
@@ -167,7 +164,7 @@ function DaysInfoPage( {
                                 </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
                                 <p className='py-1 inline'> 
                                     <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(toCelsius(data.days[dayIndex].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
+                                    {Math.round(toPrefedTempUnit(data.days[dayIndex].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
                             </div>
 
                             <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">

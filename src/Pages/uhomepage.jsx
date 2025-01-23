@@ -12,9 +12,9 @@ import { FaArrowDown } from "react-icons/fa";
 
 function UHomePage( { textAnimations }) {
 
-  useEffect(() => {
-    textAnimations();
-  }, []); 
+useEffect(() => {
+  textAnimations();
+}, []);
 
 // Select all sections
 useEffect(() => {
@@ -32,20 +32,18 @@ useEffect(() => {
   });
 
   contents.forEach((element) => observer.observe(element));
-
   // Cleanup to avoid memory leaks
   return () => observer.disconnect();
 }, []);
 
 const scrollToProjects = () => {
-  const projectSection = document.querySelector('.project-section');
+  const projectSection = document.querySelector('.projt');
 
   projectSection.scrollIntoView({
     behavior: 'smooth',
-    block: 'nearest',
-    });
-}
-
+    block: 'center'
+  });
+};
 
 return (
   <>
@@ -123,7 +121,7 @@ return (
         </div>
       </Link>
 
-      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
+      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
@@ -134,9 +132,9 @@ return (
           <span className="langs">  CSS </span>
           <span className="langs">  React </span>
         </div>      
-        </p>
+        </div>
 
-      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
+      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
@@ -147,9 +145,9 @@ return (
           <span className="langs">  CSS </span>
           <span className="langs">  React </span>
         </div>     
-      </p>
+      </div>
 
-      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
+      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
@@ -160,9 +158,9 @@ return (
           <span className="langs">  CSS </span>
           <span className="langs">  React </span>
         </div>     
-      </p>
+      </div>
 
-      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
+      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
@@ -173,9 +171,9 @@ return (
           <span className="langs">  CSS </span>
           <span className="langs">  React </span>
         </div>     
-      </p>
+      </div>
 
-      <p className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents"> 
+      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
         <span className="card-description me-2">
@@ -186,7 +184,7 @@ return (
           <span className="langs">  CSS </span>
           <span className="langs">  React </span>
         </div>     
-      </p>
+      </div>
 
       </div>
     </div>

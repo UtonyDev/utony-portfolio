@@ -1,13 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 import './form.css';
+import { unit } from 'mathjs';
 
-function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates }) {
+function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
     const [loading, setLoading] = useState(false);
 
+
+    let units = ['metric', 'us', 'uk']
+   const unit = 'metric';
+    
+    console.log(unit);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,19 +24,19 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
             return;
         }
 
-        fetchData(city, country);
+        fetchData(city, country, country);
         setLoading(true);
     }
 
-    const useCoordsData = () => {
+    const getUserCoordinates = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
               async (position) => {
                 const { latitude, longitude } = position.coords;
 
-                await fetchWeatherByCoordinates(latitude, longitude);
-
                 await convertCoordinates(latitude, longitude)
+
+                await fetchData(latitude, longitude, unit);
                 setLatitude(latitude);
                 setLongitude(longitude);
                 
@@ -63,17 +69,17 @@ function LocationForm({ fetchData, fetchWeatherByCoordinates, convertCoordinates
 
                 <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
                 <form onSubmit={handleSubmit} className='grid row-auto gap-2'>
-                    <input className='mx-3 p-3 rounded-xl shadow-md text-gray-400 text-xl' type="text" placeholder="City" value={city} 
+                    <input className='mx-3 p-3 rounded-xl border border-zinc-400 text-gray-400 text-xl' type="text" placeholder="City" value={city} 
                     onChange={(e) => setCity(e.target.value)} />
                     
-                    <input className='mx-3 p-3 rounded-xl shadow-md text-gray-400 text-xl' type="text" placeholder="Country" value={country} 
+                    <input className='mx-3 p-3 rounded-xl border border-zinc-400 text-gray-400 text-xl' type="text" placeholder="Country" value={country} 
                     onChange={(e) => setCountry(e.target.value)} />
                     
-                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit" onClick={onButnTouch}> Enter </button>
+                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit" > Enter </button>
 
                 </form>
 
-                <button className='mx-3 my-3 p-2 bg-teal-700 rounded drop-shadow-lg text-white' onClick={useCoordsData}>Use Location</button>
+                <button className='mx-3 my-3 p-2 bg-teal-700 rounded drop-shadow-lg text-white' onClick={getUserCoordinates}>Use Location</button>
             </div>
         </div>
     );
