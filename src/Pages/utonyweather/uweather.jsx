@@ -8,6 +8,7 @@ import './form.css';
 import DaysInfoPage from './daysInfoPage';
 import 'intersection-observer';
 import { useAsyncError, useLocation } from 'react-router-dom';
+import { trueDependencies } from 'mathjs';
 
 const UWeather = () => {
     const [data, setData] = useState(null);
@@ -343,15 +344,15 @@ const UWeather = () => {
         }
     }
 
-      
     const defaultTempUnit = (tempunit) => {
         if (metricUnit) {
-            return Math.round(tempunit);
+            const celsius = Math.round( 5 / 9 * ( tempunit - 32));
+            return celsius;
         } else if (usUnit) {
-            const Fahrenhait = Math.round((tempunit * 9 / 5) + 32);            
-            return Fahrenhait;
+            return Math.round(tempunit);
         } else if (ukUnit) {
-            return tempunit;
+            const celsius = Math.round( 5 / 9 * ( tempunit - 32));
+            return celsius;
         } 
      }
 
@@ -359,13 +360,13 @@ const UWeather = () => {
         if (usUnit) return '°F';
         return '°C'; // Defaults to Celsius for both metricUnit and ukUnit
       };      
-      const symb = tempSymbol();
+      const symb = '';
 
     if (loading) {
         return (
             <div className="bg-blue-50 place-items-center relative grid w-full h-screen">
-                <span className="absolute top-1/3  spinner"></span>
-                <div className="plead-message"> Please hold on this may take a while...</div>
+                <span className="absolute top-1/3 spinner"></span>
+                <div className="plead-message absolute top-[55%]"> Please hold on this may take a while...</div>
             </div>
         )
     }
@@ -382,8 +383,10 @@ const UWeather = () => {
     if (error) {
         return (
             <div className='weather-app h-screen'>
-            <img src='/mark.png' className='relative text-red-700 grid align-content-center top-1/2 translate-x-[10%] left-0 w-3/4 p-2'/>
-                <p className='relative text-red-700 grid align-content-center top-1/3 translate-x-[10%] left-0 w-3/4 p-2'>Error: {error} please enter a valid address...</p>
+                <div className="error-message border border-zinc-400 bg-amber-100 relative grid place-self-center rounded place-content-center top-1/3 w-11/12">
+                    <img src='/mark.png' className='place-self-start p-2'/>
+                    <p className=' text-red-700 w-3/4 top-1/3 p-2'>Error: {error} please enter a valid address...</p>
+                </div>
             </div>
         );
     }
@@ -396,18 +399,13 @@ const UWeather = () => {
         setDayPage(page);
      }
                  
-    const gradientVariants = {
-        start: { background: 'linear-gradient(to right, aliceblue, white)' },
-        end: { background: 'linear-gradient(to right, white, aliceblue)' },
-    };
-
      const hourMinFormat = (fullTime) => {
          const formattedTime = fullTime.slice(0, -3);
          return formattedTime;
      }
  
      const dateFormats = {
-        weekday: 'long',
+        weekday: 'short',
         day: 'numeric',
         month: 'short',
     };
@@ -509,17 +507,23 @@ const UWeather = () => {
         if (phase == 0.75) { return `Last Quarter`};
         if (phase > 0.75 && phase < 1) { return `Waning crescent`};
     }
-        
-    const settingElement = document.querySelector('#w-menu-card');
+      
     const showSetting = () => {
+        const settingElement = document.querySelector('#w-menu-card');
+        if (!settingElement) return;
+        checkCountry()
+    
         if (settingElement.classList.contains('hide-card')) {
             settingElement.classList.remove('hide-card');
         } else {
             settingElement.classList.add('hide-card');
         }
-    }
+    };
+    
 
     const hideSettings = () => {
+        const settingElement = document.querySelector('#w-menu-card');
+
         if (settingElement.classList) {
             settingElement.classList.add('hide-card');
         }
@@ -537,11 +541,17 @@ const UWeather = () => {
                 hourTimeRef.current[indexHour].textContent = 'Now';
                 hourTimeRef.current[indexHour].style.color = '#0d9488';
                 dayRef.current[0].textContent = 'Today';
+                dayRef.current[0].style.color = '#0d9488';
             }
         } else {
             console.log('elemnt doesnt exist yet')
         }
     };
+
+    const searchBar = document.querySelector('.search-bar');
+    const searchAnimation = () => {
+        searchBar.classList.add('search-animation');
+    }
 
      if (dayPage) {
         return (
@@ -570,12 +580,9 @@ const UWeather = () => {
         )
     }
     
-
-    
     return (
         <motion.div initial="start"
         animate="end"
-        variants={gradientVariants}
         transition={{ duration: 5, yoyo: Infinity }} // Infinite gradient animation
         style={{ minHeight: '100vh' }}
 
@@ -589,10 +596,13 @@ const UWeather = () => {
                     onClick={hideSettings}
                  >
                     <div className="search z-50 top-12 grid grid-auto w-full">
-                        <input type="search"
+                        <motion.input type="search"
                          value={query} 
-                         className='search-icon bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 focus:outline-none focus:shadow-lg focus:shadow-sky-100 border text-md border-shy-900 shadow-md rounded-full' 
-                         name="place" id="place" 
+                         className='search-icon search-bar bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 focus:outline-none border text-md border-gray-200 shadow-sm rounded-full' 
+                         name="place" id="place"
+                         onFocus={searchAnimation}
+                         whileFocus={{ scale: 1.05
+                          }} href="#"
                          onChange={InputValChange} 
                          placeholder={address} />
                     {suggestions.length > 0 && (
@@ -611,7 +621,7 @@ const UWeather = () => {
                     )}
                     </div>
 
-                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
+                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 z-40">
                         <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
                         ">{defaultTempUnit(data.days[0].hours[indexHour].temp)}°</h1>
                         <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexHour].conditions} 
@@ -651,7 +661,7 @@ const UWeather = () => {
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.slice(0, 10).map((day, index) => (
-                                <li key={index} 
+                                <motion.li key={index} 
                                     className="grid grid-flow-col bg-sky-100 p-4 rounded-md active:scale-95" 
                                     style={{
                                         marginBlockEnd: '.5em',
@@ -667,7 +677,7 @@ const UWeather = () => {
                                     <p className='inline-block text-zinc-700 px-2'>{Math.round(day.precipprob)}%</p>
                                     <p className="inline-block "><img src={`${iconBasePath}${day.icon}.png`} alt="" className="src size-5" /> </p>
                                     </span>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                     </div>
@@ -751,7 +761,7 @@ const UWeather = () => {
                                 <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
-                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 cards mt-4 align-middle bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <span className="block absolute z-[50] bottom-0 top-[55%] left-[25%] right-0 h-1/4 w-1/2 mt-4 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
                                     <div className="progress absolute w-full h-full rounded-full"
                                     style={{
                                         background: `conic-gradient(
@@ -766,8 +776,8 @@ const UWeather = () => {
                                     
                                     ></div>
                                 </div>
-                                <span className="h z-30 relative bottom-4 ms-3 text-xs text-zinc-400">low</span>
-                                <span className="l z-30 relative bottom-4 ms-4 text-xs text-zinc-400">high</span>
+                                <span className="h relative bottom-4 ms-3 text-xs z-[60] text-zinc-400">low</span>
+                                <span className="l relative bottom-4 ms-4 text-xs z-[60] text-zinc-400">high</span>
                                 <p className='py-1 text-zinc-500'> 
                                     <span className="pval font-semibold text-2xl">{data.days[0].hours[indexHour].pressure}</span> mb 
                                 </p>
@@ -822,14 +832,16 @@ const UWeather = () => {
                 </div>
             </div>
 
-                <span className="menu-butn absolute top-[12%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}>
+                <span className="menu-butn absolute top-[12%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}
+                >
                         <img src="/icons8-menu-vertical-24.png" 
                         className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
                         alt="" srcSet="" />
                     </span>
 
                 <div id='w-menu-card' 
-                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full  bg-stone-300 w-32 h-40 p-4 rounded z-[50]"
+                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full bg-gray-200 w-32 h-40 p-4 rounded z-[50]"
+                    onLoad={hideSettings}
                     >
                     <div className="pref-units">
                         <h1 className="desc desc text-base font-medium shadow-sm text-teal-600"> Temperature Units</h1>
@@ -846,7 +858,7 @@ const UWeather = () => {
                                 <input type="radio" className='custom-checkbox2 pe-4' name="fahrenhait" value={'us'} /> <span></span>Fahrenhait</p>
                         </label>
                     </div>
-                    <button className="px-1 text-sm relative top-4 w-fit shadow-none active:opacity-70" onClick={resetData}> Reset</button>
+                    <button className="px-1 text-sm relative top-4 w-fit shadow-none active:opacity-70 text-red-600" onClick={resetData}> Reset</button>
                 </div>
 
                 </>

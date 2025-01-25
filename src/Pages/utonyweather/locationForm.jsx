@@ -55,22 +55,44 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
     
     return (
         <div className=' place-self-center relative top-[15%] grid'>
-            <div className="form-container grid w-full border-2 shadow-2xl rounded-xl backdrop-blur-sm">
+<div className="form-container grid w-full border-2 shadow-lg rounded-xl p-3 gap-4">
+    <label className="text-[#0a0a0a] text-2xl flex items-center gap-2">
+        <img src="/icons8-location-24.png" alt="location icon" />
+        Enter Location
+    </label>
 
-                <h1 className="text-teal-300 text-3xl text-justify p-5"> Enter Location </h1>
-                <form onSubmit={handleSubmit} className='grid row-auto gap-2'>
-                    <input className='mx-3 p-3 rounded-xl border border-zinc-400 text-gray-400 text-xl' type="text" placeholder="City" value={city} 
-                    onChange={(e) => setCity(e.target.value)} />
-                    
-                    <input className='mx-3 p-3 rounded-xl border border-zinc-400 text-gray-400 text-xl' type="text" placeholder="Country" value={country} 
-                    onChange={(e) => setCountry(e.target.value)} />
-                    
-                    <button className='mx-3 my-3 p-2 bg-teal-700 rounded-md text-white' type="submit" > Enter </button>
+    <form onSubmit={handleSubmit} className="grid row-auto gap-4">
+        <div className="relative mx-3">
+            <input
+                className="pl-10 p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
+                type="text"
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+            />
+        </div>
 
-                </form>
+        <div className="relative mx-3">
+            <input
+                className="pl-10 p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
+                type="text"
+                placeholder="Country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+            />
+        </div>
 
-                <button className='mx-3 my-3 p-2 bg-teal-700 rounded drop-shadow-lg text-white' onClick={getUserCoordinates}>Use Location</button>
-            </div>
+        <button className="mx-3 p-3 bg-teal-600 rounded-md text-zinc-50 text-lg hover:bg-teal-700 active:opacity-70 shadow-md hover:shadow-lg" type="submit">
+            Submit Location
+        </button>
+    </form>
+
+    <hr className="border-dotted border-zinc-300 my-4 w-[90%] place-self-center" />
+
+    <button className="mx-3 p-3 bg-teal-600 rounded-md text-zinc-50 text-lg hover:bg-teal-700 active:opacity-70 shadow-md hover:shadow-lg" onClick={getUserCoordinates}>
+        Auto-Detect Location
+    </button>
+</div>
         </div>
     );
     }

@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import './form.css';
-import { FaBackspace, FaUndo } from 'react-icons/fa';
-import { index } from 'mathjs';
 
 function DaysInfoPage( {
     data, defaultTempUnit, tempSymbol, dayIndex, 
@@ -88,7 +86,7 @@ function DaysInfoPage( {
     return (
         <div className='weather-app top-5'>
             <div className="dayname mt-12" 
-            onClick={() => {defaultPage();}}
+            onClick={() => {defaultPage()}}
             ref={pageRef}
             > 
                 <img src='/back-button.png' alt="" srcSet="" /> 
