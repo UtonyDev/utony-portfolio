@@ -25,10 +25,6 @@ const UWeather = () => {
     const [metricUnit, setMetricUnit] = useState(false);
     const [usUnit, setUSUnit] = useState(false);
     const [ukUnit, setUKUnit] = useState(false);
-    const [fahrenhait, setFahrenhait] = useState(false);
-    const [preferredUnit, setPreferredUnit] = useState('');
-    const [celsiusBox, setCelsiusBox] = useState(false);
-    const [fahrenhaitBox, setFahrenhaitBox] = useState(false);
     const hourInfoRef = useRef([]); 
     const hourTimeRef = useRef([]);
     const dayRef = useRef([]);
@@ -50,8 +46,6 @@ const UWeather = () => {
                         language: "en",
                     },
                 });
-
-
 
                 const results = response.data.results.map((result) => result.formatted);
                 setHoldResult(results);
@@ -77,8 +71,8 @@ const UWeather = () => {
             const newcity = splitData[0];
             const newcountry = splitData[splitData.length - 1];
             console.log(newcountry)
-            let unit = checkCountry(newcountry);
-            fetchData(newcity, newcountry, unit);
+            checkCountry(newcountry);
+            fetchData(newcity, newcountry);
             console.log('search length is:', splitData.length);
         }
     }
@@ -185,8 +179,8 @@ const UWeather = () => {
     }, [data]); // Re-run the effect whenever 'data' changes
 
     // Function to fetch weather data.
-    const fetchData = async (city, country, unit) => {
-        const cacheKey = `${city}:${country}:${unit}`;
+    const fetchData = async (city, country) => {
+        const cacheKey = `${city}:${country}`;
         const weatherCacheKey = 'weatherCache';
         let userUnitPreference = localStorage.getItem('userUnitPref');
         if (userUnitPreference) {
@@ -216,7 +210,7 @@ const UWeather = () => {
             console.log('no', chosenIndex);
         }
             try {
-                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}&unit=${unit}`);
+                const response = await fetch(`https://utony-weather-server.onrender.com/api/weather?city=${city}&country=${country}`);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -247,7 +241,7 @@ const UWeather = () => {
         }
     };
 
-    const convertCoordinates = async (latitude, longitude, unit) => {
+    const convertCoordinates = async (latitude, longitude) => {
         const apiKey = '124d73669936416ea36f14503e262e7d';
 
         const url = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}%2C+${longitude}&pretty=1&no_annotations=1`;
@@ -259,11 +253,12 @@ const UWeather = () => {
             const city = `${data.results[0].components._normalized_city}, ${data.results[0].components.state},`;
             const country = `${data.results[0].components.country}`;
             console.log(country);
-            const unit = checkCountry(country);
+            checkCountry(country);
+
             const resolvedAddress = `${city}${country}`;
             localStorage.setItem("resolvedAddress", resolvedAddress);
             setAddress(resolvedAddress);
-
+            fetchData(city, country);
             console.log(resolvedAddress);
             } else {
             console.log('No results found.');
@@ -324,28 +319,22 @@ const UWeather = () => {
                 setUSUnit(true);
                 setUKUnit(false);
                 setMetricUnit(false);
-                setFahrenhaitBox(true);
                 customCheckBox1.checked = false;
                 customCheckBox2.checked = true; // Set Fahrenheit radio
-                defaultTempUnit();
                 console.log('In the US');
             } else if (countries === theUKE || countries === theUK) {
                 setUKUnit(true);
                 setUSUnit(false);
                 setMetricUnit(false);
-                setCelsiusBox(true);
                 customCheckBox1.checked = true; // Set Celsius radio
                 customCheckBox2.checked = false;
-                defaultTempUnit();
                 console.log('In the UK');
             } else {
                 setMetricUnit(true);
                 setUKUnit(false);
                 setUSUnit(false);
-                setCelsiusBox(true);
                 customCheckBox1.checked = true; // Set Celsius radio
                 customCheckBox2.checked = false;
-                defaultTempUnit();
                 console.log('The rest of the world...');
                 return 'metric';
             }
@@ -357,17 +346,13 @@ const UWeather = () => {
       
     const defaultTempUnit = (tempunit) => {
         if (metricUnit) {
-            const celsius = Math.round((tempunit - 32) * (5 / 9));
-            return celsius;
-        } else if (usUnit) {
             return Math.round(tempunit);
-        } else if (ukUnit) {
-            const celsius = Math.round((tempunit - 32) * (5 / 9));  
-            return celsius;
-        } else if (fahrenhait) {
-            const Fahrenhait = Math.round((5 / 9) * (tempunit - 32));
+        } else if (usUnit) {
+            const Fahrenhait = Math.round((tempunit * 9 / 5) + 32);            
             return Fahrenhait;
-        }
+        } else if (ukUnit) {
+            return tempunit;
+        } 
      }
 
      const tempSymbol = () => {
@@ -397,7 +382,8 @@ const UWeather = () => {
     if (error) {
         return (
             <div className='weather-app h-screen'>
-                <p>Error: {error} please enter a valid address...</p>
+            <img src='/mark.png' className='relative text-red-700 grid align-content-center top-1/2 translate-x-[10%] left-0 w-3/4 p-2'/>
+                <p className='relative text-red-700 grid align-content-center top-1/3 translate-x-[10%] left-0 w-3/4 p-2'>Error: {error} please enter a valid address...</p>
             </div>
         );
     }
@@ -526,15 +512,19 @@ const UWeather = () => {
         
     const settingElement = document.querySelector('#w-menu-card');
     const showSetting = () => {
-        if (settingElement.classList.contains('hidden')) {
-            settingElement.classList.replace('hidden', "block");
+        if (settingElement.classList.contains('hide-card')) {
+            settingElement.classList.remove('hide-card');
         } else {
-            settingElement.classList.toggle('hidden');
-            settingElement.classList.add('block');
+            settingElement.classList.add('hide-card');
+        }
+    }
+
+    const hideSettings = () => {
+        if (settingElement.classList) {
+            settingElement.classList.add('hide-card');
         }
     }
    
- 
      const showCurrentHour = () => {
         if (hourInfoRef.current.length > 0) {
             hourInfoRef.current[indexHour].scrollIntoView({
@@ -545,6 +535,7 @@ const UWeather = () => {
             
             if (hourTimeRef.current[indexHour]) {
                 hourTimeRef.current[indexHour].textContent = 'Now';
+                hourTimeRef.current[indexHour].style.color = '#0d9488';
                 dayRef.current[0].textContent = 'Today';
             }
         } else {
@@ -557,7 +548,8 @@ const UWeather = () => {
             <div className='weather-app place-items-center relative grid w-full' id='target'>
                <div className="daily-page"> 
                 <DaysInfoPage 
-                    data={data} checkCountry={checkCountry} defaultTempUnit={defaultTempUnit} dayIndex={dayIndex}
+                    data={data} checkCountry={checkCountry} defaultTempUnit={defaultTempUnit} 
+                     dayIndex={dayIndex} tempSymbol={tempSymbol}
                      onPageUpdate={defaultPage}
                      precipType={precipType} 
                      getHumidityBGColor={getHumidityBGColor}
@@ -578,6 +570,8 @@ const UWeather = () => {
         )
     }
     
+
+    
     return (
         <motion.div initial="start"
         animate="end"
@@ -585,10 +579,14 @@ const UWeather = () => {
         transition={{ duration: 5, yoyo: Infinity }} // Infinite gradient animation
         style={{ minHeight: '100vh' }}
 
-        className='h-auto w-auto' 
+        className='h-auto w-[100%] relative' 
         id='target'>
             {data && (
-                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10 ' 
+                <>
+            
+                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10 z-20' 
+                    onLoad={defaultTempUnit}
+                    onClick={hideSettings}
                  >
                     <div className="search z-50 top-12 grid grid-auto w-full">
                         <input type="search"
@@ -624,33 +622,6 @@ const UWeather = () => {
                         <div className="high-temp" > <h2 className='text-teal-600'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
                         <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
                         <div className="weather-menu px-1 text-sm py-1 place-self-end w-fit shadow-none">
-                            <span className="menu-butn" onTouchStartCapture={showSetting}>
-                                <img src="/icons8-menu-vertical-24.png" 
-                                className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
-                                alt="" srcSet="" />
-                            </span>
-
-                            <div
-                                id='w-menu-card' 
-                                className="w-menu-card hidden absolute left-[50%] bg-stone-300 w-32 h-40 p-4 rounded z-50"
-                              >
-                                <div className="pref-units">
-                                    <h1 className="desc desc text-base font-medium shadow-sm text-teal-600"> Temperature Units</h1>
-                                    <label className="custom-checkbox" htmlFor="">
-                                        <p 
-                                            className="units check-button1"
-                                            onClick={checkActionCels}
-                                            >
-                                            <input type="radio" className='custom-checkbox1 pe-4' name="celsius" value={'metric'}  /><span></span>Celsius</p>
-                                        <p 
-                                            className="units check-button2"
-                                            onClick={checkActionFahr}
-                                            >
-                                            <input type="radio" className='custom-checkbox2 pe-4' name="fahrenhait" value={'us'} /> <span></span>Fahrenhait</p>
-                                    </label>
-                                </div>
-                                <button className="px-1 text-sm relative top-4 w-fit shadow-none active:opacity-70" onClick={resetData}> Reset</button>
-                            </div>
                         </div>
                     </div>
 
@@ -701,45 +672,19 @@ const UWeather = () => {
                         </ul>
                     </div>
 
-                    <div className="current-conditions justify-self-center w-11/12">
-                            <div className="desc text-xl text-teal-600 font-medium py-2"> Current Conditions </div>
+                    <div className="conditions justify-self-center w-11/12">
+                        <div className="desc text-xl text-teal-600 font-medium py-2"> Conditions </div>
+                    <div className="weather-elements flex flex-wrap w-full justify-between">
 
-                        <div className="weather-elements grid row-auto grid-cols-2 justify-items w-full gap-x-4 gap-y-4">
-
-                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl font-meduim text-teal-600 bold">Precipitaion</div>
-                                <p className='px-2 py-3 text-5xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
-                                <p className="raininfo my-2 text-blue-900">Chance of rain</p> 
+                        <div className="card-column flex-1/4 basis-[44vw]  max-w-1/5">
+                            <div className="precip cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-xl font-meduim text-teal-600">Precipitaion</div>
+                                <p className='px-2 py-3 text-3xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
+                                <p className="raininfo my-2 text-blue-900">Chance of rain</p>
                                 <hr className='my-2 text-zinc-700' />                  
-                                <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[0].hours[indexHour].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
+                                <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[dayIndex].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
                             </div>
-
-                            <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-sm" >
-                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
-                                <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
-                                <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
-                                style={{
-                                    backgroundColor: getHumidityColor((data.days[0].hours[indexHour].humidity))
-                                }}>
-                                   <span 
-                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-`}
-                                        style={{
-                                            height: `${(data.days[0].hours[indexHour].humidity)}%`,
-                                            backgroundColor: getHumidityBGColor((data.days[0].hours[indexHour].humidity))
-                                            }}>
-                                        <span className={`humid text-lg ps-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
-                                        style={{
-                                            color: getHumidityTxtColor((data.days[0].hours[indexHour].humidity))
-                                        }}>
-                                        {Math.round(data.days[0].hours[indexHour].humidity)}%</span>
-                                    </span>
-                                </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
-                                <p className='py-1 inline'> 
-                                    <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(defaultTempUnit(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
-                            </div>
-
-                            <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                            <div className="wind cards mt-4 p-2 align-middle bg-[#F4F9FF] relative border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
@@ -764,12 +709,49 @@ const UWeather = () => {
                                     km/h
                                 </p>
                             </div>
+                            <div className="visible relative border w-full h-fit cards mt-4 px-2 py-5 align-middle bg-[#F4F9FF] rounded-lg drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
 
-                            <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                                <img src="/horizon.png" alt="" className="s m-4" />
+                                <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
+                                    {toKiloM(data.days[0].hours[indexHour].visibility)} km
+                                </p>
+                                <p className='py-1  text-zinc-500'> <img src="/cloud-cover.png" alt="" className="me-1 inline-block" />
+                                    {data.days[0].hours[indexHour].cloudcover} %
+                                </p>                                                
+                            </div>
+                        </div>
+
+                        <div className="card-column flex-1/4 basis-[44vw] max-w-1/5">
+                            <div className="humid cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm" >
+                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
+                                <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
+                                <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
+                                style={{
+                                    backgroundColor: getHumidityColor((data.days[0].hours[indexHour].humidity))
+                                }}>
+                                <span 
+                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-lg`}
+                                        style={{
+                                            height: `${(data.days[0].hours[indexHour].humidity)}%`,
+                                            backgroundColor: getHumidityBGColor((data.days[0].hours[indexHour].humidity))
+                                            }}>
+                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
+                                        style={{
+                                            color: getHumidityTxtColor((data.days[0].hours[indexHour].humidity))
+                                        }}>
+                                        {Math.round(data.days[0].hours[indexHour].humidity)}%</span>
+                                    </span>
+                                </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
+                                <p className='py-1 inline'> 
+                                    <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
+                                    {Math.round(defaultTempUnit(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
+                            </div>
+                            <div className="pressure cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
-                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 cards mt-4 align-middle bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
                                     <div className="progress absolute w-full h-full rounded-full"
                                     style={{
                                         background: `conic-gradient(
@@ -790,27 +772,14 @@ const UWeather = () => {
                                     <span className="pval font-semibold text-2xl">{data.days[0].hours[indexHour].pressure}</span> mb 
                                 </p>
                             </div>
-
-                            <div className="visible relative bottom-[9%] border w-full h-fit p-3 bg-[#F4F9FF] rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
-
-                                <img src="/horizon.png" alt="" className="s m-4" />
-                                <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
-                                    {toKiloM(data.days[0].hours[indexHour].visibility)} km
-                                </p>
-                                <p className='py-1  text-zinc-500'> <img src="/cloud-cover.png" alt="" className="me-1 inline-block" />
-                                    {data.days[0].hours[indexHour].cloudcover} %
-                                </p>                                                
-                            </div>
-
-                            <div className="solar border w-full bg-[#F4F9FF] relative bottom-[27%] h-fit p-4 rounded-sm drop-shadow-sm">
+                            <div className="solar border w-full cards mt-4 p-2 align-middle bg-[#F4F9FF] relative h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600 bold">UV Index</div>
 
                                 <div className="uvmeter relative h-fit">
                                 <div className="ms-8 relative top-3 text-sm text-zinc-400">11+</div>
                                     <div className="currentUV absolute bottom-1 left-1 text-zinc-400"
                                     style={{
-                                            height: `${UVLevel(data.days[0].hours[indexHour].uvindex)}%`,
+                                            height: `${UVLevel(data.days[dayIndex].uvindex)}%`,
                                             bottom: `${bttmAlign(UVLevel(data.days[0].hours[indexHour].uvindex))}px`
                                         }}> {data.days[0].hours[indexHour].uvindex} </div>
 
@@ -825,33 +794,62 @@ const UWeather = () => {
 
                                 <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[0].hours[indexHour].solarradiation} W/m² </p>
                             </div>
-
-                            <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-4 bg-[#F4F9FF] relative bottom-[35%] rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
-                                
-                                <div className="sun-phase col-span-1 row-span-2">
-                                    <div className="sunrise ">
-                                        <h1 className=' text-teal-500'> Sunrise </h1>
-                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunrise)} </p>
-                                    </div>
-                                    <div className="sunset ">
-                                        <h1 className=' text-teal-500'> Sunset </h1>
-                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunset)} </p>
-                                    </div> 
-                                </div>
-
-                               <div className="moon row-span-2 mx-10">
-                                    <div className=" text-teal-500"> Moon </div>
-                                    <img src={`/moon-phases/${getPhaseType(data.days[0].moonphase)}.png`} alt="" srcSet="" />
-                                    <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[0].moonphase)} </h1>
-
-                                </div>
-                                            
-                            </div>
                         </div>
                     </div>
+                    
+                    <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-2 cards mt-8 align-middle bg-[#F4F9FF] relative bottom-[2%] rounded-lg drop-shadow-sm">
+                        <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
+                        
+                        <div className="sun-phase col-span-1 row-span-2">
+                            <div className="sunrise ">
+                                <h1 className=' text-teal-500'> Sunrise </h1>
+                                <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunrise)} </p>
+                            </div>
+                            <div className="sunset ">
+                                <h1 className=' text-teal-500'> Sunset </h1>
+                                <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[0].sunset)} </p>
+                            </div> 
+                        </div>
 
+                        <div className="moon row-span-2 mx-10">
+                            <div className=" text-teal-500"> Moon </div>
+                            <img src={`/moon-phases/${getPhaseType(data.days[0].moonphase)}.png`} alt="" srcSet="" />
+                            <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[0].moonphase)} </h1>
+
+                        </div>
+                                    
+                    </div>    
                 </div>
+            </div>
+
+                <span className="menu-butn absolute top-[12%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}>
+                        <img src="/icons8-menu-vertical-24.png" 
+                        className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
+                        alt="" srcSet="" />
+                    </span>
+
+                <div id='w-menu-card' 
+                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full  bg-stone-300 w-32 h-40 p-4 rounded z-[50]"
+                    >
+                    <div className="pref-units">
+                        <h1 className="desc desc text-base font-medium shadow-sm text-teal-600"> Temperature Units</h1>
+                        <label className="custom-checkbox" htmlFor="">
+                            <p 
+                                className="units check-button1"
+                                onClick={checkActionCels}
+                                >
+                                <input type="radio" className='custom-checkbox1 pe-4' name="celsius" value={'metric'}  /><span></span>Celsius</p>
+                            <p 
+                                className="units check-button2"
+                                onClick={checkActionFahr}
+                                >
+                                <input type="radio" className='custom-checkbox2 pe-4' name="fahrenhait" value={'us'} /> <span></span>Fahrenhait</p>
+                        </label>
+                    </div>
+                    <button className="px-1 text-sm relative top-4 w-fit shadow-none active:opacity-70" onClick={resetData}> Reset</button>
+                </div>
+
+                </>
             )}
         </motion.div>
     );

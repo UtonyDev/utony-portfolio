@@ -9,12 +9,6 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
     const [longitude, setLongitude] = useState('');
     const [loading, setLoading] = useState(false);
 
-
-    let units = ['metric', 'us', 'uk']
-   const unit = 'metric';
-    
-    console.log(unit);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -24,7 +18,7 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
             return;
         }
 
-        fetchData(city, country, country);
+        fetchData(city, country);
         setLoading(true);
     }
 
@@ -35,10 +29,6 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
                 const { latitude, longitude } = position.coords;
 
                 await convertCoordinates(latitude, longitude)
-
-                await fetchData(latitude, longitude, unit);
-                setLatitude(latitude);
-                setLongitude(longitude);
                 
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
               },

@@ -4,7 +4,7 @@ import { FaBackspace, FaUndo } from 'react-icons/fa';
 import { index } from 'mathjs';
 
 function DaysInfoPage( {
-    data, toPrefedTempUnit, dayIndex, 
+    data, defaultTempUnit, tempSymbol, dayIndex, 
     onPageUpdate, getPhaseInfo, getPhaseType, 
     bttmAlign, UVLevel, baroPercent, toKiloM, 
     bearingConversion, getHumidityTxtColor, 
@@ -67,6 +67,7 @@ function DaysInfoPage( {
 
             if (hourTimeRef.current[indexHour]) {
                 hourTimeRef.current[indexHour].textContent = 'Now';
+                hourTimeRef.current[indexHour].style.color = '#0d9488';
             }
         }
     };
@@ -97,32 +98,33 @@ function DaysInfoPage( {
                 <div className="daytext relative text-teal-900 text-2xl leading-snug"> {formatFullDay(data.days[dayIndex].datetime)}</div>
 
                 <div className="temp-con grid grid-auto justify-self-center relative w-11/12 px-7 py-5 backdrop-blur-sm gap-5 shadow-sm rounded-lg z-40">
-                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{toPrefedTempUnit(data.days[dayIndex].hours[indexHour].temp)}°</h1>
+                    <h1 className="avg-temp col-span-2 text-teal-900 text-7xl leading-snug">{defaultTempUnit(data.days[dayIndex].hours[indexHour].temp)}°</h1>
                     <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[dayIndex].hours[indexHour].conditions} 
                         <img src={`${iconBasePath}${data.days[dayIndex].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                     </div>
 
-                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {toPrefedTempUnit(data.days[dayIndex].hours[indexHour].feelslike)}°C</div>
+                    <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {defaultTempUnit(data.days[dayIndex].hours[indexHour].feelslike)}°C</div>
 
-                    <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {toPrefedTempUnit(data.days[dayIndex].tempmax)}°C </div>
-                    <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {toPrefedTempUnit(data.days[dayIndex].tempmin)}°C </div>
+                    <div className="high-temp"> <h2 className='text-teal-600'>High</h2> {defaultTempUnit(data.days[dayIndex].tempmax)}°{tempSymbol} </div>
+                    <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {defaultTempUnit(data.days[dayIndex].tempmin)}°{tempSymbol} </div>
                 </div>
 
-                <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
+                <div className="hourly-forecast grid grid-rows-1 justify-self-center w-11/12 p-2 cards mt-4 align-middle bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
                             <li 
                             key={index} 
-                            className="hour-info bg-sky-100 p-4 rounded-md" 
+                            className="hour-info bg-sky-100 p-2 rounded-md" 
                             style={{marginInlineEnd: '0.5em'}}
                             ref={(el) => (hourInfoRef.current[index] = el)}>
                                 <p 
                                     className='py-1 hour-time text-zinc-500'
                                     ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
-                                <p className='py-1 text-teal-600 bold'>{toPrefedTempUnit(hour.temp)}°C</p>
-                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
+                                <p className='py-1 text-teal-600 bold'>{defaultTempUnit(hour.temp)}°{tempSymbol}</p>
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
+                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>                        
+                                
                             </li>
                             ))}
                         </ul>
@@ -130,44 +132,18 @@ function DaysInfoPage( {
 
 
                 <div className="conditions justify-self-center w-11/12">
-                            <div className="desc text-xl text-teal-600 font-medium py-2"> Conditions </div>
+                    <div className="desc text-xl text-teal-600 font-medium py-2"> Conditions </div>
+                    <div className="weather-elements flex flex-wrap w-full justify-between">
 
-                        <div className="weather-elements grid row-auto grid-cols-2 justify-items w-full gap-x-4 gap-y-4">
-
-                            <div className="precip bg-[#F4F9FF] border w-full h-fit p-4  rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl font-meduim text-teal-600 bold">Precipitaion</div>
-                                <p className='px-2 py-3 text-5xl font-medium text-blue-500'> {Math.round(data.days[dayIndex].precipprob)}% </p> 
+                        <div className="card-column flex-1/4 basis-[44vw]  max-w-1/5">
+                            <div className="precip cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-xl font-meduim text-teal-600">Precipitaion</div>
+                                <p className='px-2 py-3 text-3xl font-medium text-blue-500'> {Math.round(data.days[dayIndex].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p>
                                 <hr className='my-2 text-zinc-700' />                  
                                 <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[dayIndex].preciptype, data.days[dayIndex].precip, data.days[dayIndex].snow, data.days[dayIndex].snowdepth)} </p> 
                             </div>
-
-                            <div className="humid bg-[#F4F9FF] border w-full h-fit p-4 rounded-lg drop-shadow-sm" >
-                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
-                                <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
-                                <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
-                                style={{
-                                    backgroundColor: getHumidityColor((data.days[dayIndex].humidity))
-                                }}>
-                                   <span 
-                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-`}
-                                        style={{
-                                            height: `${(data.days[dayIndex].humidity)}%`,
-                                            backgroundColor: getHumidityBGColor((data.days[dayIndex].humidity))
-                                            }}>
-                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
-                                        style={{
-                                            color: getHumidityTxtColor((data.days[dayIndex].humidity))
-                                        }}>
-                                        {Math.round(data.days[dayIndex].humidity)}%</span>
-                                    </span>
-                                </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
-                                <p className='py-1 inline'> 
-                                    <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
-                                    {Math.round(toPrefedTempUnit(data.days[dayIndex].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
-                            </div>
-
-                            <div className="wind bg-[#F4F9FF] relative bottom-[7%] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                            <div className="wind cards mt-4 p-2 align-middle bg-[#F4F9FF] relative border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
@@ -192,12 +168,49 @@ function DaysInfoPage( {
                                     km/h
                                 </p>
                             </div>
+                            <div className="visible relative border w-full h-fit cards mt-4 px-2 py-5 align-middle bg-[#F4F9FF] rounded-lg drop-shadow-sm">
+                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
 
-                            <div className="pressure bg-[#F4F9FF] border w-full h-fit p-4 rounded-sm drop-shadow-sm">
+                                <img src="/horizon.png" alt="" className="s m-4" />
+                                <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
+                                    {toKiloM(data.days[dayIndex].visibility)} km
+                                </p>
+                                <p className='py-1  text-zinc-500'> <img src="/cloud-cover.png" alt="" className="me-1 inline-block" />
+                                    {data.days[dayIndex].cloudcover} %
+                                </p>                                                
+                            </div>
+                        </div>
+
+                        <div className="card-column flex-1/4 basis-[44vw] max-w-1/5">
+                            <div className="humid cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm" >
+                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
+                                <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
+                                <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
+                                style={{
+                                    backgroundColor: getHumidityColor((data.days[dayIndex].humidity))
+                                }}>
+                                <span 
+                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-lg`}
+                                        style={{
+                                            height: `${(data.days[dayIndex].humidity)}%`,
+                                            backgroundColor: getHumidityBGColor((data.days[dayIndex].humidity))
+                                            }}>
+                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
+                                        style={{
+                                            color: getHumidityTxtColor((data.days[dayIndex].humidity))
+                                        }}>
+                                        {Math.round(data.days[dayIndex].humidity)}%</span>
+                                    </span>
+                                </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
+                                <p className='py-1 inline'> 
+                                    <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
+                                    {Math.round(defaultTempUnit(data.days[dayIndex].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
+                            </div>
+                            <div className="pressure cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
-                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <span className="block absolute z-20 bottom-0 top-[80%] left-[25%] right-0 h-1/4 w-1/2 cards mt-4 align-middle bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
                                     <div className="progress absolute w-full h-full rounded-full"
                                     style={{
                                         background: `conic-gradient(
@@ -218,20 +231,7 @@ function DaysInfoPage( {
                                     <span className="pval font-semibold text-2xl">{data.days[dayIndex].pressure}</span> mb 
                                 </p>
                             </div>
-
-                            <div className="visible relative bottom-[9%] border w-full h-fit p-3 bg-[#F4F9FF] rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
-
-                                <img src="/horizon.png" alt="" className="s m-4" />
-                                <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
-                                    {toKiloM(data.days[dayIndex].visibility)} km
-                                </p>
-                                <p className='py-1  text-zinc-500'> <img src="/cloud-cover.png" alt="" className="me-1 inline-block" />
-                                    {data.days[dayIndex].cloudcover} %
-                                </p>                                                
-                            </div>
-
-                            <div className="solar border w-full bg-[#F4F9FF] relative bottom-[27%] h-fit p-4 rounded-sm drop-shadow-sm">
+                            <div className="solar border w-full cards mt-4 p-2 align-middle bg-[#F4F9FF] relative h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-xl font-medium text-teal-600 bold">UV Index</div>
 
                                 <div className="uvmeter relative h-fit">
@@ -253,31 +253,33 @@ function DaysInfoPage( {
 
                                 <p className='py-1 text-zinc-500 '> <img src="/sunrays.png" alt="" className="ray inline-block text-zinc-500" /> {data.days[dayIndex].solarradiation} W/m² </p>
                             </div>
-
-                            <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-4 bg-[#F4F9FF] relative bottom-[35%] rounded-sm drop-shadow-sm">
-                                <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
-                                
-                                <div className="sun-phase col-span-1 row-span-2">
-                                    <div className="sunrise ">
-                                        <h1 className=' text-teal-500'> Sunrise </h1>
-                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[dayIndex].sunrise)} </p>
-                                    </div>
-                                    <div className="sunset ">
-                                        <h1 className=' text-teal-500'> Sunset </h1>
-                                        <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[dayIndex].sunset)} </p>
-                                    </div> 
-                                </div>
-
-                               <div className="moon row-span-2 mx-10">
-                                    <div className=" text-teal-500"> Moon </div>
-                                    <img src={`/moon-phases/${getPhaseType(data.days[dayIndex].moonphase)}.png`} alt="" srcSet="" />
-                                    <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[dayIndex].moonphase)} </h1>
-
-                                </div>
-                                            
-                            </div>
                         </div>
                     </div>
+                    
+                    <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-2 cards mt-8 align-middle bg-[#F4F9FF] relative bottom-[2%] rounded-lg drop-shadow-sm">
+                        <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
+                        
+                        <div className="sun-phase col-span-1 row-span-2">
+                            <div className="sunrise ">
+                                <h1 className=' text-teal-500'> Sunrise </h1>
+                                <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[dayIndex].sunrise)} </p>
+                            </div>
+                            <div className="sunset ">
+                                <h1 className=' text-teal-500'> Sunset </h1>
+                                <p className='py-1 text-zinc-500'> {hourMinFormat(data.days[dayIndex].sunset)} </p>
+                            </div> 
+                        </div>
+
+                        <div className="moon row-span-2 mx-10">
+                            <div className=" text-teal-500"> Moon </div>
+                            <img src={`/moon-phases/${getPhaseType(data.days[dayIndex].moonphase)}.png`} alt="" srcSet="" />
+                            <h1 className="moon-info text-zinc-500"> {getPhaseInfo(data.days[dayIndex].moonphase)} </h1>
+
+                        </div>
+                                    
+                    </div>
+                        
+                </div>
             </div>
         </div>
     );

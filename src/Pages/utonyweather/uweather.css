@@ -10,3 +10,10 @@
     background-size: 16px; /* Adjust icon size */
   }
 
+.hide-card {
+  display: none;
+}
+.show-card {
+  display: block;
+}
+
