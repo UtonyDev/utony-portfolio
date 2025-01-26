@@ -84,6 +84,8 @@ const UWeather = () => {
         window.location.reload()
     }
 
+    let userUnitPreference = localStorage.getItem('userUnitPref');
+
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
         const weatherCacheKey = 'weatherCache';
@@ -100,7 +102,6 @@ const UWeather = () => {
             console.log('Using cached data from weatherCache:', latestData);
             console.log(latestData.resolvedAddress);
 
-            let userUnitPreference = localStorage.getItem('userUnitPref');
             console.log('the user prefers: ', userUnitPreference);
 
             if (userUnitPreference) {
@@ -116,9 +117,7 @@ const UWeather = () => {
             // No cached data, show the location prompt
             setPrompt(true);
         }
-
-
-    }, [weatherPage]);
+    }, []);
 
     const iconBasePath = '/GWeatherIcons/';
     useEffect(() => {
@@ -353,7 +352,7 @@ const UWeather = () => {
         } else if (ukUnit) {
             const celsius = Math.round( 5 / 9 * ( tempunit - 32));
             return celsius;
-        } 
+        }
      }
 
      const tempSymbol = () => {
@@ -397,6 +396,7 @@ const UWeather = () => {
 
      const defaultPage = (page) => {
         setDayPage(page);
+        checkCountry(userUnitPreference)
      }
                  
      const hourMinFormat = (fullTime) => {
@@ -507,11 +507,10 @@ const UWeather = () => {
         if (phase == 0.75) { return `Last Quarter`};
         if (phase > 0.75 && phase < 1) { return `Waning crescent`};
     }
-      
+     
     const showSetting = () => {
         const settingElement = document.querySelector('#w-menu-card');
         if (!settingElement) return;
-        checkCountry()
     
         if (settingElement.classList.contains('hide-card')) {
             settingElement.classList.remove('hide-card');
@@ -520,7 +519,6 @@ const UWeather = () => {
         }
     };
     
-
     const hideSettings = () => {
         const settingElement = document.querySelector('#w-menu-card');
 
@@ -547,11 +545,6 @@ const UWeather = () => {
             console.log('elemnt doesnt exist yet')
         }
     };
-
-    const searchBar = document.querySelector('.search-bar');
-    const searchAnimation = () => {
-        searchBar.classList.add('search-animation');
-    }
 
      if (dayPage) {
         return (
@@ -591,7 +584,7 @@ const UWeather = () => {
             {data && (
                 <>
             
-                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative top-4 mt-10 z-20' 
+                <div id="weather-app" className='grid justify-items-center grid-rows-auto grid-col-2 gap-5 relative bg-slate-50 pt-4 mt-10 z-20' 
                     onLoad={defaultTempUnit}
                     onClick={hideSettings}
                  >
@@ -600,7 +593,6 @@ const UWeather = () => {
                          value={query} 
                          className='search-icon search-bar bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 focus:outline-none border text-md border-gray-200 shadow-sm rounded-full' 
                          name="place" id="place"
-                         onFocus={searchAnimation}
                          whileFocus={{ scale: 1.05
                           }} href="#"
                          onChange={InputValChange} 
@@ -621,22 +613,22 @@ const UWeather = () => {
                     )}
                     </div>
 
-                    <div className="temp-con grid grid-auto justify-self-center w-11/12 px-7 py-5 backdrop-blur-sm gap-5 z-40">
-                        <h1 className="avg-temp col-span-2 text-teal-900 font-600 text-7xl lining- leading-snug
-                        ">{defaultTempUnit(data.days[0].hours[indexHour].temp)}°</h1>
-                        <div className="conditions text-s relative top-1/4 place-self-center ms-6">{data.days[0].hours[indexHour].conditions} 
+                    <div className="temp-con grid grid-auto grid-cols-2 row-auto justify-self-center w-11/12 px-6 py-4 gap-3 z-40">
+                        <h1 className="avg-temp justify-self-center col-span-2 text-teal-900 lining- leading-snug mb-2
+                        "><span className="text-8xl font-medium">{defaultTempUnit(data.days[0].hours[indexHour].temp)}</span><span className="text-6xl relative bottom-1/4">°</span></h1>
+
+                        <div className="feelslike justify-self-center col-span-1 relative left-[10%] line-clamp-2 text-zinc-700 text-sm font-thin"> <div>Feels like</div> <span className="text-teal-900"> {defaultTempUnit(data.days[0].hours[indexHour].feelslike)}{tempSymbol(symb)}</span> 
+                        </div>
+                        <div className="conditions text-sm relative right-[10%] col-span-1 row-span-1 ms-6">{data.days[0].hours[indexHour].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                         </div>
-                        <div className="feelslike col-span-3 text-teal-600 line-clamp-2 text-sm"> Feels like: {defaultTempUnit(data.days[0].hours[indexHour].feelslike)}{tempSymbol(symb)}</div>
 
-                        <div className="high-temp" > <h2 className='text-teal-600'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
-                        <div className="low-temp"> <h2 className='text-teal-600'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
-                        <div className="weather-menu px-1 text-sm py-1 place-self-end w-fit shadow-none">
-                        </div>
+                        <div className="high-temp place-self-center" > <h2 className='text-teal-700 font-light'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
+                        <div className="low-temp place-self-start"> <h2 className='text-teal-700 font-light'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
                     </div>
 
-                    <div className="hourly-forecast forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#F4F9FF] gap-3 shadow-md rounded-lg">
-                        <div className="desc text-xl font-medium text-teal-600"> Hourly Forecast </div>
+                    <div className="hourly-forecast forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#ffffff] gap-3 shadow-md rounded-lg">
+                        <div className="desc text-xl font-normal text-teal-600"> Hourly Forecast </div>
                         <ul className="flex xtra-sm:space-x-0 space-x-4 overflow-x-auto whitespace-nowrap">
                             {data.days[0].hours.map((hour, index) => (
                             <li 
@@ -650,14 +642,14 @@ const UWeather = () => {
                                     ref={(el) => (hourTimeRef.current[index] = el)}>{hourMinFormat(hour.datetime)}</p>
                                 <p className='py-1 text-teal-600 bold'>{defaultTempUnit(hour.temp)}{tempSymbol(symb)}</p>
                                 <p className='py-1 text-zinc-500'><img src={`${iconBasePath}${hour.icon}.png`} alt="" className="src size-6" /></p>
-                                <p className='py-1 text-zinc-500'> {data.days[0].hours[indexHour].precipprob}% </p>
+                                <p className='py-1 text-zinc-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p>
                             </li>
                             ))}
                         </ul>
                     </div>
 
-                    <div className="daily-forecast forecast grid grid-rows-1 w-11/12 bg-[#F4F9FF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
-                        <div className="desc text-xl font-medium text-teal-600"> Daily Forecast </div>
+                    <div className="daily-forecast forecast grid grid-rows-1 w-11/12 bg-[#FFFFFF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
+                        <div className="desc text-xl font-normal text-teal-600"> Daily Forecast </div>
 
                         <ul className=" max-h-96 overflow-y-scroll">
                             {data.days.slice(0, 10).map((day, index) => (
@@ -671,7 +663,7 @@ const UWeather = () => {
                                         updateDayIndex(index);
                                         }}
                                     >
-                                    <p className='inline-block font-medium text-zinc-500' ref={(el) => (dayRef.current[index]) = el }>{formatFullDay(day.datetime)}</p>
+                                    <p className='inline-block font-normal text-zinc-500' ref={(el) => (dayRef.current[index]) = el }>{formatFullDay(day.datetime)}</p>
                                     <span className="dayInfo justify-self-end ">
                                     <p className='inline-block italic text-teal-600 px-2'>{defaultTempUnit(day.temp)}{tempSymbol(symb)}</p>
                                     <p className='inline-block text-zinc-700 px-2'>{Math.round(day.precipprob)}%</p>
@@ -683,19 +675,19 @@ const UWeather = () => {
                     </div>
 
                     <div className="conditions justify-self-center w-11/12">
-                        <div className="desc text-xl text-teal-600 font-medium py-2"> Conditions </div>
+                        <div className="desc text-xl text-teal-600 font-normal py-2"> Conditions </div>
                     <div className="weather-elements flex flex-wrap w-full justify-between">
 
                         <div className="card-column flex-1/4 basis-[44vw]  max-w-1/5">
-                            <div className="precip cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
-                                <div className="desc text-xl font-meduim text-teal-600">Precipitaion</div>
-                                <p className='px-2 py-3 text-3xl font-medium text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
+                            <div className="precip cards mt-4 p-2 align-middle bg-white border w-full h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-lg font-meduim text-teal-600">Precipitaion</div>
+                                <p className='px-2 py-3 text-3xl font-normal text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
                                 <p className="raininfo my-2 text-blue-900">Chance of rain</p>
                                 <hr className='my-2 text-zinc-700' />                  
-                                <p className='py-1 font-medium text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[dayIndex].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
+                                <p className='py-1 font-normal text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[dayIndex].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
                             </div>
-                            <div className="wind cards mt-4 p-2 align-middle bg-[#F4F9FF] relative border w-full h-fit rounded-lg drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600 bold">Wind</div>
+                            <div className="wind cards mt-4 p-2 align-middle bg-white relative border w-full h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-lg font-normal text-teal-600 bold">Wind</div>
 
                                 <div className="compass grid">
                                     <div className="north justify-self-center text-zinc-500">N</div>
@@ -719,8 +711,8 @@ const UWeather = () => {
                                     km/h
                                 </p>
                             </div>
-                            <div className="visible relative border w-full h-fit cards mt-4 px-2 py-5 align-middle bg-[#F4F9FF] rounded-lg drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600">Visibility</div>
+                            <div className="visible relative border w-full h-fit cards mt-4 px-2 py-5 align-middle bg-white rounded-lg drop-shadow-sm">
+                                <div className="desc text-lg font-normal text-teal-600">Visibility</div>
 
                                 <img src="/horizon.png" alt="" className="s m-4" />
                                 <p className='py-1 text-zinc-500'> <img src="/visibility.png" alt="" className='me-1 inline-block'/>
@@ -733,8 +725,8 @@ const UWeather = () => {
                         </div>
 
                         <div className="card-column flex-1/4 basis-[44vw] max-w-1/5">
-                            <div className="humid cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm" >
-                                <div className="desc text-xl font-medium  text-teal-600 bold"> Humidity </div>
+                            <div className="humid cards mt-4 p-2 align-middle bg-white border w-full h-fit rounded-lg drop-shadow-sm" >
+                                <div className="desc text-lg font-normal  text-teal-600 bold"> Humidity </div>
                                 <div className="ms-4 mt-4 text-sm text-zinc-400">100</div>
                                 <p className={`auto grid border-xl border-zinc-200 shadow-lg relative px-6 h-20 w-fit m-1 rounded-full overflow-hidden`}
                                 style={{
@@ -757,11 +749,11 @@ const UWeather = () => {
                                     <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
                                     {Math.round(defaultTempUnit(data.days[0].hours[indexHour].dew))}°</span> <span className="wr text-zinc-500 inline-block">Dew point</span>  </p>                       
                             </div>
-                            <div className="pressure cards mt-4 p-2 align-middle bg-[#F4F9FF] border w-full h-fit rounded-lg drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600"> Pressure </div>
+                            <div className="pressure cards mt-4 p-2 align-middle bg-white border w-full h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-lg font-normal text-teal-600"> Pressure </div>
 
                                 <div className="p_ring  relative bg w-16 h-16 grid place-items-center m-2 rounded-full">
-                                    <span className="block absolute z-[50] bottom-0 top-[55%] left-[25%] right-0 h-1/4 w-1/2 mt-4 bg-[#F4F9FF] rounded-full " aria-hidden="true"></span>
+                                    <span className="block absolute z-[50] bottom-0 top-[55%] left-[25%] right-0 h-1/4 w-1/2 mt-4 bg-white rounded-full " aria-hidden="true"></span>
                                     <div className="progress absolute w-full h-full rounded-full"
                                     style={{
                                         background: `conic-gradient(
@@ -782,8 +774,8 @@ const UWeather = () => {
                                     <span className="pval font-semibold text-2xl">{data.days[0].hours[indexHour].pressure}</span> mb 
                                 </p>
                             </div>
-                            <div className="solar border w-full cards mt-4 p-2 align-middle bg-[#F4F9FF] relative h-fit rounded-lg drop-shadow-sm">
-                                <div className="desc text-xl font-medium text-teal-600 bold">UV Index</div>
+                            <div className="solar border w-full cards mt-4 p-2 align-middle bg-white relative h-fit rounded-lg drop-shadow-sm">
+                                <div className="desc text-lg font-normal text-teal-600 bold">UV Index</div>
 
                                 <div className="uvmeter relative h-fit">
                                 <div className="ms-8 relative top-3 text-sm text-zinc-400">11+</div>
@@ -807,8 +799,8 @@ const UWeather = () => {
                         </div>
                     </div>
                     
-                    <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-2 cards mt-8 align-middle bg-[#F4F9FF] relative bottom-[2%] rounded-lg drop-shadow-sm">
-                        <div className="desc text-xl col-span-2 font-medium text-teal-600 bold"> Astro </div>
+                    <div className="phases grid row-auto grid-cols-2 col-span-2 border w-full h-fit p-2 cards mt-8 align-middle bg-white relative bottom-[2%] rounded-lg drop-shadow-sm">
+                        <div className="desc text-lg col-span-2 font-normal text-teal-600 bold"> Astro </div>
                         
                         <div className="sun-phase col-span-1 row-span-2">
                             <div className="sunrise ">
@@ -840,11 +832,11 @@ const UWeather = () => {
                     </span>
 
                 <div id='w-menu-card' 
-                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full bg-gray-200 w-32 h-40 p-4 rounded z-[50]"
+                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full bg-slate-200 w-32 h-40 p-4 rounded z-[50]"
                     onLoad={hideSettings}
                     >
                     <div className="pref-units">
-                        <h1 className="desc desc text-base font-medium shadow-sm text-teal-600"> Temperature Units</h1>
+                        <h1 className="desc desc text-base font-normal shadow-sm text-teal-600"> Temperature Units</h1>
                         <label className="custom-checkbox" htmlFor="">
                             <p 
                                 className="units check-button1"
