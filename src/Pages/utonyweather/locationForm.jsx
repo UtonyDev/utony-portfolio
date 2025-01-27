@@ -54,14 +54,14 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
 
     
     return (
-        <div className='bg-white place-self-center relative top-[15%] grid'>
-<div className="form-container grid w-full border-2 shadow-lg rounded-xl p-3 gap-2">
+        <div className='bg-white place-content-center relative top-[15%] grid'>
+<div className="form-container grid w-auto border-2 shadow-lg rounded-xl py-2 gap-2">
     <img src="/icons8-location-24.png" alt="location icon" className='block place-self-center'/>
     <label className="text-[#0a0a0a] place-self-center text-2xl flex items-center gap-2">
         Enter Location
     </label>
 
-    <form onSubmit={handleSubmit} className="grid row-auto gap-4">
+    <form onSubmit={handleSubmit} className="grid row-auto gap-2">
         <div className="relative mx-3">
             <input
                 className=" p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"

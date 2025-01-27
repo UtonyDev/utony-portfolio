@@ -142,7 +142,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
       <div className="headcon">
         <div className="headr">
           
-  <span id="nme" className="nmeHide nmePosit">
+  <span id="nme" className="nmeHide nmePosit font-normal">
     <span className="gb hid">U</span>Tony
   </span>
 
