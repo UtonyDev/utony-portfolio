@@ -6,21 +6,25 @@ function Togicon() {
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
         const checkbox = document.getElementById('myCheckbox');
-
-        if (savedTheme === 'dark') { 
-          checkbox.checked = true;
-          console.log('checkbox is checked yo!')
-        } 
+        const browserDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
         // If a manual override exists, use it; otherwise, use system preference
         if (savedTheme) {
+          if (savedTheme === 'dark') { 
+            checkbox.checked = true;
+            console.log('checkbox is checked yo!')
+          } 
           document.body.setAttribute('data-theme', savedTheme);
-         
-        } 
-        if (savedTheme === 'dark') { 
-          checkbox.checked = true;
-          console.log('checkbox is checked yo!')
-        } 
+        } else { 
+          if (browserDarkTheme.matches) {
+            document.body.setAttribute('data-theme', 'dark');
+            checkbox.checked = true;
+            console.log('using browser theme');
+          } else {
+            document.body.setAttribute('data-theme', 'light')
+            checkbox.checked = false;
+          }
+        }
         
       }, [window.load]);
 

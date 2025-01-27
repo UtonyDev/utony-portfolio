@@ -10,12 +10,12 @@ box-sizing: border-box;
 }
 
 :root {
-	--menuBar: #ffffff;
+	--menuBar: #f8fafc;
 	--grey: #7A7A7A;
 	--iconclr: #535557;
 	--boxShadowClr: #0000001a;
 	--svgBackClr: rgba(240, 248, 255, 0.749);
-	--topbackclr: #ffffff;
+	--topbackclr: #f8fafc;
 	--white: #ffffff;
 	--TxtFontXClr: #0a0a0a;
 	--hideContent: none;
@@ -23,9 +23,9 @@ box-sizing: border-box;
 
 body[data-theme='light'] {
 	--menuCard: rgba(247, 246, 246, 0.8);
-	--cardClr: #EBF5FFBF;
-	--svgBackClr: rgba(240, 248, 255, 0.75);
-	--topbackclr: #ffffff;
+	--cardClr: white;
+	--svgBackClr: #f8fafc;
+	--topbackclr: #f8fafc;
 	--white: #ffffff;
 	--aquamFont: #0B5B53;
 	--aquamWeight: 500;
@@ -431,7 +431,7 @@ hr:hover {
 .card-description {
 	display: block;
 	color: #4F4F4F;
-	font-size: 0.65em;
+	font-size: 0.8em;
 }
 
 .langs {

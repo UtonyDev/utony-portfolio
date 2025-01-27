@@ -32,6 +32,7 @@ const UWeather = () => {
     const weatherPage = useLocation();
 
     const API_KEY = '124d73669936416ea36f14503e262e7d';
+    let userUnitPreference = localStorage.getItem('userUnitPref');
 
     const InputValChange = async (e) => {
         const value = e.target.value;
@@ -72,8 +73,14 @@ const UWeather = () => {
             const newcity = splitData[0];
             const newcountry = splitData[splitData.length - 1];
             console.log(newcountry)
-            checkCountry(newcountry);
             fetchData(newcity, newcountry);
+            if (userUnitPreference) {
+                checkCountry(userUnitPreference);
+                console.log('using user pref');
+            } else {
+                checkCountry(newcountry);
+                console.log('using location');
+            }
             console.log('search length is:', splitData.length);
         }
     }
@@ -83,8 +90,6 @@ const UWeather = () => {
         localStorage.removeItem('userUnitPref');
         window.location.reload()
     }
-
-    let userUnitPreference = localStorage.getItem('userUnitPref');
 
     useEffect(() => {
         // Retrieve the weather cache object from localStorage
@@ -182,11 +187,12 @@ const UWeather = () => {
     const fetchData = async (city, country) => {
         const cacheKey = `${city}:${country}`;
         const weatherCacheKey = 'weatherCache';
-        let userUnitPreference = localStorage.getItem('userUnitPref');
         if (userUnitPreference) {
             checkCountry(userUnitPreference);
+            console.log('using user pref');
         } else {
             checkCountry(country);
+            console.log('using location');
         }
         
         // Retrieve the cache object from localStorage
@@ -195,7 +201,7 @@ const UWeather = () => {
     
         // Check if data for the given city-country pair exists in the cache
         if (cachedData[cacheKey]) {
-            const jsonCachedData = cachedData[cacheKey]; // Access cached data
+            const jsonCachedData = cachedData[cacheKey]; 
             setData(jsonCachedData); // Set the state to cached data
             console.log('Using cached weather data:', jsonCachedData);
         } else {
@@ -221,15 +227,13 @@ const UWeather = () => {
                 localStorage.setItem(storedData, jsonData);
                 console.log('new stored data', storedData)
                 // Update the cache object with new data
-        
-        
+
                 cachedData[cacheKey] = jsonData;
                 localStorage.setItem(weatherCacheKey, JSON.stringify(cachedData)); // Save the updated cache to localStorage
     
                 setData(jsonData); // Set the fetched data to state
                 console.log('Fetched data from server:', jsonData);
 
-                
             } catch (err) {
                 console.error('Error fetching weather data:', err);
                 setError(err.message); // Handle network error
@@ -320,20 +324,20 @@ const UWeather = () => {
                 setUKUnit(false);
                 setMetricUnit(false);
                 customCheckBox1.checked = false;
-                customCheckBox2.checked = true; // Set Fahrenheit radio
+                customCheckBox2.checked = true;
                 console.log('In the US');
             } else if (countries === theUKE || countries === theUK) {
                 setUKUnit(true);
                 setUSUnit(false);
                 setMetricUnit(false);
-                customCheckBox1.checked = true; // Set Celsius radio
+                customCheckBox1.checked = true;
                 customCheckBox2.checked = false;
                 console.log('In the UK');
             } else {
                 setMetricUnit(true);
                 setUKUnit(false);
                 setUSUnit(false);
-                customCheckBox1.checked = true; // Set Celsius radio
+                customCheckBox1.checked = true;
                 customCheckBox2.checked = false;
                 console.log('The rest of the world...');
                 return 'metric';
@@ -353,13 +357,13 @@ const UWeather = () => {
             const celsius = Math.round( 5 / 9 * ( tempunit - 32));
             return celsius;
         }
-     }
+    }
 
-     const tempSymbol = () => {
+    const tempSymbol = () => {
         if (usUnit) return '°F';
         return '°C'; // Defaults to Celsius for both metricUnit and ukUnit
-      };      
-      const symb = '';
+    };      
+    const symb = '';
 
     if (loading) {
         return (
@@ -511,6 +515,13 @@ const UWeather = () => {
     const showSetting = () => {
         const settingElement = document.querySelector('#w-menu-card');
         if (!settingElement) return;
+        if (userUnitPreference) {
+            checkCountry(userUnitPreference);
+            console.log('using user pref');
+        } else {
+            checkCountry();
+            console.log('using location');
+        }
     
         if (settingElement.classList.contains('hide-card')) {
             settingElement.classList.remove('hide-card');
@@ -678,13 +689,13 @@ const UWeather = () => {
                         <div className="desc text-xl text-teal-600 font-normal py-2"> Conditions </div>
                     <div className="weather-elements flex flex-wrap w-full justify-between">
 
-                        <div className="card-column flex-1/4 basis-[44vw]  max-w-1/5">
+                        <div className="card-column flex-1/4 basis-[44vw] max-w-1/5">
                             <div className="precip cards mt-4 p-2 align-middle bg-white border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-lg font-meduim text-teal-600">Precipitaion</div>
                                 <p className='px-2 py-3 text-3xl font-normal text-blue-500'> {Math.round(data.days[0].hours[indexHour].precipprob)}% </p> 
-                                <p className="raininfo my-2 text-blue-900">Chance of rain</p>
+                                <p className="raininfo my-2 text-sm text-zinc-700">Chance of rain</p>
                                 <hr className='my-2 text-zinc-700' />                  
-                                <p className='py-1 font-normal text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[dayIndex].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
+                                <p className='py-1 font-normal text-sm text-zinc-700'> {precipType(data.days[0].hours[indexHour].preciptype, data.days[dayIndex].precip, data.days[0].hours[indexHour].snow, data.days[0].hours[indexHour].snowdepth)} </p> 
                             </div>
                             <div className="wind cards mt-4 p-2 align-middle bg-white relative border w-full h-fit rounded-lg drop-shadow-sm">
                                 <div className="desc text-lg font-normal text-teal-600 bold">Wind</div>
@@ -706,8 +717,8 @@ const UWeather = () => {
                                 </div>
                                 <p className='py-1 text-zinc-700'> {bearingConversion(data.days[0].hours[indexHour].winddir)} </p>
                                 <hr className='my-2 text-zinc-400' />
-                                <p className='py-1 text-teal-500'> 
-                                    <span className="speed text-2xl font-semibold"> {toKiloM(data.days[0].hours[indexHour].windspeed)} </span>
+                                <p className='py-1 text-zinc-700'> 
+                                    <span className="speed text-xl font-normal"> {toKiloM(data.days[0].hours[indexHour].windspeed)} </span>
                                     km/h
                                 </p>
                             </div>
@@ -732,18 +743,18 @@ const UWeather = () => {
                                 style={{
                                     backgroundColor: getHumidityColor((data.days[0].hours[indexHour].humidity))
                                 }}>
-                                <span 
-                                        className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-lg`}
+                                <span className={`level absolute left-0 top-full transform -translate-y-full w-full px-6 rounded-sm`}
                                         style={{
                                             height: `${(data.days[0].hours[indexHour].humidity)}%`,
                                             backgroundColor: getHumidityBGColor((data.days[0].hours[indexHour].humidity))
                                             }}>
-                                        <span className={`humid text-xl px-0 py-1 w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
+                                        <span className={`humid text-xl px-0 py-[10%] w-full font-bold absolute left-[15%] top-3/4 transform -translate-y-full`}
                                         style={{
                                             color: getHumidityTxtColor((data.days[0].hours[indexHour].humidity))
                                         }}>
-                                        {Math.round(data.days[0].hours[indexHour].humidity)}%</span>
-                                    </span>
+                                            {Math.round(data.days[0].hours[indexHour].humidity)}%
+                                        </span>
+                                </span>
                                 </p> <div className="ms-6 mb-4 text-sm text-zinc-400"> 0 </div>
                                 <p className='py-1 inline'> 
                                     <span className="dew inline-block border rounded-full p-1 text-center text-green-700 bg-green-300"> 
@@ -771,7 +782,7 @@ const UWeather = () => {
                                 <span className="h relative bottom-4 ms-3 text-xs z-[60] text-zinc-400">low</span>
                                 <span className="l relative bottom-4 ms-4 text-xs z-[60] text-zinc-400">high</span>
                                 <p className='py-1 text-zinc-500'> 
-                                    <span className="pval font-semibold text-2xl">{data.days[0].hours[indexHour].pressure}</span> mb 
+                                    <span className="pval font-medium text-lg">{data.days[0].hours[indexHour].pressure}</span> mb 
                                 </p>
                             </div>
                             <div className="solar border w-full cards mt-4 p-2 align-middle bg-white relative h-fit rounded-lg drop-shadow-sm">
@@ -824,7 +835,7 @@ const UWeather = () => {
                 </div>
             </div>
 
-                <span className="menu-butn absolute top-[12%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}
+                <span className="menu-butn absolute top-[15%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}
                 >
                         <img src="/icons8-menu-vertical-24.png" 
                         className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
@@ -832,7 +843,7 @@ const UWeather = () => {
                     </span>
 
                 <div id='w-menu-card' 
-                    className="w-menu-card hide-card absolute top-[7%] left-[0] translate-x-[52.5vw] translate-y-full bg-slate-200 w-32 h-40 p-4 rounded z-[50]"
+                    className="w-menu-card hide-card absolute top-[10%] left-[0] translate-x-[52.5vw] translate-y-full bg-slate-200 w-32 h-40 p-4 rounded z-[50]"
                     onLoad={hideSettings}
                     >
                     <div className="pref-units">

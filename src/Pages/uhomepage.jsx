@@ -111,7 +111,7 @@ return (
       <Link className="card-item hover:shadow-2xl  grid place-items-baseline shadow-sm elements hide-contents" to="/utonycalc" >
         <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
         <h1 className="card-title m-2 text-md font-medium "> Calculator App </h1>
-        <span className="card-description me-2">
+        <span className="card-description ">
         A responsive scientific calculator built with React.
         </span>
         <div className="card-lang me-2 inline">
@@ -124,7 +124,7 @@ return (
       <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description me-2">
+        <span className="card-description ">
          Project in progress...
         </span> 
         <div className="card-lang me-2 inline">
@@ -137,7 +137,7 @@ return (
       <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic1} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description me-2">
+        <span className="card-description ">
          Project in progress...
         </span> 
         <div className="card-lang me-2 inline">
@@ -150,7 +150,7 @@ return (
       <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={csspic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description me-2">
+        <span className="card-description ">
          Project in progress...
         </span> 
         <div className="card-lang me-2 inline">
@@ -163,7 +163,7 @@ return (
       <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
         <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description me-2">
+        <span className="card-description ">
          Project in progress...
         </span> 
         <div className="card-lang me-2 inline">
@@ -173,10 +173,10 @@ return (
         </div>     
       </div>
 
-      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents"> 
+      <div className="card-item hover:shadow-2xl grid row-auto place-items-baseline elements hide-contents"> 
         <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
         <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description me-2">
+        <span className="card-description ">
          Project in progress...
         </span> 
         <div className="card-lang me-2 inline">
