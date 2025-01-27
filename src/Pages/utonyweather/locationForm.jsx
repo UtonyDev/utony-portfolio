@@ -45,7 +45,7 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
 
         if (loading) {
             return (
-                <div className="bg-blue-50 place-items-center relative grid w-full h-full">
+                <div className="bg-slate-50 place-items-center relative grid w-full h-full">
                     <span className="absolute top-1/3  spinner"></span>
                     <div className="plead-message"> Please hold on this may take a while...</div>
                 </div>
@@ -54,17 +54,17 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
 
     
     return (
-        <div className=' place-self-center relative top-[15%] grid'>
-<div className="form-container grid w-full border-2 shadow-lg rounded-xl p-3 gap-4">
-    <label className="text-[#0a0a0a] text-2xl flex items-center gap-2">
-        <img src="/icons8-location-24.png" alt="location icon" />
+        <div className='bg-white place-self-center relative top-[15%] grid'>
+<div className="form-container grid w-full border-2 shadow-lg rounded-xl p-3 gap-2">
+    <img src="/icons8-location-24.png" alt="location icon" className='block place-self-center'/>
+    <label className="text-[#0a0a0a] place-self-center text-2xl flex items-center gap-2">
         Enter Location
     </label>
 
     <form onSubmit={handleSubmit} className="grid row-auto gap-4">
         <div className="relative mx-3">
             <input
-                className="pl-10 p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
+                className=" p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
                 type="text"
                 placeholder="City"
                 value={city}
@@ -74,7 +74,7 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
 
         <div className="relative mx-3">
             <input
-                className="pl-10 p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
+                className=" p-3 rounded-xl border bg-neutral-100 border-zinc-200 outline-none focus:bg-gray-50 text-gray-500 text-lg"
                 type="text"
                 placeholder="Country"
                 value={country}
@@ -87,7 +87,7 @@ function LocationForm({ fetchData, convertCoordinates, checkCountry }) {
         </button>
     </form>
 
-    <hr className="border-dotted border-zinc-300 my-4 w-[90%] place-self-center" />
+    <hr className="border border-zinc-300 my-4 w-[90%] place-self-center" />
 
     <button className="mx-3 p-3 bg-teal-600 rounded-md text-zinc-50 text-lg hover:bg-teal-700 active:opacity-70 shadow-md hover:shadow-lg" onClick={getUserCoordinates}>
         Auto-Detect Location

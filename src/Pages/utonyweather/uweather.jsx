@@ -367,7 +367,7 @@ const UWeather = () => {
 
     if (loading) {
         return (
-            <div className="bg-blue-50 place-items-center relative grid w-full h-screen">
+            <div className="bg-slate-50 place-items-center relative grid w-full h-screen">
                 <span className="absolute top-1/3 spinner"></span>
                 <div className="plead-message absolute top-[55%]"> Please hold on this may take a while...</div>
             </div>
@@ -376,7 +376,7 @@ const UWeather = () => {
 
     if (prompt) {
         return (
-            <div className='weather-app h-screen backdrop-blur-sm' id='target'>
+            <div className='weather-app h-screen bg-slate-50' id='target'>
                 <LocationForm fetchData={fetchData} 
                 convertCoordinates={convertCoordinates}/>
             </div>
@@ -602,16 +602,17 @@ const UWeather = () => {
                     <div className="search z-50 top-12 grid grid-auto w-full">
                         <motion.input type="search"
                          value={query} 
-                         className='search-icon search-bar bg-teal-100 justify-self-center w-11/12 row-span-auto p-3 focus:outline-none border text-md border-gray-200 shadow-sm rounded-full' 
+                         className='search-icon justify-self-center w-11/12 row-span-auto p-3 focus:backdrop-blur-sm focus-within:outline-none border text-md border-gray-200 shadow-sm rounded-full z-[60]' 
                          name="place" id="place"
-                         whileFocus={{ scale: 1.05
+                         whileFocus={{ 
+                            scale: 1.01,
                           }} href="#"
                          onChange={InputValChange} 
                          placeholder={address} />
                     {suggestions.length > 0 && (
-                        <ul className=' absolute justify-self-center w-11/12 top-12 text-zinc-800 bg-sky-50 backdrop-blur-md shadow-teal-100 rounded-md overflow-y-auto'>
+                        <ul className=' absolute justify-self-center w-11/12 top-8 text-zinc-800 bg-[#f1f5f966] backdrop-blur-lg shadow-teal-100 rounded-md overflow-y-auto z-[50]'>
                             {suggestions.map((suggestion, index) => (
-                                <li key={index} className='p-1 border-b border-zinc-300 text-zinc-800 hover:opacity-70' onClick={
+                                <li key={index} className={index === 0 ? `pt-10 text-neutral-950 text-sm hover:opacity-70 rounded-lg` : `p-1 text-neutral-950 text-sm hover:opacity-70 rounded-lg scale-[1.01]`} onClick={
                                      () => {
                                         setQuery(suggestion);
                                         setSuggestions([]);
@@ -625,17 +626,26 @@ const UWeather = () => {
                     </div>
 
                     <div className="temp-con grid grid-auto grid-cols-2 row-auto justify-self-center w-11/12 px-6 py-4 gap-3 z-40">
-                        <h1 className="avg-temp justify-self-center col-span-2 text-teal-900 lining- leading-snug mb-2
-                        "><span className="text-8xl font-medium">{defaultTempUnit(data.days[0].hours[indexHour].temp)}</span><span className="text-6xl relative bottom-1/4">°</span></h1>
+                        <h1 className="avg-temp justify-self-center col-span-2 text-teal-900 lining- leading-snug mb-2">
+                            <span className="text-8xl font-medium">
+                                {defaultTempUnit(data.days[0].hours[indexHour].temp)}
+                            </span>
+                            <span className="text-6xl relative bottom-1/4">°</span>
+                        </h1>
 
-                        <div className="feelslike justify-self-center col-span-1 relative left-[10%] line-clamp-2 text-zinc-700 text-sm font-thin"> <div>Feels like</div> <span className="text-teal-900"> {defaultTempUnit(data.days[0].hours[indexHour].feelslike)}{tempSymbol(symb)}</span> 
+                        <div className="feelslike justify-self-center col-span-1 relative left-[15%] line-clamp-2 text-zinc-700 font-thin"> 
+                            <div className='text-sm'>Feels like</div> 
+                            <span className="text-teal-900"> 
+                                {defaultTempUnit(data.days[0].hours[indexHour].feelslike)}{tempSymbol(symb)}
+                            </span> 
                         </div>
-                        <div className="conditions text-sm relative right-[10%] col-span-1 row-span-1 ms-6">{data.days[0].hours[indexHour].conditions} 
+
+                        <div className="conditions text-sm relative place-self-start ms-[15%] col-span-1 row-span-1">{data.days[0].hours[indexHour].conditions} 
                             <img src={`${iconBasePath}${data.days[0].hours[indexHour].icon}.png`} alt="" className="src size-10" />
                         </div>
 
-                        <div className="high-temp place-self-center" > <h2 className='text-teal-700 font-light'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
-                        <div className="low-temp place-self-start"> <h2 className='text-teal-700 font-light'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
+                        <div className="high-temp place-self-center ms-[15%]" > <h2 className='text-teal-700 font-light'>High</h2> {defaultTempUnit(data.days[0].tempmax)}{tempSymbol(symb)} </div>
+                        <div className="low-temp place-self-start ms-[15%]"> <h2 className='text-teal-700 font-light'>Low</h2> {defaultTempUnit(data.days[0].tempmin)}{tempSymbol(symb)} </div>
                     </div>
 
                     <div className="hourly-forecast forecast grid grid-rows-1 justify-self-center w-11/12 p-4 bg-[#ffffff] gap-3 shadow-md rounded-lg">
@@ -644,7 +654,7 @@ const UWeather = () => {
                             {data.days[0].hours.map((hour, index) => (
                             <li 
                             key={index} 
-                            className="hour-info bg-sky-100 p-4 rounded-md" 
+                            className="hour-info bg-slate-100 p-4 rounded-md" 
                             style={{marginInlineEnd: '0.5em'}}
                             ref={(el) => (hourInfoRef.current[index] = el)}
                             onLoad={showCurrentHour}>
@@ -662,10 +672,10 @@ const UWeather = () => {
                     <div className="daily-forecast forecast grid grid-rows-1 w-11/12 bg-[#FFFFFF] p-3 mt-1 mb mx-3 shadow-md rounded-lg">
                         <div className="desc text-xl font-normal text-teal-600"> Daily Forecast </div>
 
-                        <ul className=" max-h-96 overflow-y-scroll">
+                        <ul className=" max-h-auto overflow-y-scroll">
                             {data.days.slice(0, 10).map((day, index) => (
                                 <motion.li key={index} 
-                                    className="grid grid-flow-col bg-sky-100 p-4 rounded-md active:scale-95" 
+                                    className="grid grid-flow-col bg-slate-100 px-3 py-3 rounded-md active:scale-95" 
                                     style={{
                                         marginBlockEnd: '.5em',
                                     }}
@@ -835,7 +845,7 @@ const UWeather = () => {
                 </div>
             </div>
 
-                <span className="menu-butn absolute top-[15%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}
+                <span className="menu-butn absolute top-[13%] left[0] translate-x-[82.5vw] translate-y-full text-sm z-50" onClick={showSetting}
                 >
                         <img src="/icons8-menu-vertical-24.png" 
                         className='active:opacity-70 bg-transparent p-1 rounded-full size-fit'
@@ -843,7 +853,7 @@ const UWeather = () => {
                     </span>
 
                 <div id='w-menu-card' 
-                    className="w-menu-card hide-card absolute top-[10%] left-[0] translate-x-[52.5vw] translate-y-full bg-slate-200 w-32 h-40 p-4 rounded z-[50]"
+                    className="w-menu-card hide-card absolute top-[8.5%] left-[0] translate-x-[52.5vw] translate-y-full bg-slate-200 w-32 h-40 p-4 rounded z-[50]"
                     onLoad={hideSettings}
                     >
                     <div className="pref-units">
