@@ -9,6 +9,21 @@ import 'intersection-observer';
 import { FaArrowDown } from "react-icons/fa";
 
 function UHomePage( { textAnimations }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  })
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = () => {
+    e.preventDefault();
+    console.log("Form Data:", formData);
+    alert("Message sent successfully!");
+  }
 
 useEffect(() => {
   textAnimations();
@@ -107,7 +122,7 @@ return (
       <div className="project-section" id="txt">
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img  src={utonycalcpic}  width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img  src={utonycalcpic}  width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> React-Powered Calculator </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
         A modern, fully responsive calculator that works seamlessly across all devices, built with React and Tailwind CSS.
@@ -118,13 +133,13 @@ return (
           <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
         </div>
         <div className="flex justify-between items-center mt-4 mb-2 ">
-          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
-          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+          <a href="https://utony-calculator-app.vercel.app/" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="https://github.com/UtonyDev/utony-calculator-app" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
         </div>     
         </div>
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Smart Weather App </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
         A fully responsive weather app powered by React and Visual Crossing API, featuring automatic updates, real-time weather forecasts, and a search functionality for location-based weather data.
@@ -135,13 +150,13 @@ return (
           <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Nodejs</span>
         </div>
         <div className="flex justify-between items-center mt-4 mb-2 ">
-          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
-          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+          <a href="https://utony-weather-app.vercel.app/" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="https://github.com/UtonyDev/utony-weather-app" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
         </div>     
         </div>
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic1} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img srcSet={csspic1} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
@@ -158,7 +173,7 @@ return (
       </div>
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img srcSet={csspic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
@@ -175,7 +190,7 @@ return (
       </div>
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
@@ -192,7 +207,7 @@ return (
       </div>
 
       <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid row-auto place-items-baseline elements hide-contents"> 
-        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
         <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
@@ -211,6 +226,56 @@ return (
       </div>
     </div>
 
+  </section>
+
+  <section className="sect-4">
+    <div className="cent mb-5 ">
+      <h2 className="title gtxt "> Contact </h2>
+      <form onSubmit={handleSubmit} className="space-y-4 px-4 py-2">
+        <div>
+          <label className="block text-gray-700">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            placeholder="Enter your name"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Message</label>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            placeholder="Type your message..."
+            rows="4"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-1/2 bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 transition-all"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
   </section>
   </div>
   </>
