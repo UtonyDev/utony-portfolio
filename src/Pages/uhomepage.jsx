@@ -1,12 +1,10 @@
 import React from "react";
 import { useState, useRef, useEffect } from 'react';
 import utonycalcpic from '../assets/utonycalcpic.png';
-import htmlpic2 from '../assets/htmlpic2.png';
 import csspic1 from '../assets/csspic1.png';
 import csspic2 from '../assets/csspic2.png';
 import jssrcpic2 from '../assets/jssrcpic2.png';
 import reactsrcpic2 from '../assets/reactsrcpic2.jpg';
-import { Link } from "react-router-dom";
 import 'intersection-observer';
 import { FaArrowDown } from "react-icons/fa";
 
@@ -108,82 +106,106 @@ return (
 
       <div className="project-section" id="txt">
 
-      <Link className="card-item hover:shadow-2xl  grid place-items-baseline shadow-sm elements hide-contents" to="/utonycalc" >
-        <img srcSet={utonycalcpic} width="100%" height="auto" alt=""/>
-        <h1 className="card-title m-2 text-md font-medium "> Calculator App </h1>
-        <span className="card-description ">
-        A responsive scientific calculator built with React.
-        </span>
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>
-      </Link>
-
-      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={htmlpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description ">
-         Project in progress...
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
+        <img  src={utonycalcpic}  width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> React-Powered Calculator </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
+        A modern, fully responsive calculator that works seamlessly across all devices, built with React and Tailwind CSS.
         </span> 
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>      
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>     
         </div>
 
-      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic1} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description ">
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
+        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Smart Weather App </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
+        A fully responsive weather app powered by React and Visual Crossing API, featuring automatic updates, real-time weather forecasts, and a search functionality for location-based weather data.
+        </span> 
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Tailwind</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Nodejs</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>     
+        </div>
+
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
+        <img srcSet={csspic1} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
         </span> 
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>     
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>    
       </div>
 
-      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description ">
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
+        <img srcSet={csspic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
         </span> 
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>     
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>    
       </div>
 
-      <div className="card-item hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={jssrcpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description ">
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
+        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
         </span> 
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>     
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>    
       </div>
 
-      <div className="card-item hover:shadow-2xl grid row-auto place-items-baseline elements hide-contents"> 
-        <img srcSet={reactsrcpic2} width="100%" height="auto" alt=""/>
-        <span className="card-title m-2 text-md font-medium"> Coming Soon </span>
-        <span className="card-description ">
+      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid row-auto place-items-baseline elements hide-contents"> 
+        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 object-cover rounded-md" alt="Project Preview"/>
+        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description text-gray-600 text-sm mt-2 ">
          Project in progress...
         </span> 
-        <div className="card-lang me-2 inline">
-          <span className="langs">  HTML </span>
-          <span className="langs">  CSS </span>
-          <span className="langs">  React </span>
-        </div>     
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>    
       </div>
 
       </div>

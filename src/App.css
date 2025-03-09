@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 body {
@@ -77,7 +79,6 @@ i,
 }
 
 #txt {
-	font-size: 1.25rem !important;
 }
 
 .hide-contents {
@@ -401,22 +402,11 @@ hr:hover {
 /* projects */
 .project-section {
 	position: relative;
-	color: var(--iconclr) !important;
 	padding-bottom: 2vh;
 	display: grid;
 	gap: 30px;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-
-.card-item {
-	padding: 0;
-	margin: 0.5em;
-	border-radius: 2.5%;
-	background-color: var(--cardClr);
-	color: var(--TxtFontXClr) !important;
-	text-decoration: none;
-	overflow: clip;
 }
 
 .con:hover {
