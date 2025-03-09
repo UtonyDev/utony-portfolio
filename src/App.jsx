@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import UWeather from './Pages/utonyweather/uweather';
-import UTonyCalc from './Pages/utonycalc/utonycalc';
 import UHomePage from './Pages/uhomepage';
 import Header from './Components/header';
 import Footer from './Components/footer';
@@ -45,8 +43,6 @@ function App() {
           textAnimations={textAnimations} 
           nameLogoAnimation={nameLogoAnimation}
           />} />
-        <Route path="/utonycalc" element={<UTonyCalc />} />
-        <Route path="/uweather" element={<UWeather />} />
       </Routes>
       <Footer />
     </Router>

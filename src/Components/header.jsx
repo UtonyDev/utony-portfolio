@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { FaProjectDiagram, FaPhoneAlt, FaInfo, FaAddressCard, FaFolder, FaEnvelope, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
 import Togicon from './tog-icon/togicon';
 
 function Header({ textAnimations, nameLogoAnimation }) {
@@ -15,13 +13,13 @@ function Header({ textAnimations, nameLogoAnimation }) {
   }, []);  
 
   const dropdwn = () => {
-    const link = document.querySelectorAll(".lnk");
+    const a = document.querySelectorAll(".lnk");
     const morecon = document.querySelectorAll(".morecon");
     const chev = document.querySelectorAll("#chev");
 
 
-    for (let i = 0; i < link.length; i++) {
-      link[i].addEventListener("click", () => {
+    for (let i = 0; i < a.length; i++) {
+      a[i].addEventListener("click", () => {
           for (let j = 0; j < morecon.length; j++){ 
               if (i === j) {
                   morecon[j].classList.toggle("moreconv");
@@ -83,12 +81,12 @@ function Header({ textAnimations, nameLogoAnimation }) {
           menu.setAttribute('class', 'menurev hide');
           iconFunct();
         } 
-        const link = document.querySelectorAll(".lnk");
+        const a = document.querySelectorAll(".lnk");
         const morecon = document.querySelectorAll(".morecon");
         const chev = document.querySelectorAll("#chev");
     
-        for (let i = 0; i < link.length; i++) {
-          link[i].addEventListener("click", () => {
+        for (let i = 0; i < a.length; i++) {
+          a[i].addEventListener("click", () => {
               for (let j = 0; j < morecon.length; j++){ 
                   if (i === j) {
                       morecon[j].classList.toggle("moreconv");
@@ -154,9 +152,9 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none">
 
-    <Link to="/UHomepage" className=' ps-3 text-2xl lg:text-xs'onClick={resetMenu} >
+    <a href="/UHomepage" className=' ps-3 text-2xl lg:text-xs'onClick={resetMenu} >
        Home
-    </Link>
+    </a>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
     <a className="lnk text-2xl lg:text-xs" >
@@ -165,8 +163,8 @@ function Header({ textAnimations, nameLogoAnimation }) {
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
       } >
-      <Link to="/utonycalc" className="more text-base lg:text-xs" onClick={resetMenu} > UTony Calc <hr /></Link> 
-      <Link to="/uweather" className="more text-base lg:text-xs" onClick={resetMenu}> UWeather <hr /></Link>
+      <a href="https://utony-calculator-app.vercel.app" className="more text-base lg:text-xs" onClick={resetMenu} > UTony Calc <hr /></a> 
+      <a href="https://utony-weather-app.vercel.app/" className="more text-base lg:text-xs" onClick={resetMenu}> UWeather <hr /></a>
     </div>
   </div>
 
@@ -196,9 +194,9 @@ function Header({ textAnimations, nameLogoAnimation }) {
     </div>
  
 
-  <Link onClick={scrlToProjects} className="lnk text-2xl lg:text-xs">
+  <a onClick={scrlToProjects} className="lnk text-2xl lg:text-xs">
      About
-  </Link>
+  </a>
   </div>
 </div>
 </div>
