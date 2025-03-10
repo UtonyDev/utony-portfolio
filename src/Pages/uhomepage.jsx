@@ -121,10 +121,10 @@ return (
 
       <div className="project-section" id="txt">
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img  src={utonycalcpic}  width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> React-Powered Calculator </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md hover:shadow-2xl grid place-items-baseline">
+        <img  src={utonycalcpic}  width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> React-Powered Calculator </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
         A modern, fully responsive calculator that works seamlessly across all devices, built with React and Tailwind CSS.
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -138,10 +138,10 @@ return (
         </div>     
         </div>
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Smart Weather App </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
+        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Smart Weather App </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
         A fully responsive weather app powered by React and Visual Crossing API, featuring automatic updates, real-time weather forecasts, and a search functionality for location-based weather data.
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -155,10 +155,10 @@ return (
         </div>     
         </div>
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic1} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
+        <img srcSet={csspic1} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -172,10 +172,10 @@ return (
         </div>    
       </div>
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={csspic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
+        <img srcSet={csspic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -189,10 +189,10 @@ return (
         </div>    
       </div>
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid place-items-baseline elements hide-contents">
-        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
+        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -206,10 +206,10 @@ return (
         </div>    
       </div>
 
-      <div className="card-item row-auto bg-white rounded-md  hover:shadow-2xl grid row-auto place-items-baseline elements hide-contents"> 
-        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 rounded-md" alt="Project Preview"/>
-        <span className=" text-lg font-medium text-gray-800 mt-3 ms-4"> Coming Soon </span>
-        <span className="card-description text-gray-600 text-sm mt-2 ">
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline"> 
+        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
         </span> 
         <div className="flex flex-wrap gap-2 mt-3 ms-4">
@@ -229,41 +229,41 @@ return (
   </section>
 
   <section className="sect-4">
-    <div className="cent mb-5 ">
+    <div className="cent pb-4">
       <h2 className="title gtxt "> Contact </h2>
       <form onSubmit={handleSubmit} className="space-y-4 px-4 py-2">
         <div>
-          <label className="block text-gray-700">Name</label>
+          <label className="block card-title">Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            className="w-full md:w-1/2 card-item px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
             placeholder="Enter your name"
           />
         </div>
         <div>
-          <label className="block text-gray-700">Email</label>
+          <label className="block card-title">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            className="w-full md:w-1/2 card-item px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
             placeholder="Enter your email"
           />
         </div>
         <div>
-          <label className="block text-gray-700">Message</label>
+          <label className="block card-title">Message</label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             required
-            className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
+            className="w-full md:w-1/2 card-item px-4 py-2 border rounded-md focus:ring-2 focus:ring-teal-400"
             placeholder="Type your message..."
             rows="4"
           />

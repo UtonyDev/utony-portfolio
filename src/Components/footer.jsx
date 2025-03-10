@@ -17,7 +17,7 @@ function Footer() {
     </div>
       
       <div className="contact-link">
-        <h1 className="contact-head"> Contacts </h1>
+        <h1 className="contact-head "> Contacts </h1>
 
         <div className="contact-links">
           <FaEnvelope style={{ 

@@ -25,9 +25,11 @@ box-sizing: border-box;
 
 body[data-theme='light'] {
 	--menuCard: rgba(247, 246, 246, 0.8);
-	--cardClr: white;
+	--cardClr: #FFFFFF;
+	--cardFontClr: #1f2937;
+	--cardDescFontClr: #4b5563;
 	--svgBackClr: #f8fafc;
-	--topbackclr: #f8fafc;
+	--topbackclr: #ffffff;
 	--white: #ffffff;
 	--aquamFont: #0B5B53;
 	--aquamWeight: 500;
@@ -37,7 +39,9 @@ body[data-theme='light'] {
 body[data-theme='dark'] {
 	--menuCard: rgba(10, 10, 10, .9);
 	--menuBar: #080808;
-	--cardClr: rgba(22, 27, 34, 0.7);
+	--cardClr: #1A1F29;
+	--cardFontclr: #F8FAFC;
+	--cardDescFontClr: #94A3B8;
 	--aquamFont: #3FCABA;
 	--aquamWeight: 100;
 	--grey: #c9c9c9;
@@ -78,23 +82,16 @@ i,
 	color: var(--grey) !important;
 }
 
-#txt {
-}
-
 .hide-contents {
 	opacity: 0;
-	transform: scale(.75, .75);
-	backdrop-filter: blur(2.5px);
 	transform: translateY(100px);
-	transition: all 0.6s ease;
+	transition: transform 0.6s ease;
 }
 
 .reveal-contents {
 	opacity: 1 !important;
-	transform: scale(1.2, 1.2);
-	backdrop-filter: blur(0) !important;
 	transform: translateY(0) !important;
-	transition: all 0.7s ease;
+	transition: transform 0.7s ease;
 }
 
 svg {
@@ -409,19 +406,22 @@ hr:hover {
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
+.card-item {
+	background-color: var(--cardClr);
+}
+
 .con:hover {
 	transform: scale(1.05);
 	transition: transform 0.2s ease;
 }
 
 .card-title {
-	color: var(--aquamFont);
+	color: var(--cardFontclr);
 }
 
 .card-description {
 	display: block;
-	color: #4F4F4F;
-	font-size: 0.8em;
+	color: var(--cardDescFontClr);
 }
 
 .langs {
@@ -442,6 +442,10 @@ hr:hover {
 	backdrop-filter: blur(0);
 	opacity: none;
 	transition: all .9s ease-in;
+}
+
+.sect-4 {
+	background-color: var(--svgBackClr);
 }
 
 .foot {
@@ -470,7 +474,7 @@ hr:hover {
 }
 
 #leg {
-	font-size: small !important;
+	font-size: 0.8em !important;
 	position: relative;
 	top: 5px;
 	letter-spacing: 0.125em;
@@ -516,10 +520,6 @@ hr:hover {
 		gap: 30px;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr !important;
-	}
-
-	.card-item {
-		padding: 0;
 	}
 
 	.hideCards {
@@ -574,6 +574,10 @@ hr:hover {
 		cursor: pointer;
 	}
 
+	svg {
+		display: inline;
+	}
+
 	.section-links {
 		display: block;
 		padding: 1.2%;
@@ -585,7 +589,7 @@ hr:hover {
 
 	#leg {
 		float: inline-end;
-		font-size: large !important;
+		font-size: 0.8em !important;
 		height: fit-content;
 	}
 }
