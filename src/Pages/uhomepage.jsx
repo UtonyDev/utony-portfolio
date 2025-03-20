@@ -69,15 +69,15 @@ return (
       </svg>
     </div>
 
-    <div className="cent">
+    <div className="cent ">
         <div className="hid">
           <span className="gb utxt hid">U</span>
           <span className="utxt">Tony</span>
         </div> 
 
-        <div className="gtxt hid" id="target"  >Junior </div>
-        <div className="gtxt hid"> Frontend </div>
-        <div className="gtxt hid">Developer </div>
+        <div className="gtxt hid text-gradient" id="target"  >Junior </div>
+        <div className="gtxt hid text-gradient"> Frontend </div>
+        <div className="gtxt hid text-gradient">Developer </div>
     </div>
   </section>
 

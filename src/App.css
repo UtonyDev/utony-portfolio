@@ -43,7 +43,7 @@ body[data-theme='dark'] {
 	--cardFontclr: #F8FAFC;
 	--cardDescFontClr: #94A3B8;
 	--aquamFont: #3FCABA;
-	--aquamWeight: 100;
+	--aquamWeight: 500;
 	--grey: #c9c9c9;
 	--svgBackClr: #0A0E14;
 	--topbackclr: #080808;
@@ -257,6 +257,13 @@ hr:hover {
 	left: 0;
 	filter: blur(0);
 	transition: left 1s;
+}
+
+.text-gradient {
+	background: linear-gradient(90deg, #3FCABA 0%, #0B5B53 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 /* main content section*/

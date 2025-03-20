@@ -150,43 +150,43 @@ function Header({ textAnimations, nameLogoAnimation }) {
 
 <div id='menu' className="menurev menupc hide">
 
-<div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none">
+<div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none ">
 
-    <a href="/UHomepage" className=' ps-3 text-2xl lg:text-xs'onClick={resetMenu} >
+    <a href="/UHomepage" className=' ps-3 text-2xl lg:text-base'onClick={resetMenu} >
        Home
     </a>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1} >
-    <a className="lnk text-2xl lg:text-xs" >
+    <a className="lnk text-2xl lg:text-base" >
        Projects <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon ${
       showDropdown1 ? 'moreconv' : ''}`
       } >
-      <a href="https://utony-calculator-app.vercel.app" className="more text-base lg:text-xs" onClick={resetMenu} > UTony Calc <hr /></a> 
-      <a href="https://utony-weather-app.vercel.app/" className="more text-base lg:text-xs" onClick={resetMenu}> UWeather <hr /></a>
+      <a href="https://utony-calculator-app.vercel.app" className="more text-base lg:text-base" onClick={resetMenu} > UTony Calc <hr /></a> 
+      <a href="https://utony-weather-app.vercel.app/" className="more text-base lg:text-base" onClick={resetMenu}> UWeather <hr /></a>
     </div>
   </div>
 
   <div className="dropdown" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
-    <a className="lnk text-2xl lg:text-xs" >
+    <a className="lnk text-2xl lg:text-base" >
        Contact <i className="fa-solid fa-chevron-down" id="chev"></i>
     </a>
     <div className={`morecon  ${
       showDropdown2 ? 'moreconv' : ''}`} >
-      <a href="https://linkedin.com/in/tonyudoye" className="more text-base lg:text-xs " target="_blank">
+      <a href="https://linkedin.com/in/tonyudoye" className="more text-base lg:text-base " target="_blank">
         <i className="fa-brands fa-linkedin"></i> LinkedIn
         <hr />
       </a>
-      <a href="https://twitter.com/UTonyDev" className="more text-base lg:text-xs " target="_blank">
+      <a href="https://twitter.com/UTonyDev" className="more text-base lg:text-base " target="_blank">
         <i className="fa-brands fa-twitter"></i> Twitter 
         <hr />
       </a>
-      <a href="https://github.com/UTonyDev" className="more text-base lg:text-xs ">
+      <a href="https://github.com/UTonyDev" className="more text-base lg:text-base ">
         <i className="fa-brands fa-github"></i> Github 
         <hr />
       </a>
-      <a href="https://utonydev@gmail.com" className="more text-base lg:text-xs " target="_blank">  
+      <a href="https://utonydev@gmail.com" className="more text-base lg:text-base " target="_blank">  
         <i className="fa-solid fa-envelope"></i> Email  
         <hr />
       </a>
@@ -194,7 +194,7 @@ function Header({ textAnimations, nameLogoAnimation }) {
     </div>
  
 
-  <a onClick={scrlToProjects} className="lnk text-2xl lg:text-xs">
+  <a onClick={scrlToProjects} className="lnk text-2xl lg:text-base" >
      About
   </a>
   </div>
