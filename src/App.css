@@ -490,16 +490,12 @@ hr:hover {
 /* Media queries */
 /* for medium mobile devices (Tablets) */
 @media screen and (min-width: 600px) {
-	.headr {
-		box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
-	}
 
 	.menurev {
 		position: fixed;
 		width: 100% !important;
 		max-height: max-content;
 		background-color: var(--menuBar);
-		box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
 		z-index: 1000;
 		overflow: hidden;
 		transition: top 1s !important;
@@ -605,14 +601,12 @@ hr:hover {
 /* For large desktop devices */
 @media screen and (min-width: 1000px) {
 	.headr {
-		box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
 		position: fixed !important;
 	}
 
 	.headcon {
 		height: fit-content;
 	}
-
 	.menupc {
 		top: 2.8em !important;
 		height: 2.5em !important;
@@ -646,7 +640,7 @@ hr:hover {
 
 	.scrlStatus {
 		top: 0 !important;
-		display: var(--hideContent);
+		z-index: 1000 !important;
 	}
 
 	#icn {

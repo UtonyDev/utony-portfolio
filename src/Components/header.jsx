@@ -145,12 +145,12 @@ function Header({ textAnimations, nameLogoAnimation }) {
   </span>
 
   <span id="themeIcon"> <Togicon /> </span>
-  <i className="fa-solid fa-bars" onClick={showMenu} id="icn"> </i> 
+  <i className="fa-solid fa-bars" onClick={showMenu} id="icn"> </i>
 </div>
 
-<div id='menu' className="menurev menupc hide">
+<div id='menu' className="menurev menupc hide md:shadow-md">
 
-<div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center md:shadow-lg lg:shadow-none ">
+<div className="menu-items-con w-full grid md:place-items-baseline md:place-content-center ">
 
     <a href="/UHomepage" className=' ps-3 text-2xl lg:text-base'onClick={resetMenu} >
        Home
