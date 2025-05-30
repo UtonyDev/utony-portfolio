@@ -75,7 +75,7 @@ return (
           <span className="utxt">Tony</span>
         </div> 
 
-        <div className="gtxt hid text-gradient" id="target"  >Junior </div>
+        <div className="gtxt hid text-gradient" id="target"  >  </div>
         <div className="gtxt hid text-gradient"> Frontend </div>
         <div className="gtxt hid text-gradient">Developer </div>
     </div>
@@ -122,7 +122,7 @@ return (
       <div className="project-section" id="txt">
 
       <div className="card-item row-auto rounded-md hover:shadow-2xl grid place-items-baseline">
-        <img  src={utonycalcpic}  width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <img  src={utonycalcpic}  width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
         <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> React-Powered Calculator </span>
         <span className="card-description break-normal px-2 text-sm mt-2 ">
         A modern, fully responsive calculator that works seamlessly across all devices, built with React and Tailwind CSS.
@@ -139,7 +139,7 @@ return (
         </div>
 
       <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
-        <img srcSet='u-weather-img.png' width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <img srcSet='u-weather-img.png' width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
         <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Smart Weather App </span>
         <span className="card-description break-normal px-2 text-sm mt-2 ">
         A fully responsive weather app powered by React and Visual Crossing API, featuring automatic updates, real-time weather forecasts, and a search functionality for location-based weather data.
@@ -156,7 +156,24 @@ return (
         </div>
 
       <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
-        <img srcSet={csspic1} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <img srcSet="xno-image.png" width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
+        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Online Tic-Tac-Toe Game </span>
+        <span className="card-description break-normal px-2 text-sm mt-2 ">
+         About
+          A Tic-Tac-Toe game that uses a 3D matrix array to represent the cells in the game layout.
+        </span> 
+        <div className="flex flex-wrap gap-2 mt-3 ms-4">
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
+          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
+        </div>
+        <div className="flex justify-between items-center mt-4 mb-2 ">
+          <a href="https://xno-virid.vercel.app/" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
+          <a href="https://github.com/UtonyDev/XnO" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
+        </div>    
+      </div>
+
+      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
+        <img srcSet={csspic2} width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
         <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
@@ -173,24 +190,7 @@ return (
       </div>
 
       <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
-        <img srcSet={csspic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
-        <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
-        <span className="card-description break-normal px-2 text-sm mt-2 ">
-         Project in progress...
-        </span> 
-        <div className="flex flex-wrap gap-2 mt-3 ms-4">
-          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">HTML</span>
-          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">CSS</span>
-          <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
-        </div>
-        <div className="flex justify-between items-center mt-4 mb-2 ">
-          <a href="#" className="site-butn me-3 bg-teal-100 text-teal-600 text-sm px-3 py-1 rounded-lg hover:bg-teal-200 transition-all">Live Demo</a>
-          <a href="#" className="border-[0.5px] border-teal-500 text-teal-500 text-sm px-3 py-1 rounded-lg hover:bg-teal-500 hover:text-white transition-all">View Source</a>
-        </div>    
-      </div>
-
-      <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline">
-        <img srcSet={jssrcpic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <img srcSet={jssrcpic2} width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
         <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
@@ -207,7 +207,7 @@ return (
       </div>
 
       <div className="card-item row-auto rounded-md  hover:shadow-2xl grid place-items-baseline"> 
-        <img srcSet={reactsrcpic2} width="100%" className="w-full h-40 rounded-t-md" alt="Project Preview"/>
+        <img srcSet={reactsrcpic2} width="100%" className="w-full h-56 rounded-t-md" alt="Project Preview"/>
         <span className="card-title text-lg font-medium px-2 mt-3 ms-4"> Coming Soon </span>
         <span className="card-description break-normal px-2 text-sm mt-2 ">
          Project in progress...
